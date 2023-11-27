@@ -88,7 +88,7 @@ export class CoreService {
       console.log('AUTH ', auth)
       this.persona.next(auth.user);
       this.permissions.next(auth.permission);
-      this.empresa.next(auth.userActivate.company);
+      // this.empresa.next(auth.userActivate.company);
     }, errs => {
       this.logout();
     });
