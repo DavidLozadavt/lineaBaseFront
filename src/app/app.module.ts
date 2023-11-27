@@ -23,6 +23,7 @@ import { P500Component } from './pages/error/500.component';
 // Import containers
 import { DefaultLayoutComponent } from './templates';
 import { RouterModule } from '@angular/router';
+import { TokenService } from '@services/TokenService';
 
 // import { CompetenciasComponent } from './pages/competencias/components/competencias/competencias.component';
 // import { CompetenciasListComponent } from './pages/competencias/components/competencias-list/competencias-list.component';
@@ -64,9 +65,10 @@ const APP_CONTAINERS = [
     P500Component
   ],
   providers: [
+    TokenService,
     {
       provide: LocationStrategy,
-      useClass: HashLocationStrategy
+      useClass: HashLocationStrategy,
     },
     IconSetService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },

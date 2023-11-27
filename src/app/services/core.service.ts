@@ -7,6 +7,7 @@ import { PersonaModel } from '@models/persona.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
 import { environment } from './../../environments/environment';
+import { TokenService } from './TokenService';
 
 const API_URL = environment.url;
 
@@ -22,7 +23,8 @@ export class CoreService {
   constructor(
     private httpClient: HttpClient,
     private _router: Router,
-    private _tokenService: HttpXsrfTokenExtractor
+    private _tokenService: HttpXsrfTokenExtractor,
+    private tokenService: TokenService
   ) { }
 
   public get<T>(url: String, data: String | Object = ""): Observable<T> {
@@ -35,7 +37,8 @@ export class CoreService {
   private getConfig() {
 
     const header = {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${this.tokenService.getToken()}`
     }
     const token = this._tokenService.getToken();
 
@@ -67,8 +70,7 @@ export class CoreService {
     return this.httpClient.delete(API_URL + url, this.getConfig());
   }
 
-  login(user: string, password: string, success: CallableFunction, error: CallableFunction) {
-    this.httpClient.get(API_URL + 'sanctum/csrf-cookie').subscribe(res => {
+  /*login(user: string, password: string, success: CallableFunction, error: CallableFunction) {
       this.post<ActivationCompanyUserModel[]>('login', {
         email: user,
         password: password
@@ -77,8 +79,31 @@ export class CoreService {
       }, err => {
         error(err)
       })
-    });
+  }*/
+
+  login(user: string, password: string, success: CallableFunction, error: CallableFunction) {
+    this.post<any>('auth/login', {
+      email: user,
+      password: password
+    }).subscribe(
+      (response: any) => {
+
+        console.log(response)
+
+        // Almacena el token en el servicio TokenService
+        const token = response.access_token;
+        this.tokenService.setToken(token);
+  
+        // Llama a la función de éxito
+        success(response);
+      },
+      (err) => {
+        // Llama a la función de error
+        error(err);
+      }
+    );
   }
+  
 
   public getUserAuthenticated() {
     this.get<AuthModel>('user').subscribe(auth => {
