@@ -23,7 +23,6 @@ export class CoreService {
   constructor(
     private httpClient: HttpClient,
     private _router: Router,
-    private _tokenService: HttpXsrfTokenExtractor,
     private tokenService: TokenService
   ) { }
 
@@ -40,11 +39,8 @@ export class CoreService {
       'Accept': 'application/json',
       'Authorization': `Bearer ${this.tokenService.getToken()}`
     }
-    const token = this._tokenService.getToken();
 
-    if (token) {
-      header['X-XSRF-TOKEN'] = token;
-    }
+    console.log('Header ', header)
 
     return { withCredentials: true, headers: new HttpHeaders(header) };
   }
@@ -70,43 +66,26 @@ export class CoreService {
     return this.httpClient.delete(API_URL + url, this.getConfig());
   }
 
-  /*login(user: string, password: string, success: CallableFunction, error: CallableFunction) {
-      this.post<ActivationCompanyUserModel[]>('login', {
-        email: user,
-        password: password
-      }).subscribe(response => {
-        success(response);
-      }, err => {
-        error(err)
-      })
-  }*/
-
   login(user: string, password: string, success: CallableFunction, error: CallableFunction) {
     this.post<any>('auth/login', {
       email: user,
       password: password
     }).subscribe(
       (response: any) => {
-
         console.log(response)
-
-        // Almacena el token en el servicio TokenService
         const token = response.access_token;
         this.tokenService.setToken(token);
-  
-        // Llama a la función de éxito
         success(response);
       },
       (err) => {
-        // Llama a la función de error
         error(err);
       }
     );
   }
-  
 
   public getUserAuthenticated() {
-    this.get<AuthModel>('user').subscribe(auth => {
+    this.post<AuthModel>('auth/user').subscribe(auth => {
+      console.log('AUTH ', auth)
       this.persona.next(auth.user);
       this.permissions.next(auth.permission);
       this.empresa.next(auth.userActivate.company);
@@ -120,7 +99,7 @@ export class CoreService {
     this.empresa.next(null);
     this.permissions.next('');
 
-    this.post('logout').subscribe(res => {
+    this.post('auth/logout').subscribe(res => {
       this._router.navigate(['/login']);
     }, err => {
       this._router.navigate(['/login']);
