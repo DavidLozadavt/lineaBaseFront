@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
 import { environment } from './../../environments/environment';
 import { TokenService } from './TokenService';
+import { PermisosService } from './permisos.service';
 
 const API_URL = environment.url;
 
@@ -23,7 +24,8 @@ export class CoreService {
   constructor(
     private httpClient: HttpClient,
     private _router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    // private permissionService: PermisosService
   ) { }
 
   public get<T>(url: String, data: String | Object = ""): Observable<T> {
@@ -83,16 +85,28 @@ export class CoreService {
     );
   }
 
+
+
   public getUserAuthenticated() {
     this.post<AuthModel>('auth/user').subscribe(auth => {
       console.log('AUTH ', auth)
-      this.persona.next(auth.user);
-      this.permissions.next(auth.permission);
+
+      var permission = "GESTION_TIPO_CONTRATO,GESTION_ROLES,GESTION_ROL_PERMISOS,GESTION_USUARIO,GESTION_USUARIO,GESTION_PROCESOS,GESTION_TIPO_DOCUMENTOS,GESTION_MEDIO_PAGO,GESTION_TIPO_PAGO,GESTION_TIPO_TRANSACCION,GESTION_PAGO_NOMINA,GESTION_COMPETENCIA,GESTION_SEDE,GESTION_AREA,GESTION_INFRAESTRUCTURA"
+      
+      // this.persona.next(auth.user);
+      this.permissions.next(permission);
       // this.empresa.next(auth.userActivate.company);
     }, errs => {
       this.logout();
     });
   }
+
+  // public permissionsUser()
+  // {
+  //   this.permissionService.traerPermisos().subscribe((permissions: any) => {
+  //     console.log(permissions);
+  //   });
+  // }
 
   logout() {
     this.persona.next(null);

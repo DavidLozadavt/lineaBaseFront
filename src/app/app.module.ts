@@ -24,6 +24,7 @@ import { P500Component } from './pages/error/500.component';
 import { DefaultLayoutComponent } from './templates';
 import { RouterModule } from '@angular/router';
 import { TokenService } from '@services/TokenService';
+// import { PermisosService } from '@services/permisos.service';
 
 // import { CompetenciasComponent } from './pages/competencias/components/competencias/competencias.component';
 // import { CompetenciasListComponent } from './pages/competencias/components/competencias-list/competencias-list.component';
@@ -66,6 +67,7 @@ const APP_CONTAINERS = [
   ],
   providers: [
     TokenService,
+    // PermisosService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy,
