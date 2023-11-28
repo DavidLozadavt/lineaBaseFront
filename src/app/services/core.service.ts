@@ -101,13 +101,6 @@ export class CoreService {
     });
   }
 
-  // public permissionsUser()
-  // {
-  //   this.permissionService.traerPermisos().subscribe((permissions: any) => {
-  //     console.log(permissions);
-  //   });
-  // }
-
   logout() {
     this.persona.next(null);
     this.empresa.next(null);
