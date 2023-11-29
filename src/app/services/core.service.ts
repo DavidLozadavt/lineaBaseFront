@@ -98,13 +98,30 @@ export class CoreService {
         "idUserActive": auth.persona.id
       };
 
-      this.post<any>('auth/set_company', idUserActive).subscribe(company => {
-        const resultString = company.join(', '); // Unir el array en un solo string
-        console.log(resultString);
+      this.post<any>('auth/set_company', idUserActive).subscribe(permissions => {
+        const resultString = permissions.join(', ');
         this.permissions.next(resultString);
       });
 
-      // this.empresa.next(auth.userActivate.company);
+      var company = {
+        created_at: "2023-11-03T09:43:42.000000Z",
+        digitoVerificacion: 65535,
+        id: 1,
+        nit: "12132312312312",
+        principal_id: null,
+        razonSocial: "FUNDACION UNIVERSITARIA DE POPAYÁN",
+        representanteLegal: "Mr. Leonel Romaguera",
+        rutaLogo: "/default/logo.jpg",
+        rutaLogoUrl: "http://localhost:8000/default/logo.jpg",
+        updated_at: "2023-11-03T09:43:42.000000Z"
+      }
+
+      this.post<any>('auth/active_users').subscribe(companies => {
+        console.log(companies[0]);
+        this.empresa.next(companies[0]);
+      });
+
+      // this.empresa.next(company);
     }, errs => {
       this.logout();
     });
