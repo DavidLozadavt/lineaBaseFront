@@ -17,13 +17,13 @@ export class PermisosService {
 
   guardar(data: any): Observable<Object[]> {
     return this._coreService
-      .put('asignar_rol_permiso', data)
+      .put('permisos/asignar_rol_permiso', data)
       .pipe(map(response => response as Object[]));
   }
 
 
   public traerPermisos() {
-    return this._coreService.post<PermisoModel[]>('auth/permissions');
+    return this._coreService.post<PermisoModel[]>('permisos/permisos');
   }
 
   // public permisosByRol() {
@@ -33,6 +33,6 @@ export class PermisosService {
 
   public permissionsRole(idRol: number) {
 
-    return this._coreService.get<any[]>('permisos_rol?rol=' + idRol);
+    return this._coreService.get<any[]>('permisos/permisos_rol?rol=' + idRol);
   }
 }
