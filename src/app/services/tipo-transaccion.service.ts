@@ -24,14 +24,11 @@ export class TipoTransaccionService {
     tipoTransaccion.detalle = tipoTransaccion.detalle.toUpperCase();
     tipoTransaccion.descripcion = tipoTransaccion.descripcion.toUpperCase();
 
-    const tipoTransaccionJson = JSON.stringify(tipoTransaccion);
-
-    return this._coreService.post<TipoTransaccionModel>('pagos/tipo_transacciones', tipoTransaccionJson);
+    return this._coreService.post<TipoTransaccionModel>('pagos/tipo_transacciones', tipoTransaccion);
   }
 
   eliminarTipo_transaccion(tipo_transaccionId: number) {
-    const encodedId = btoa(tipo_transaccionId.toString());
-    return this._coreService.delete(`pagos/tipo_transacciones/${encodedId}`);
+    return this._coreService.delete(`pagos/tipo_transacciones/${tipo_transaccionId}`);
   }
 
 
@@ -39,14 +36,7 @@ export class TipoTransaccionService {
     tipo_transaccion.detalle = tipo_transaccion.detalle.toUpperCase();
     tipo_transaccion.descripcion = tipo_transaccion.descripcion.toUpperCase();
 
-    const encodedTipoTransaccion   = JSON.stringify(tipo_transaccion);
-    const encodedTipoTransaccionId = btoa(tipo_transaccion.id.toString());
-
-    console.log(encodedTipoTransaccion);
-
-    console.log(encodedTipoTransaccionId);
-
-    return this._coreService.put(`pagos/tipo_transacciones/${tipo_transaccion.id}`, encodedTipoTransaccion);
+    return this._coreService.put(`pagos/tipo_transacciones/${tipo_transaccion.id}`, tipo_transaccion);
   }
 
 
