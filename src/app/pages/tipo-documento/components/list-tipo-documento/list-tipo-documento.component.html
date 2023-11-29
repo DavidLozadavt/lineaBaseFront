@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <i class="fa fa-align-justify"></i> Roles Registrados
-      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event.target.value) ">
+      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event) ">
         <option>10</option>
         <option>15</option>
         <option>20</option>
@@ -17,8 +17,6 @@
               <th>Código</th>
               <th>Titulo Documento</th>
               <th>Descripción</th>
-              <th>Estado</th>
-              <th>Proceso</th>
               <th>Acciones</th>
           </thead>
           <tbody>
@@ -27,9 +25,7 @@
               <!-- <div *ngIf="rol.estado.id !=3"> -->
               <td>{{tipoDoc.id}}</td>
               <td>{{tipoDoc.tituloDocumento}}</td>
-              <td>{{tipoDoc.descripcion}}</td>
-              <td>{{tipoDoc.estado.estado}}</td>
-              <td>{{tipoDoc.proceso.nombreProceso}}</td>
+              <td>{{tipoDoc.descripcion ?? 'No hay descripción'}}</td>
               <td>
                 <span class="badge badge-primary" style="cursor: pointer;"
                   (click)="actualizar(tipoDoc)">Actualizar</span>

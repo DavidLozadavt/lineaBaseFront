@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModel } from '@models/auth.model';
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '@models/persona.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
@@ -18,7 +18,7 @@ const API_URL = environment.url;
 export class CoreService {
 
   public persona: BehaviorSubject<PersonaModel> = new BehaviorSubject<PersonaModel>(null);
-  public empresa: BehaviorSubject<EmpresaModel> = new BehaviorSubject<EmpresaModel>(null);
+  public empresa: BehaviorSubject<CompanyModel> = new BehaviorSubject<CompanyModel>(null);
   public permissions: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(

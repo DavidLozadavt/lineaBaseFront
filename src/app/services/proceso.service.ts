@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProcesoModel } from '@models/proceso.model';
 import { CoreService } from './core.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +9,22 @@ import { CoreService } from './core.service';
 export class ProcesoService {
   proceso: ProcesoModel;
   permisos: number;
+  url:string;
+
   constructor(
     private _coreService: CoreService
-  ) { }
+  ) {
+    this.url='procesos/proceso'
+   }
 
-  public traerProcesos() {
-    return this._coreService.get<ProcesoModel[]>('procesos');
+  public traerProcesos(data?: { relations?: string[], columns?: string[] }): Observable<ProcesoModel[] | any[]> {
+    let url = this.url;
+    url = !data 
+    ? url
+    : url+'?data_encoded='+JSON.stringify(data);
+    return this._coreService.get<ProcesoModel[] | any[]>(url);
   }
+  
   public slider() {
     return this._coreService.get('slider');
   }

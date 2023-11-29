@@ -13,6 +13,7 @@ export class ListProcesoComponent {
   @Output() update: EventEmitter<ProcesoModel> = new EventEmitter();
   @Output() delete: EventEmitter<number> = new EventEmitter();
   @Output() create: EventEmitter<void> = new EventEmitter();
+  @Output() documentos: EventEmitter<number> = new EventEmitter();
 
   numReg = 5;
   pageActual = 0;
@@ -20,8 +21,8 @@ export class ListProcesoComponent {
   constructor() {
   }
 
-  enviarNumeroRegistros(num: number) {
-    this.numReg = num;
+  enviarNumeroRegistros(event:any) {
+    this.numReg = event.target.value;
   }
 
   actualizar(proceso: ProcesoModel) {
@@ -34,6 +35,10 @@ export class ListProcesoComponent {
 
   agregar() {
     this.create.emit();
+  }
+
+  traerDocumentos(idProceso:number){
+    this.documentos.emit(idProceso);
   }
 
 }

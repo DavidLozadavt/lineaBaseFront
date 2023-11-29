@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '../../models/persona.model';
 import { navItems } from '../../nav/_nav';
 import { CoreService } from '../../services/core.service';
@@ -12,7 +12,7 @@ export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = false;
   public navItems = [];
   public persona: PersonaModel = null;
-  public company: EmpresaModel = null;
+  public company: CompanyModel = null;
 
   constructor(private _coreService: CoreService) { }
 

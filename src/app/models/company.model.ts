@@ -1,4 +1,4 @@
-export interface EmpresaModel {
+export interface CompanyModel {
   id?: number;
   razonSocial: string;
   nit: string;

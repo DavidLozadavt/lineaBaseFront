@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { TipoDocumentoModel } from '@models/tipo-documento.model';
 import { TipoDocumentoService } from '@services/tipo-documento.service';
@@ -10,7 +11,7 @@ import { UINotificationService } from '@services/uinotification.service';
 })
 export class TipoDocumentoComponent implements OnInit {
 
-  private showModalTipoDoc = false;
+  showModalTipoDoc = false;
 
   tipoDocumento: TipoDocumentoModel = null;
   tipoDocumentos: TipoDocumentoModel[] = [];
@@ -26,17 +27,22 @@ export class TipoDocumentoComponent implements OnInit {
 
   getTipoDocumento() {
     this._tipoDocumentoService.traerTipoDocumentos()
-      .subscribe(tipoDocumentos => {
-        this.tipoDocumentos = tipoDocumentos;
-      }, error => {
-        this._uiNotificationService.error("Error de conexión");
-      });
+      .subscribe(
+        (tipoDocumentos) => {
+          this.tipoDocumentos = tipoDocumentos;
+        },
+        (error) => {
+          this._uiNotificationService.error("Error de conexión");
+        });
   }
 
   eliminarTipoDoc(tipoDocId: number) {
     this._tipoDocumentoService.eliminarTipoDocumento(tipoDocId).subscribe(() => {
       this.getTipoDocumento();
-    })
+    },
+      (error: HttpErrorResponse) => {
+        this._uiNotificationService.error(`${error.error.message}`);
+      });
   }
 
   actualizarTipoDoc(tipoDoc: TipoDocumentoModel) {

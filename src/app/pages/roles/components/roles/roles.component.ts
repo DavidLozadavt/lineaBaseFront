@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
 import { RolModel } from '@models/rol.model';
-import { EmpresaService } from '@services/empresa.service';
+import { CompanyService } from '@services/company.service';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 
@@ -20,11 +20,11 @@ export class RolesComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   formRol: UntypedFormGroup;
-  objEmpresa: EmpresaModel[] = [];
+  objEmpresa: CompanyModel[] = [];
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private empresaService: EmpresaService,
+    private _companyService: CompanyService,
     private _uiNotificationService: UINotificationService
   ) {
     this.rol = {
@@ -43,8 +43,8 @@ export class RolesComponent implements OnInit {
   }
 
   traerEmpresas() {
-    this.empresaService.traerEmpresas()
-      .subscribe((empresa: EmpresaModel[]) => {
+    this._companyService.traerEmpresas()
+      .subscribe((empresa: CompanyModel[]) => {
         this.objEmpresa = empresa;
       }, error => {
         this._uiNotificationService.error('Error de conexión');

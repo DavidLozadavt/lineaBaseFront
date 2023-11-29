@@ -30,9 +30,7 @@ export class AddTipoDocumentoComponent implements OnInit {
       id: null,
       tituloDocumento: '',
       descripcion: '',
-      idEstado: 1,
-      idProceso: null
-
+      idCompany:1
     };
     this.buildForm();
   }
@@ -55,9 +53,6 @@ export class AddTipoDocumentoComponent implements OnInit {
     return this.formTipoDoc.get('tituloDocumento');
   }
 
-  get idProceso() {
-    return this.formTipoDoc.get('idProceso');
-  }
   get descripcion() {
     return this.formTipoDoc.get('descripcion');
   }
@@ -67,7 +62,6 @@ export class AddTipoDocumentoComponent implements OnInit {
       this.formTipoDoc.patchValue({
         tituloDocumento: this.tipoDocumento.tituloDocumento,
         descripcion: this.tipoDocumento.descripcion,
-        idProceso: this.tipoDocumento.idProceso,
       })
     }
   }
@@ -103,10 +97,9 @@ export class AddTipoDocumentoComponent implements OnInit {
   getTipoDoc(): TipoDocumentoModel {
     return {
       id: this.tipoDocumento?.id,
-      idProceso: this.getControl('idProceso').value,
       tituloDocumento: this.getControl('tituloDocumento').value,
       descripcion: this.getControl('descripcion').value,
-      idEstado: 1
+      idCompany: 1
     }
   }
 }
