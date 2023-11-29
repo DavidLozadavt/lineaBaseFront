@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { AuthModel } from '@models/auth.model';
 import { EmpresaModel } from '@models/empresa.model';
 import { PersonaModel } from '@models/persona.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
 import { environment } from './../../environments/environment';
 import { TokenService } from './TokenService';
 import { PermisosService } from './permisos.service';
+import { map } from 'rxjs/operators';
 
 const API_URL = environment.url;
 
@@ -89,12 +90,20 @@ export class CoreService {
 
   public getUserAuthenticated() {
     this.post<AuthModel>('auth/user').subscribe(auth => {
-      console.log('AUTH ', auth)
+      console.log('AUTH ', auth.persona)
 
-      var permission = "GESTION_TIPO_CONTRATO,GESTION_ROLES,GESTION_ROL_PERMISOS,GESTION_USUARIO,GESTION_USUARIO,GESTION_PROCESOS,GESTION_TIPO_DOCUMENTOS,GESTION_MEDIO_PAGO,GESTION_TIPO_PAGO,GESTION_TIPO_TRANSACCION,GESTION_PAGO_NOMINA,GESTION_COMPETENCIA,GESTION_SEDE,GESTION_AREA,GESTION_INFRAESTRUCTURA"
-      
-      // this.persona.next(auth.user);
-      this.permissions.next(permission);
+      this.persona.next(auth.persona);
+
+      const idUserActive = {
+        "idUserActive": auth.persona.id
+      };
+
+      this.post<any>('auth/set_company', idUserActive).subscribe(company => {
+        const resultString = company.join(', '); // Unir el array en un solo string
+        console.log(resultString);
+        this.permissions.next(resultString);
+      });
+
       // this.empresa.next(auth.userActivate.company);
     }, errs => {
       this.logout();

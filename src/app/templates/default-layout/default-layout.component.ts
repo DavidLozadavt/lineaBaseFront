@@ -20,6 +20,7 @@ export class DefaultLayoutComponent implements OnInit {
     this._coreService.getUserAuthenticated();
 
     this._coreService.persona.subscribe(persona => {
+      console.log('shit', persona)
       this.persona = persona
     })
 
