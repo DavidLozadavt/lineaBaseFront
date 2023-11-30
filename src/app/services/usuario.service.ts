@@ -29,7 +29,6 @@ export class UsuarioService {
     return this._coreService.post<UsuarioModel>('usuarios', usuario);
   }
 
-
   public asignarRoles(data: any): Observable<Object[]> {
     return this._coreService
       .put('permisos/asignar_roles', data)
@@ -37,9 +36,7 @@ export class UsuarioService {
   }
 
   public eliminarUsuario(userId: number) {
-
     return this._coreService.delete('usuarios/' + userId);
-
   }
 
 }
