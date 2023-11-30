@@ -32,7 +32,7 @@ export class UsuarioService {
 
   public asignarRoles(data: any): Observable<Object[]> {
     return this._coreService
-      .put('asignar_roles', data)
+      .put('permisos/asignar_roles', data)
       .pipe(map(response => response as Object[]));
   }
 

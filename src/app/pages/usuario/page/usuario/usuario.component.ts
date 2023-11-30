@@ -29,7 +29,6 @@ export class UsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsuarios();
-
   }
 
   getUsuarios() {
@@ -44,35 +43,26 @@ export class UsuarioComponent implements OnInit {
   }
 
   rolesByCompany() {
-
     this._rolService.rolByCompany(this.usuarios[0].idCompany).subscribe((data: any) => {
-
       this.roles = data;
-
-    },
-      error => {
-        console.log('There was an error while retrieving data !!!', error);
-      });
+    }, (error) => {
+      console.log('There was an error while retrieving data !!!', error);
+    });
   }
+
   eliminarUsuarios(userId: number) {
     this._usuarioService.eliminarUsuario(userId).subscribe(() => {
       this.getUsuarios();
     })
   }
 
-  // actualizarProceso(proceso: ProcesoModel) {
-  //   this.proceso = proceso;
-  //   this.showModalAsignacion = true;
-  // }
   asignarRol(usuario: UsuarioModel) {
     console.log(usuario, 'el usuario')
-    // if (usuario.roles) {
     this.rolUser = [];
     usuario.roles.map(u => {
       this.rolUser.push(u);
       console.log(this.rolUser, 'nuevo rol ')
     })
-    // }
     this.roles = this.roles.map(haveRoles => {
       haveRoles.checked = (this.rolUser.findIndex(p => p.name === haveRoles.name) !== -1)
       return haveRoles;
@@ -87,14 +77,12 @@ export class UsuarioComponent implements OnInit {
       console.log(data, 'bien')
       this.getUsuarios();
       this.showModalAsignacion = false;
-
       this._uiNotificationService.success('Se guardo la configuración exitosamente ');
-
       // window.location.reload();
-    },
-      error => {
-        this._uiNotificationService.error('Error al guardar');
-      });
+    }, (error) => {
+      console.log(error)
+      this._uiNotificationService.error('Error al guardar');
+    });
   }
 
 
