@@ -54,7 +54,7 @@ export class PermisosComponent implements OnInit {
     //     this.objRol = rol;
     //   });
 
-    this.findRoles();
+    // this.findRoles();
 
     this.permisosService.traerPermisos().subscribe((data: any) => {
       this.menus = data;
@@ -121,6 +121,8 @@ export class PermisosComponent implements OnInit {
     this.permisions = [];
 
     this.permisosService.permissionsRole(document.getElementById('rol')['value']).subscribe((data: any) => {
+
+      console.log(data);
 
       this.permisions = data;
 

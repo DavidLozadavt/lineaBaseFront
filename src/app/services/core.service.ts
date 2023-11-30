@@ -118,7 +118,7 @@ export class CoreService {
 
       this.post<any>('auth/active_users').subscribe(companies => {
         console.log(companies[0]);
-        this.empresa.next(companies[0]);
+        this.empresa.next(company);
       });
 
       // this.empresa.next(company);
