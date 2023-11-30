@@ -1,1 +1,38 @@
-<p>asignacion-proceso-tipo-documento-page works!  {{idProceso}}</p>
+<div class="card col col-md-12">
+    <div class="card-header">
+        <span class="col col-md-1 badge  badge-info" (click)="backToProcesos()"><i class="fa-arrow-right"></i></span> 
+        <select #nreg class="col col-md-2 form-control col-lg-1" (change)="enviarNumeroRegistros($event) ">
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+            <option>25</option>
+          </select>
+    </div>
+    <div class="card-body table-container">
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th>Documento</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tipoDocumento of tipoDocumentos | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
+                    <td>{{tipoDocumento.tipoDocumento.tituloDocumento}}</td>
+                    <td>{{tipoDocumento.tipoDocumento.descripcion ?? 'No hay descripción disponible'}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-success" (click)="asignarTipoDocumento()">
+            Asignar otro documento
+        </button>
+    </div>
+</div>
+
+<app-custom-modal
+  title="Gestión Proceso"
+  [(show)]="showModalTipoDocumento">
+  <app-asignar-proceso-tipo-documento [procesoTipoDocumento]="tipoDocumento" (store)="guardarAsignacion($event)" (cancel)="reset()"></app-asignar-proceso-tipo-documento>
+</app-custom-modal>
