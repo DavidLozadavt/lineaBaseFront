@@ -45,7 +45,7 @@ export class UsuarioComponent implements OnInit {
 
   rolesByCompany() {
 
-    this._rolService.rolByCompany(this.usuarios[0].company_id).subscribe((data: any) => {
+    this._rolService.rolByCompany(this.usuarios[0].idCompany).subscribe((data: any) => {
 
       this.roles = data;
 

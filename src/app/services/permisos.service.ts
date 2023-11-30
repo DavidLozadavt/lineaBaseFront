@@ -11,9 +11,7 @@ export class PermisosService {
 
   constructor(
     private _coreService: CoreService
-
   ) { }
-
 
   guardar(data: any): Observable<Object[]> {
     return this._coreService
@@ -21,18 +19,13 @@ export class PermisosService {
       .pipe(map(response => response as Object[]));
   }
 
-
   public traerPermisos() {
     return this._coreService.get<PermisoModel[]>('permisos/permisos');
   }
-
-  // public permisosByRol() {
-
-  //   return this._coreService.post('permisos_rol');
-  // }
 
   public permissionsRole(idRol: number) {
 
     return this._coreService.get<any[]>('permisos/permisos_rol?rol=' + idRol);
   }
+
 }
