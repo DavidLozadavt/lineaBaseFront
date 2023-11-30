@@ -23,7 +23,7 @@ export class PermisosService {
 
 
   public traerPermisos() {
-    return this._coreService.post<PermisoModel[]>('permisos/permisos');
+    return this._coreService.get<PermisoModel[]>('permisos/permisos');
   }
 
   // public permisosByRol() {

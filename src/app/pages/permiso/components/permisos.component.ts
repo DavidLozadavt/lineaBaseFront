@@ -45,24 +45,18 @@ export class PermisosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('traer empresas');
     this.traerEmpresas();
+    console.log('traer func');
     this.traerfunc();
-    // this.menusByrol();
-    // this.rolService.traerRol()
-    //   .subscribe(rol => {
-    //     // alert(this.objRol);
-    //     this.objRol = rol;
-    //   });
-
-    // this.findRoles();
-
     this.permisosService.traerPermisos().subscribe((data: any) => {
+      console.log('permisos', data)
       this.menus = data;
     }, error => {
-      console.log('There was an error while retrieving data !!!', error);
     });
 
   }
+
   enviarNumeroRegistros(num: number) {
     this.numReg = num;
   }
@@ -127,6 +121,7 @@ export class PermisosComponent implements OnInit {
       this.permisions = data;
 
       this.menus = this.menus.map(havePermission => {
+        console.log(havePermission);
         havePermission.checked = (this.permisions.findIndex(p => p === havePermission.name) !== -1)
         return havePermission;
       });
