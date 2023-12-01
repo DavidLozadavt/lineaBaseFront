@@ -2,11 +2,14 @@ import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModel } from '@models/auth.model';
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '@models/persona.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
 import { environment } from './../../environments/environment';
+import { TokenService } from './TokenService';
+import { PermisosService } from './permisos.service';
+import { map } from 'rxjs/operators';
 
 const API_URL = environment.url;
 
@@ -16,13 +19,14 @@ const API_URL = environment.url;
 export class CoreService {
 
   public persona: BehaviorSubject<PersonaModel> = new BehaviorSubject<PersonaModel>(null);
-  public empresa: BehaviorSubject<EmpresaModel> = new BehaviorSubject<EmpresaModel>(null);
+  public empresa: BehaviorSubject<CompanyModel> = new BehaviorSubject<CompanyModel>(null);
   public permissions: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(
     private httpClient: HttpClient,
     private _router: Router,
-    private _tokenService: HttpXsrfTokenExtractor
+    private tokenService: TokenService,
+    // private permissionService: PermisosService
   ) { }
 
   public get<T>(url: String, data: String | Object = ""): Observable<T> {
@@ -35,13 +39,11 @@ export class CoreService {
   private getConfig() {
 
     const header = {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${this.tokenService.getToken()}`
     }
-    const token = this._tokenService.getToken();
 
-    if (token) {
-      header['X-XSRF-TOKEN'] = token;
-    }
+    console.log('Header ', header)
 
     return { withCredentials: true, headers: new HttpHeaders(header) };
   }
@@ -68,23 +70,58 @@ export class CoreService {
   }
 
   login(user: string, password: string, success: CallableFunction, error: CallableFunction) {
-    this.httpClient.get(API_URL + 'sanctum/csrf-cookie').subscribe(res => {
-      this.post<ActivationCompanyUserModel[]>('login', {
-        email: user,
-        password: password
-      }).subscribe(response => {
+    this.post<any>('auth/login', {
+      email: user,
+      password: password
+    }).subscribe(
+      (response: any) => {
+        console.log(response)
+        const token = response.access_token;
+        this.tokenService.setToken(token);
         success(response);
-      }, err => {
-        error(err)
-      })
-    });
+      },
+      (err) => {
+        error(err);
+      }
+    );
   }
 
+
+
   public getUserAuthenticated() {
-    this.get<AuthModel>('user').subscribe(auth => {
-      this.persona.next(auth.user);
-      this.permissions.next(auth.permission);
-      this.empresa.next(auth.userActivate.company);
+    this.post<AuthModel>('auth/user').subscribe(auth => {
+      console.log('AUTH ', auth.persona)
+
+      this.persona.next(auth.persona);
+
+      const idUserActive = {
+        "idUserActive": auth.persona.id
+      };
+
+      this.post<any>('auth/set_company', idUserActive).subscribe(permissions => {
+        const resultString = permissions.join(', ');
+        this.permissions.next(resultString);
+      });
+
+      var company = {
+        created_at: "2023-11-03T09:43:42.000000Z",
+        digitoVerificacion: 65535,
+        id: 1,
+        nit: "12132312312312",
+        principal_id: null,
+        razonSocial: "FUNDACION UNIVERSITARIA DE POPAYÁN",
+        representanteLegal: "Mr. Leonel Romaguera",
+        rutaLogo: "/default/logo.jpg",
+        rutaLogoUrl: "http://localhost:8000/default/logo.jpg",
+        updated_at: "2023-11-03T09:43:42.000000Z"
+      }
+
+      this.post<any>('auth/active_users').subscribe(companies => {
+        console.log(companies[0]);
+        this.empresa.next(company);
+      });
+
+      // this.empresa.next(company);
     }, errs => {
       this.logout();
     });
@@ -95,7 +132,7 @@ export class CoreService {
     this.empresa.next(null);
     this.permissions.next('');
 
-    this.post('logout').subscribe(res => {
+    this.post('auth/logout').subscribe(res => {
       this._router.navigate(['/login']);
     }, err => {
       this._router.navigate(['/login']);

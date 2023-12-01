@@ -1,4 +1,4 @@
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
 import { RolModel } from './rol.model';
 
 export interface ActivationCompanyUserModel {
@@ -10,6 +10,6 @@ export interface ActivationCompanyUserModel {
   fechaFin: string;
   created_at?: string;
   updated_at?: string;
-  company?: EmpresaModel;
+  company?: CompanyModel;
   roles: RolModel[];
 }

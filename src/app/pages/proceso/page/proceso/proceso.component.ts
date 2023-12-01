@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProcesoModel } from '@models/proceso.model';
 import { ProcesoService } from '@services/proceso.service';
 import { UINotificationService } from '@services/uinotification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-proceso',
@@ -17,7 +18,8 @@ export class ProcesoComponent implements OnInit {
 
   constructor(
     private _uiNotificationService: UINotificationService,
-    private _procesoService: ProcesoService
+    private _procesoService: ProcesoService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -51,13 +53,14 @@ export class ProcesoComponent implements OnInit {
 
   guardarProceso(proceso: ProcesoModel) {
     if (proceso.id) {
-      this._procesoService.actualizarProceso(proceso).subscribe(rol => {
-        this.getProcesos();
+      this._procesoService.actualizarProceso({proceso:proceso}).subscribe(newProceso => {
+        let procesoIndex:number = this.procesos.findIndex(proceso=>proceso.id == newProceso.id);
+        this.procesos[procesoIndex] = newProceso;
         this.reset();
       });
     } else {
-      this._procesoService.crearProceso(proceso).subscribe(rol => {
-        this.getProcesos();
+      this._procesoService.crearProceso({proceso:proceso}).subscribe(newProceso => {
+        this.procesos.push(newProceso);
         this.reset();
       })
     }
@@ -68,4 +71,8 @@ export class ProcesoComponent implements OnInit {
     this.showModalProceso = false;
   }
 
+  vistaDocumentos(idProceso:number){
+    localStorage.setItem('idProceso',idProceso.toString());
+    this.router.navigate(['/asignacion_proceso_tipo_documento']);
+  }
 }

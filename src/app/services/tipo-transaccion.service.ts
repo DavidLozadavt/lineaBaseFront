@@ -14,28 +14,30 @@ export class TipoTransaccionService {
   ) { }
 
   public traerTipo_transaccion() {
-    return this._coreService.get<TipoTransaccionModel[]>('tipo_transacciones');
+    return this._coreService.get<TipoTransaccionModel[]>('pagos/tipo_transacciones');
   }
 
 
 
 
-  crearTipo_transaccion(tipo_transaccion: TipoTransaccionModel) {
+  crearTipoTransaccion(tipoTransaccion: TipoTransaccionModel) {
+    tipoTransaccion.detalle = tipoTransaccion.detalle.toUpperCase();
+    tipoTransaccion.descripcion = tipoTransaccion.descripcion.toUpperCase();
 
-    tipo_transaccion.detalle = tipo_transaccion.detalle.toUpperCase();
-    tipo_transaccion.descripcion = tipo_transaccion.descripcion.toUpperCase();
-    return this._coreService.post<TipoTransaccionModel>('tipo_transacciones', tipo_transaccion);
+    return this._coreService.post<TipoTransaccionModel>('pagos/tipo_transacciones', tipoTransaccion);
   }
-
 
   eliminarTipo_transaccion(tipo_transaccionId: number) {
-    return this._coreService.delete('tipo_transacciones/' + tipo_transaccionId);
+    return this._coreService.delete(`pagos/tipo_transacciones/${tipo_transaccionId}`);
   }
+
 
   actualizarTipo_transaccion(tipo_transaccion: TipoTransaccionModel) {
     tipo_transaccion.detalle = tipo_transaccion.detalle.toUpperCase();
     tipo_transaccion.descripcion = tipo_transaccion.descripcion.toUpperCase();
-    return this._coreService.put('tipo_transacciones/' + tipo_transaccion.id, tipo_transaccion);
+
+    return this._coreService.put(`pagos/tipo_transacciones/${tipo_transaccion.id}`, tipo_transaccion);
   }
+
 
 }

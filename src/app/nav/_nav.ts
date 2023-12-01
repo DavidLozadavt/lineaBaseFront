@@ -12,6 +12,7 @@ import { GESTION_MEDIO_PAGO,
           GESTION_AREA,
           GESTION_INFRAESTRUCTURA
 } from './permissions';
+import { AsignacionProcesoTipoDocumentoModule } from '../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module';
 
 export const navItems: NavegacionModel[] = [
   {
@@ -32,6 +33,12 @@ export const navItems: NavegacionModel[] = [
     icon: 'icon-drop',
     permiso: GESTION_PROCESOS
   },
+  // {
+  //   name:'Proceso documentos',
+  //   url:'asignacion_proceso_tipo_documento',
+  //   icon:'icon-drop',
+  //   permiso:GESTION_PROCESOS
+  // },
   {
     name: "Tipo Documentos",
     url: 'add_tipo_documento',
@@ -150,6 +157,10 @@ export const routesNav: Routes = [
   {
     path: 'gestionar_infraestructura',
     loadChildren: () => import('../pages/infraestructura/infraestructura.module').then(m => m.InfraestructuraModule)
+  },
+  {
+    path: 'asignacion_proceso_tipo_documento',
+    loadChildren: () => import('../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module').then(m=>AsignacionProcesoTipoDocumentoModule)
   }
 
 ];

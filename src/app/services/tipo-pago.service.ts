@@ -12,19 +12,19 @@ export class TipoPagoService {
   ) { }
 
   public traerTipoPagos() {
-    return this._coreService.get<TipoPagoModel[]>('tipo_pagos');
+    return this._coreService.get<TipoPagoModel[]>('pagos/tipo_pagos');
   }
 
   crearTipoPago(tPago: TipoPagoModel) {
 
-    return this._coreService.post<TipoPagoModel>('tipo_pagos', tPago);
+    return this._coreService.post<TipoPagoModel>('pagos/tipo_pagos', tPago);
   }
 
 
   eliminarTipoPago(tPagoId: number) {
-    return this._coreService.delete('tipo_pagos/' + tPagoId);
+    return this._coreService.delete('pagos/tipo_pagos/' + tPagoId);
   }
   actualizarTipoPago(tPago: TipoPagoModel) {
-    return this._coreService.put('tipo_pagos/' + tPago.id, tPago);
+    return this._coreService.put('pagos/tipo_pagos/' + tPago.id, tPago);
   }
 }

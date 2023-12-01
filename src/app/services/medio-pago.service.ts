@@ -13,21 +13,21 @@ export class MedioPagoService {
   ) { }
 
   public traerMedioPagos() {
-    return this._coreService.get<MedioPagoModel[]>('medio_pagos');
+    return this._coreService.get<MedioPagoModel[]>('pagos/medio_pagos');
   }
   public getMedioPagosById(id) {
-    return this._coreService.get<MedioPagoModel>('medio_pagos/' + id);
+    return this._coreService.get<MedioPagoModel>('pagos/medio_pagos/' + id);
   }
 
   crearMedioPago(mPago: MedioPagoModel) {
-    return this._coreService.post<MedioPagoModel>('medio_pagos', mPago);
+    return this._coreService.post<MedioPagoModel>('pagos/medio_pagos', mPago);
   }
 
 
   eliminarMedioPago(mPagoId: number) {
-    return this._coreService.delete('medio_pagos/' + mPagoId);
+    return this._coreService.delete('pagos/medio_pagos/' + mPagoId);
   }
   actualizarMedioPago(mPago: MedioPagoModel) {
-    return this._coreService.put('medio_pagos/' + mPago.id, mPago);
+    return this._coreService.put('pagos/medio_pagos/' + mPago.id, mPago);
   }
 }

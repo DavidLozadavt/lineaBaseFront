@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivationCompanyUserModel } from '@models/activation-company-user.model';
+import { TokenService } from '@services/TokenService';
 import { CoreService } from '@services/core.service';
 import { UINotificationService } from '@services/uinotification.service';
 
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private _coreService: CoreService,
     private router: Router,
-    private _uiNotificationService: UINotificationService
+    private _uiNotificationService: UINotificationService,
+    private tokenService: TokenService
   ) {
     this._coreService.logout();
     this.buildFormLogin();
@@ -49,27 +51,35 @@ export class LoginComponent implements OnInit {
   }
 
   selectCompany(idActivationUser: number) {
-    this._coreService.post<any>('user_company/' + idActivationUser).subscribe(res => {
+    console.log(idActivationUser);
+    var data = {
+      "idUserActive":1
+    };
+    this._coreService.post<any>('auth/set_company', data).subscribe(res => {
+      console.log('one ' + res)
       this.router.navigate(['dashboard']);
     });
   }
 
   login() {
-    if (this.formLogin.valid) {
+    if (this.formLogin.valid || this.tokenService.getToken()) {
       this._coreService.login(
         this.formLogin.get('usuario').value,
         this.formLogin.get('password').value,
         (response: ActivationCompanyUserModel[]) => {
-          this._uiNotificationService.clearAll();
+          console.log('two ', response);
+          this.selectCompany(1);
+          this._uiNotificationService.success("Inicio de session correcto");
+          /*this._uiNotificationService.clearAll();
           if (response.length < 1) {
             this._uiNotificationService.error('No tiene un perfil activo');
           } else if (response.length === 1) {
-            this.selectCompany(response[0].id);
+            this.selectCompany(1);
             this._uiNotificationService.success("Inicio de session correcto");
           } else if (response.length > 1) {
             this.activationCompanyUsers = response;
             this._uiNotificationService.success("Inicio de session correcto");
-          }
+          }*/
         },
         (e) => {
           if (e.status == 401 || e.status == 400) {
