@@ -25,7 +25,7 @@ export class UsuarioService {
   }
 
   public crearUsuario(usuario: UsuarioModel) {
-
+    console.log(usuario);
     return this._coreService.post<UsuarioModel>('usuarios', usuario);
   }
 

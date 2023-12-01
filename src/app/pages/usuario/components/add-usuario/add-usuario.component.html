@@ -4,16 +4,26 @@
   </div>
   <div class="card-body">
     <form class="usuarioFormulario" [formGroup]="formUsuario" class="was-validated" novalidate>
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="nombre1">Número de identificación</label>
+        <div class="col-md-7">
+          <input type="number"
+            placeholder="Ingrese número de identificación" class="form-control is-valid" formControlName='identificacion' required>
+          <div class="valid-feedback" *ngIf="!identificacionField.hasError('required')">
+            Valor válido
+          </div>
+        </div>
+        <div class="invalid-feedback">
+          por favor ingresé un valor válido para el número de identificación
+        </div>
+      </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="nombre1">Primer nombre</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su primer nombre"
-            class="form-control is-valid"
-            formControlName='nombre1'
-            required>
+          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
+            placeholder="Ingrese su primer nombre" class="form-control is-valid" formControlName='nombre1' required>
           <div class="valid-feedback" *ngIf="!nombre1Field.hasError('required')">
             Valor válido
           </div>
@@ -25,12 +35,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="nombre2">Segundo nombre</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su segundo nombre"
-            class="form-control is-valid"
-            formControlName='nombre2'>
+          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
+            placeholder="Ingrese su segundo nombre" class="form-control is-valid" formControlName='nombre2'>
           <div class="valid-feedback" *ngIf="!nombre2Field.hasError('required')">
             Valor válido
           </div>
@@ -42,13 +48,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="apellido1">Primer apellido</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su primer apellido"
-            class="form-control is-valid"
-            formControlName='apellido1'
-            required>
+          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
+            placeholder="Ingrese su primer apellido" class="form-control is-valid" formControlName='apellido1' required>
           <div class="valid-feedback" *ngIf="!apellido1Field.hasError('required')">
             Valor válido
           </div>
@@ -60,12 +61,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="apellido2">Segundo apellido</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su primer apellido"
-            class="form-control is-valid"
-            formControlName='apellido2'>
+          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
+            placeholder="Ingrese su primer apellido" class="form-control is-valid" formControlName='apellido2'>
           <div class="valid-feedback" *ngIf="!apellido2Field.hasError('required')">
             Valor válido
           </div>
@@ -77,9 +74,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de Nacimiento</label>
         <div class="col-md-7">
-          <my-date-picker class="is-valid"
-            placeholder="Seleccione su Fecha de Nacimiento"
-            [options]="fechaNac" formControlName="fechaNac">
+          <my-date-picker class="is-valid" placeholder="Seleccione su Fecha de Nacimiento" [options]="fechaNac"
+            formControlName="fechaNac">
           </my-date-picker>
           <div class="valid-feedback" *ngIf="!fechaNacField.hasError('required');else formato ">
             Valor valido
@@ -92,13 +88,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="celular">Celular</label>
         <div class="col-md-7">
-          <input
-            type="number"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su celular"
-            class="form-control is-valid"
-            formControlName='celular'
-            required>
+          <input type="number" onkeyup="javascript:this.value=this.value.toUpperCase();"
+            placeholder="Ingrese su celular" class="form-control is-valid" formControlName='celular' required>
           <div class="valid-feedback" *ngIf="!celularField.hasError('required')">
             Valor válido
           </div>
@@ -111,8 +102,7 @@
         <label class="col-md-4 col-form-label" for="email">Email</label>
         <div class="col-md-7">
           <input type="email" onkeyup="javascript:this.value=this.value;" placeholder="Ingrese su Email"
-            class="form-control is-valid" formControlName="email"
-            required>
+            class="form-control is-valid" formControlName="email" required>
           <div class="valid-feedback" *ngIf="!emailField.hasError('required')">
             Valor valido
           </div>
@@ -124,12 +114,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="contrasena">Contraseña</label>
         <div class="col-md-7">
-          <input
-            type="password"
-            placeholder="Ingrese su contraseña"
-            class="form-control is-valid"
-            formControlName='contrasena' id="contrasena"
-            required>
+          <input type="password" placeholder="Ingrese su contraseña" class="form-control is-valid"
+            formControlName='contrasena' id="contrasena" required>
           <div class="valid-feedback" *ngIf="!contrasenaField.hasError('required')">
             Valor válido
           </div>
@@ -141,12 +127,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="contrasena">Confirmar contraseña</label>
         <div class="col-md-7">
-          <input
-            id="confirmContrasena"
-            type="password"
-            placeholder="Ingrese su contraseña"
-            class="form-control is-valid"
-            required>
+          <input id="confirmContrasena" type="password" placeholder="Ingrese su contraseña"
+            class="form-control is-valid" required>
 
         </div>
 
@@ -154,17 +136,10 @@
 
     </form>
     <div class="card-footer">
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary"
-        (click)="guardarUsuario()"
-        [disabled]="formUsuario.invalid">
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarUsuario()" [disabled]="formUsuario.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
-      <button
-        type="reset"
-        class="btn btn-sm btn-danger"
-        (click)="closeModal()">
+      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
         <i class="fa fa-ban"></i>
         Cancelar
       </button>
