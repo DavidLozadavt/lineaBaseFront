@@ -51,9 +51,9 @@ export class LoginComponent implements OnInit {
   }
 
   selectCompany(idActivationUser: number) {
-    console.log(idActivationUser);
+    console.log('Select company ', idActivationUser);
     var data = {
-      "idUserActive":1
+      "idUserActive":idActivationUser
     };
     this._coreService.post<any>('auth/set_company', data).subscribe(res => {
       console.log('one ' + res)

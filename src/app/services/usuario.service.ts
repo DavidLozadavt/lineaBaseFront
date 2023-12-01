@@ -13,20 +13,18 @@ export class UsuarioService {
     private _coreService: CoreService
   ) { }
 
-
-
   public traerUsuarios() {
-    return this._coreService.get<UsuarioModel[]>('lista_usuarios');
+    return this._coreService.get<UsuarioModel[]>('users/users');
   }
 
   public actualizarUsuario(usuario: UsuarioModel) {
-    return this._coreService.put('usuarios/' + usuario.id, usuario);
+    return this._coreService.put('users/users' + usuario.id, usuario);
 
   }
 
   public crearUsuario(usuario: UsuarioModel) {
     console.log(usuario);
-    return this._coreService.post<UsuarioModel>('usuarios', usuario);
+    return this._coreService.post<UsuarioModel>('users/users', usuario);
   }
 
   public asignarRoles(data: any): Observable<Object[]> {
@@ -36,7 +34,7 @@ export class UsuarioService {
   }
 
   public eliminarUsuario(userId: number) {
-    return this._coreService.delete('usuarios/' + userId);
+    return this._coreService.delete('users/users/' + userId);
   }
 
 }
