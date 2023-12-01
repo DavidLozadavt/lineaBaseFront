@@ -2,7 +2,7 @@ import { ActivationCompanyUserModel } from '@models/activation-company-user.mode
 import { PersonaModel } from './persona.model';
 
 export interface AuthModel {
-  user: PersonaModel;
+  persona: PersonaModel;
   permission: string;
   userActivate: ActivationCompanyUserModel;
 }

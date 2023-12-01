@@ -25,21 +25,18 @@ export class UsuarioService {
   }
 
   public crearUsuario(usuario: UsuarioModel) {
-
+    console.log(usuario);
     return this._coreService.post<UsuarioModel>('usuarios', usuario);
   }
 
-
   public asignarRoles(data: any): Observable<Object[]> {
     return this._coreService
-      .put('asignar_roles', data)
+      .put('permisos/asignar_roles', data)
       .pipe(map(response => response as Object[]));
   }
 
   public eliminarUsuario(userId: number) {
-
     return this._coreService.delete('usuarios/' + userId);
-
   }
 
 }

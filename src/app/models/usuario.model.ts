@@ -4,6 +4,6 @@ export interface UsuarioModel {
   id: number;
   email: string;
   contrasena: string;
-  company_id?: number;
+  idCompany?: number;
   roles?: RolModel[];
 }

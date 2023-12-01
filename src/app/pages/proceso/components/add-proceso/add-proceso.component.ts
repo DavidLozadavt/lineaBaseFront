@@ -25,7 +25,7 @@ export class AddProcesoComponent implements OnInit {
       id: null,
       nombreProceso: '',
       descripcion: '',
-
+      idCompany:1
     };
     this.buildForm();
   }
@@ -82,7 +82,8 @@ export class AddProcesoComponent implements OnInit {
     return {
       id: this.proceso?.id,
       descripcion: this.getControl('descripcion').value,
-      nombreProceso: this.getControl('nombreProceso').value
+      nombreProceso: this.getControl('nombreProceso').value,
+      idCompany:1
     }
   }
 }

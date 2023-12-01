@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <i class="fa fa-align-justify"></i> Procesos Registrados
-      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event.target.value) ">
+      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event) ">
         <option>10</option>
         <option>15</option>
         <option>20</option>
@@ -17,6 +17,7 @@
               <th>Código</th>
               <th>Nombre Proceso</th>
               <th>Descripción</th>
+              <th>Documentos Necesarios</th>
               <th>Acciones</th>
           </thead>
           <tbody>
@@ -24,15 +25,17 @@
               <!-- <div *ngIf="rol.estado.id !=3"> -->
               <td>{{proceso.id}}</td>
               <td>{{proceso.nombreProceso}}</td>
-              <td>{{proceso.descripcion}}</td>
+              <td>{{proceso.descripcion ?? 'No hay descripcion'}}</td>
+              <td>
+                <span class="badge badge-success" style="cursor: pointer;" (click)="traerDocumentos(proceso.id)">
+                  ver documentos
+                </span>
+              </td>
               <td>
                 <span class="badge badge-primary" style="cursor: pointer;"
                   (click)="actualizar(proceso)">Actualizar</span>
-                <span
-                  class="badge badge-danger"
-                  style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
-                  (confirm)="eliminar(proceso.id)">
+                <span class="badge badge-danger" style="cursor: pointer;"
+                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }" (confirm)="eliminar(proceso.id)">
                   Eliminar
                 </span>
               </td>

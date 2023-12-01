@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModel } from '@models/auth.model';
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '@models/persona.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
 import { environment } from './../../environments/environment';
 import { TokenService } from './TokenService';
 import { PermisosService } from './permisos.service';
+import { map } from 'rxjs/operators';
 
 const API_URL = environment.url;
 
@@ -18,7 +19,7 @@ const API_URL = environment.url;
 export class CoreService {
 
   public persona: BehaviorSubject<PersonaModel> = new BehaviorSubject<PersonaModel>(null);
-  public empresa: BehaviorSubject<EmpresaModel> = new BehaviorSubject<EmpresaModel>(null);
+  public empresa: BehaviorSubject<CompanyModel> = new BehaviorSubject<CompanyModel>(null);
   public permissions: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(
@@ -89,13 +90,38 @@ export class CoreService {
 
   public getUserAuthenticated() {
     this.post<AuthModel>('auth/user').subscribe(auth => {
-      console.log('AUTH ', auth)
+      console.log('AUTH ', auth.persona)
 
-      var permission = "GESTION_TIPO_CONTRATO,GESTION_ROLES,GESTION_ROL_PERMISOS,GESTION_USUARIO,GESTION_USUARIO,GESTION_PROCESOS,GESTION_TIPO_DOCUMENTOS,GESTION_MEDIO_PAGO,GESTION_TIPO_PAGO,GESTION_TIPO_TRANSACCION,GESTION_PAGO_NOMINA,GESTION_COMPETENCIA,GESTION_SEDE,GESTION_AREA,GESTION_INFRAESTRUCTURA"
-      
-      // this.persona.next(auth.user);
-      this.permissions.next(permission);
-      // this.empresa.next(auth.userActivate.company);
+      this.persona.next(auth.persona);
+
+      const idUserActive = {
+        "idUserActive": auth.persona.id
+      };
+
+      this.post<any>('auth/set_company', idUserActive).subscribe(permissions => {
+        const resultString = permissions.join(', ');
+        this.permissions.next(resultString);
+      });
+
+      var company = {
+        created_at: "2023-11-03T09:43:42.000000Z",
+        digitoVerificacion: 65535,
+        id: 1,
+        nit: "12132312312312",
+        principal_id: null,
+        razonSocial: "FUNDACION UNIVERSITARIA DE POPAYÁN",
+        representanteLegal: "Mr. Leonel Romaguera",
+        rutaLogo: "/default/logo.jpg",
+        rutaLogoUrl: "http://localhost:8000/default/logo.jpg",
+        updated_at: "2023-11-03T09:43:42.000000Z"
+      }
+
+      this.post<any>('auth/active_users').subscribe(companies => {
+        console.log(companies[0]);
+        this.empresa.next(company);
+      });
+
+      // this.empresa.next(company);
     }, errs => {
       this.logout();
     });

@@ -36,7 +36,12 @@ export class TipoTransaccionComponent implements OnInit {
   eliminarTipoT(tipoTId: number) {
     this._tipoTService.eliminarTipo_transaccion(tipoTId).subscribe(() => {
       this.getTipoT();
-    })
+    }, (error) => {
+      console.log(error);
+      if (error.status === 500) {
+        this._uiNotificationService.error("No puedes eliminar este tipo de transacción");
+      }
+    });
   }
 
   actualizarTipoT(tipoT: TipoTransaccionModel) {
@@ -56,7 +61,7 @@ export class TipoTransaccionComponent implements OnInit {
         this.reset();
       });
     } else {
-      this._tipoTService.crearTipo_transaccion(tipoT).subscribe(tipoT => {
+      this._tipoTService.crearTipoTransaccion(tipoT).subscribe(tipoT => {
         this.getTipoT();
         this.reset();
       })
