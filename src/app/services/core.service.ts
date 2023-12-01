@@ -86,8 +86,6 @@ export class CoreService {
     );
   }
 
-
-
   public getUserAuthenticated() {
     this.post<AuthModel>('auth/user').subscribe(auth => {
       console.log('AUTH ', auth.persona)

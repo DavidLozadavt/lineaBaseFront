@@ -1,6 +1,6 @@
 <div class="modal-body">
   <div class="card-header">
-    <strong>Registrar Usuario</strong>
+    <strong>Registrar usuario</strong>
   </div>
   <div class="card-body">
     <form class="usuarioFormulario" [formGroup]="formUsuario" class="was-validated" novalidate>
@@ -72,9 +72,9 @@
         </div>
       </div>
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de Nacimiento</label>
+        <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento</label>
         <div class="col-md-7">
-          <my-date-picker class="is-valid" placeholder="Seleccione su Fecha de Nacimiento" [options]="fechaNac"
+          <my-date-picker class="is-valid" placeholder="Seleccione su fecha de nacimiento" [options]="fechaNac"
             formControlName="fechaNac">
           </my-date-picker>
           <div class="valid-feedback" *ngIf="!fechaNacField.hasError('required');else formato ">
@@ -101,7 +101,7 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="email">Email</label>
         <div class="col-md-7">
-          <input type="email" onkeyup="javascript:this.value=this.value;" placeholder="Ingrese su Email"
+          <input type="email" onkeyup="javascript:this.value=this.value;" placeholder="Ingrese su email"
             class="form-control is-valid" formControlName="email" required>
           <div class="valid-feedback" *ngIf="!emailField.hasError('required')">
             Valor valido
