@@ -31,7 +31,7 @@
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  [swal]="{ title: '¿De seguro deseas eliminar el rol ' + rol.name + '?',  showCancelButton: true }"
                   (confirm)="eliminar(rol.id)">
                   Eliminar
                 </span>
