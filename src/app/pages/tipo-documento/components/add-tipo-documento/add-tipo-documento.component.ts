@@ -71,7 +71,6 @@ export class AddTipoDocumentoComponent implements OnInit {
       id: [0],
       tituloDocumento: ['', [Validators.required]],
       descripcion: ['', [Validators.required]],
-      idProceso: ['', [Validators.required]],
     });
 
     this.formTipoDoc.valueChanges

@@ -55,15 +55,16 @@ export class TipoDocumentoComponent implements OnInit {
     this.showModalTipoDoc = true;
   }
 
-  guardarTipoDoc(tipoDoc: TipoDocumentoModel) {
+  guardarTipoDoc(tipoDoc: TipoDocumentoModel) {    
     if (tipoDoc.id) {
-      this._tipoDocumentoService.actualizarTipoDocumento(tipoDoc).subscribe(rol => {
-        this.getTipoDocumento();
+      this._tipoDocumentoService.actualizarTipoDocumento({tipoDocumento:tipoDoc}).subscribe(tipoDoc => {
+        let tipoDocIndex:number = this.tipoDocumentos.findIndex(tDoc=>tDoc.id == tipoDoc.id);
+        this.tipoDocumentos[tipoDocIndex] = tipoDoc;
         this.reset();
       });
     } else {
-      this._tipoDocumentoService.crearTipoDocumento(tipoDoc).subscribe(rol => {
-        this.getTipoDocumento();
+      this._tipoDocumentoService.crearTipoDocumento({tipoDocumento:tipoDoc}).subscribe(tipoDoc => {
+        this.tipoDocumentos.push(tipoDoc)
         this.reset();
       })
     }

@@ -3,6 +3,7 @@ import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '../../models/persona.model';
 import { navItems } from '../../nav/_nav';
 import { CoreService } from '../../services/core.service';
+import { TokenService } from '@services/TokenService';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,10 @@ export class DefaultLayoutComponent implements OnInit {
   public persona: PersonaModel = null;
   public company: CompanyModel = null;
 
-  constructor(private _coreService: CoreService) { }
+  constructor(
+    private _coreService: CoreService,
+    private tokenService: TokenService
+    ) { }
 
   ngOnInit(): void {
     this._coreService.getUserAuthenticated();
@@ -43,6 +47,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   logout() {
+    this.tokenService.removeToken();
     window.location.href = "/login"
   }
 

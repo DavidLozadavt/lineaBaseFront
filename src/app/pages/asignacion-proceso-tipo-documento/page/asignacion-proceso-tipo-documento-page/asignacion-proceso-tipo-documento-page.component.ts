@@ -32,6 +32,7 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   }
   ngOnInit(): void {
     this.idProceso = localStorage.getItem('idProceso') ? parseInt(localStorage.getItem('idProceso')) : 1;
+    // localStorage.removeItem('tipoDoc_select');
     this.getTipoDocumentos();
   }
 
@@ -60,18 +61,29 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   }
 
   guardarAsignacion(tipoDocumento:AsignacionProcesoTipoDocumentoModel) {
-    console.log(tipoDocumento);
-    // if (tipoDocumento.id) {
-    //   this._asignacionProcesoTDocumento.actualizarProceso(proceso).subscribe(rol => {
-    //     this.getProcesos();
-    //     this.reset();
-    //   });
-    // } else {
-    //   this._procesoService.crearProceso(proceso).subscribe(rol => {
-    //     this.getProcesos();
-    //     this.reset();
-    //   })
-    // }
+    if (tipoDocumento.id) {
+      this._asignacionProcesoTDocumento.reAsignarProcesoTipoDocumento({asignacionProcesoTipoDocumento:tipoDocumento,relations:['tipoDocumento']}).subscribe(tipoDoc => {
+        let tipoDocIndex:number = this.tipoDocumentos.findIndex(tDoc=>tDoc.id == tipoDoc.id);
+        this.tipoDocumentos[tipoDocIndex] = tipoDoc;
+        this.reset();
+      });
+    } else {
+      this._asignacionProcesoTDocumento.asignarProcesoTipoDocumento({asignacionProcesoTipoDocumento:tipoDocumento,relations:['tipoDocumento']}).subscribe(tipoDoc => {
+        this.tipoDocumentos.push(tipoDoc)
+        this.reset();
+      })
+    }
+  }
+
+  desasignar(idTipoDocumento:number){
+    console.log(idTipoDocumento);
+    this._asignacionProcesoTDocumento.desasignarTipoDocumento(idTipoDocumento).subscribe(()=>{
+      let tipoDocumentoIndex = this.tipoDocumentos.findIndex((tipoDoc)=>tipoDoc.id==idTipoDocumento);
+      this.tipoDocumentos.splice(tipoDocumentoIndex,1)
+    },
+    (error)=>{
+      console.log(error)
+    })
   }
 
   reset() {

@@ -14,7 +14,7 @@ export class ProcesoService {
   constructor(
     private _coreService: CoreService
   ) {
-    this.url='procesos/proceso'
+    this.url='procesos/proceso/'
    }
 
   public traerProcesos(data?: { relations?: string[], columns?: string[] }): Observable<ProcesoModel[] | any[]> {
@@ -52,20 +52,15 @@ export class ProcesoService {
     return this._coreService.post('permisos', idrol);
   }
 
-  crearProceso(proceso: ProcesoModel) {
-
-    proceso.nombreProceso = proceso.nombreProceso.toUpperCase();
-    proceso.descripcion = proceso.descripcion.toUpperCase();
-    return this._coreService.post<ProcesoModel>('procesos', proceso);
+  crearProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
+    return this._coreService.post<ProcesoModel>(this.url, data);
   }
 
 
   eliminarProceso(procesoId: number) {
-    return this._coreService.delete('procesos/' + procesoId);
+    return this._coreService.delete(this.url + procesoId);
   }
-  actualizarProceso(proceso: ProcesoModel) {
-    proceso.nombreProceso = proceso.nombreProceso.toUpperCase();
-    proceso.descripcion = proceso.descripcion.toUpperCase();
-    return this._coreService.put('procesos/' + proceso.id, proceso);
+  actualizarProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
+    return this._coreService.put<ProcesoModel>(this.url+ data.proceso.id,data);
   }
 }

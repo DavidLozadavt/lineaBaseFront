@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AsignarProcesoTipoDocumentoComponent } from './components/asignar-proceso-tipo-documento/asignar-proceso-tipo-documento.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComunModule } from '@components/comun.module';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ComunModule } from '@components/comun.module';
     AsignacionProcesoTipoDocumentoRoutingModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    ComunModule
+    ComunModule,
+    SweetAlert2Module.forChild()
   ]
 })
 export class AsignacionProcesoTipoDocumentoModule { }

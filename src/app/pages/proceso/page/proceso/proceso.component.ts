@@ -53,13 +53,14 @@ export class ProcesoComponent implements OnInit {
 
   guardarProceso(proceso: ProcesoModel) {
     if (proceso.id) {
-      this._procesoService.actualizarProceso(proceso).subscribe(rol => {
-        this.getProcesos();
+      this._procesoService.actualizarProceso({proceso:proceso}).subscribe(newProceso => {
+        let procesoIndex:number = this.procesos.findIndex(proceso=>proceso.id == newProceso.id);
+        this.procesos[procesoIndex] = newProceso;
         this.reset();
       });
     } else {
-      this._procesoService.crearProceso(proceso).subscribe(rol => {
-        this.getProcesos();
+      this._procesoService.crearProceso({proceso:proceso}).subscribe(newProceso => {
+        this.procesos.push(newProceso);
         this.reset();
       })
     }

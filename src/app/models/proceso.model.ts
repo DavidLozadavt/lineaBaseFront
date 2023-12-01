@@ -1,7 +1,7 @@
 import { CompanyModel } from "./company.model";
 
 export interface ProcesoModel {
-  id: number;
+  id?: number;
   nombreProceso: string;
   descripcion: string;
   idCompany:number;

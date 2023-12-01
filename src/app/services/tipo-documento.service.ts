@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class TipoDocumentoService {
 
-  private url:string = 'documentos/tipo_documento'
+  private url:string = 'documentos/tipo_documento/'
   constructor(
     private _coreService: CoreService
   ) { }
@@ -27,18 +27,16 @@ export class TipoDocumentoService {
   }
 
 
-  crearTipoDocumento(tipoDocumento: TipoDocumentoModel) {
-    tipoDocumento.tituloDocumento = tipoDocumento.tituloDocumento.toUpperCase();
-    return this._coreService.post<TipoDocumentoModel>('tipo_documentos', tipoDocumento);
+  crearTipoDocumento(data:{tipoDocumento: TipoDocumentoModel,relations?:string[],columns?:[]}) {
+    return this._coreService.post<TipoDocumentoModel>(this.url, data);
   }
 
 
   eliminarTipoDocumento(tipoDocId: number) {
-    let url=`${this.url}/${tipoDocId}`;
+    let url=`${this.url}${tipoDocId}`;
     return this._coreService.delete(url);
   }
-  actualizarTipoDocumento(tipoDocumento: TipoDocumentoModel) {
-    tipoDocumento.tituloDocumento = tipoDocumento.tituloDocumento.toUpperCase();
-    return this._coreService.put('tipo_documentos/' + tipoDocumento.id, tipoDocumento);
+  actualizarTipoDocumento(data:{tipoDocumento: TipoDocumentoModel,relations?:string[],columns?:[]}) {
+    return this._coreService.put<TipoDocumentoModel>(this.url + data.tipoDocumento.id, data);
   }
 }

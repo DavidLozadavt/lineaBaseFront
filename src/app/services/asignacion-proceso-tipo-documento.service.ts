@@ -12,7 +12,7 @@ export class AsignacionProcesoTipoDocumentoService {
   constructor(
     private _coreService:CoreService
   ) { 
-    this.url = 'procesos/tipo_documento_proceso';
+    this.url = 'procesos/tipo_documento_proceso/';
   }
 
   traerTipoDocumentos(data?:{relations?:string[],columns?:string[],idProceso?:number,idTIpoDocumento?:number}):Observable<AsignacionProcesoTipoDocumentoModel[]|any[]>{
@@ -21,5 +21,15 @@ export class AsignacionProcesoTipoDocumentoService {
     ? url
     : url+'?data_encoded='+JSON.stringify(data);
     return this._coreService.get<AsignacionProcesoTipoDocumentoModel[]|any[]>(url);
+  }
+
+  asignarProcesoTipoDocumento(data:{asignacionProcesoTipoDocumento:AsignacionProcesoTipoDocumentoModel,relations?:string[],columns?:[]}){
+    return this._coreService.post<AsignacionProcesoTipoDocumentoModel>(this.url,data);
+  }
+  reAsignarProcesoTipoDocumento(data:{asignacionProcesoTipoDocumento:AsignacionProcesoTipoDocumentoModel,relations?:string[],columns?:[]}){
+    return this._coreService.put<AsignacionProcesoTipoDocumentoModel>(this.url+data.asignacionProcesoTipoDocumento.id,data);
+  }
+  desasignarTipoDocumento(idAsignacion:number){
+    return this._coreService.delete(this.url+idAsignacion);
   }
 }

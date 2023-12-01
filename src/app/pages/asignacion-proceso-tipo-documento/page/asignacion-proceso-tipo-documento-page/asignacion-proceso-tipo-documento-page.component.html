@@ -12,14 +12,25 @@
         <table class="table table-striped table-hover table-responsive">
             <thead>
                 <tr>
+                    <th>Código</th>
                     <th>Documento</th>
                     <th>Descripción</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let tipoDocumento of tipoDocumentos | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
+                    <td>{{tipoDocumento.id}}</td>
                     <td>{{tipoDocumento.tipoDocumento.tituloDocumento}}</td>
                     <td>{{tipoDocumento.tipoDocumento.descripcion ?? 'No hay descripción disponible'}}</td>
+                    <td>
+                        <span class="badge badge-primary" style="cursor: pointer;"
+                          (click)="guardarAsignacion(tipoDocumento)">Actualizar</span>
+                        <span class="badge badge-danger" style="cursor: pointer;"
+                          [swal]="{ title: 'Desea eliminar',  showCancelButton: true }" (confirm)="desasignar(tipoDocumento.id)">
+                          Eliminar
+                        </span>
+                      </td>
                 </tr>
             </tbody>
         </table>

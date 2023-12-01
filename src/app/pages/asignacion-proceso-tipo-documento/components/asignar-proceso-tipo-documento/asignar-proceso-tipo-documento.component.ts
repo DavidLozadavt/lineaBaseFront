@@ -47,6 +47,8 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     if (!localStorage.getItem('tipoDoc_select')) {
       this.getTipoDocumentos();
     }
+    console.log(localStorage.getItem('tipoDoc_select'));
+    
     // localStorage.removeItem('tipoDoc_select');
     const tipoDocString = localStorage.getItem('tipoDoc_select');
 
@@ -80,7 +82,6 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     this._tipoDocumentos.traerTipoDocumentos({ columns: ['id', 'tituloDocumento'] })
       .subscribe(
         (tipo_documentos) => {
-          console.log(tipo_documentos[0].tituloDocumento) // <--- esto es lo que devuelve [object object]
           localStorage.setItem('tipoDoc_select',JSON.stringify(tipo_documentos));
         },
         (error: HttpErrorResponse) => {
