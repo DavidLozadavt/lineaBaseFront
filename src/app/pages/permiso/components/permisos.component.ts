@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { EmpresaModel } from '@models/empresa.model';
+import { CompanyModel } from '@models/company.model';
+// import { FuncionalidadService } from '@services/funcionalidad.service';
 import { PermisoModel } from '@models/permiso.model';
 import { RolModel } from '@models/rol.model';
-import { EmpresaService } from '@services/empresa.service';
+import { CompanyService } from '@services/company.service';
 import { MenuService } from '@services/menu.service';
 import { PermisosService } from '@services/permisos.service';
 import { RolesService } from '@services/roles.service';
@@ -19,7 +20,7 @@ import { AlertComponent } from 'ngx-bootstrap/alert/public_api';
 export class PermisosComponent implements OnInit {
   pageActual: number = 1;
   objRol: RolModel[] = [];
-  empresas: EmpresaModel[] = [];
+  empresas: CompanyModel[] = [];
   public menus: any[];
   public permisions: any[];
   public func: PermisoModel[];
@@ -31,7 +32,7 @@ export class PermisosComponent implements OnInit {
   constructor(
     private rolService: RolesService,
     private menuService: MenuService,
-    private empresaService: EmpresaService,
+    private _companyService: CompanyService,
     private formBuilder: UntypedFormBuilder,
     private permisosService: PermisosService,
     private _uiNotificationService: UINotificationService
@@ -58,7 +59,7 @@ export class PermisosComponent implements OnInit {
   }
 
   traerEmpresas() {
-    this.empresaService.traerEmpresas().subscribe((data: any) => {
+    this._companyService.traerEmpresas().subscribe((data: any) => {
       this.empresas = data;
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProcesoModel } from '@models/proceso.model';
 import { CoreService } from './core.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +9,22 @@ import { CoreService } from './core.service';
 export class ProcesoService {
   proceso: ProcesoModel;
   permisos: number;
+  url:string;
+
   constructor(
     private _coreService: CoreService
-  ) { }
+  ) {
+    this.url='procesos/proceso/'
+   }
 
-  public traerProcesos() {
-    return this._coreService.get<ProcesoModel[]>('procesos');
+  public traerProcesos(data?: { relations?: string[], columns?: string[] }): Observable<ProcesoModel[] | any[]> {
+    let url = this.url;
+    url = !data 
+    ? url
+    : url+'?data_encoded='+JSON.stringify(data);
+    return this._coreService.get<ProcesoModel[] | any[]>(url);
   }
+  
   public slider() {
     return this._coreService.get('slider');
   }
@@ -42,20 +52,15 @@ export class ProcesoService {
     return this._coreService.post('permisos', idrol);
   }
 
-  crearProceso(proceso: ProcesoModel) {
-
-    proceso.nombreProceso = proceso.nombreProceso.toUpperCase();
-    proceso.descripcion = proceso.descripcion.toUpperCase();
-    return this._coreService.post<ProcesoModel>('procesos', proceso);
+  crearProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
+    return this._coreService.post<ProcesoModel>(this.url, data);
   }
 
 
   eliminarProceso(procesoId: number) {
-    return this._coreService.delete('procesos/' + procesoId);
+    return this._coreService.delete(this.url + procesoId);
   }
-  actualizarProceso(proceso: ProcesoModel) {
-    proceso.nombreProceso = proceso.nombreProceso.toUpperCase();
-    proceso.descripcion = proceso.descripcion.toUpperCase();
-    return this._coreService.put('procesos/' + proceso.id, proceso);
+  actualizarProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
+    return this._coreService.put<ProcesoModel>(this.url+ data.proceso.id,data);
   }
 }
