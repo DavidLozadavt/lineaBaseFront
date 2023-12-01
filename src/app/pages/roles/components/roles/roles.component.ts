@@ -22,6 +22,9 @@ export class RolesComponent implements OnInit {
   formRol: UntypedFormGroup;
   objEmpresa: CompanyModel[] = [];
 
+  selectedCompanyId: number;
+  empresaFilter: string = '';
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private _companyService: CompanyService,
