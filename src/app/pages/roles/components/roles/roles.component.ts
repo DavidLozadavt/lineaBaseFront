@@ -106,4 +106,14 @@ export class RolesComponent implements OnInit {
     }
   }
 
+  // En tu componente TypeScript
+  onCompanySelected(event: any) {
+    const selectedValue = event.target.value;
+    const selectedCompanyId = this.objEmpresa.find(empresa => empresa.razonSocial === selectedValue)?.id;
+
+    // Asigna el idCompany al formulario
+    this.formRol.get('idCompany').setValue(selectedCompanyId);
+  }
+
+
 }

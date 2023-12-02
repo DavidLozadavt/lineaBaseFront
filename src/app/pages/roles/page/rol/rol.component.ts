@@ -59,6 +59,7 @@ export class RolComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success("Rol actualizado exitosamente", "Rol");
       }, (error) => {
+        console.log(error)
         this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
       });
     } else {
@@ -67,6 +68,7 @@ export class RolComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success("Rol creado exitosamente", "Rol");
       }, (error) => {
+        console.log(error)
         this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
       })
     }

@@ -21,11 +21,11 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="idCompany">Empresa</label>
         <div class="col-md-7">
-          <input class="form-control is-valid" type="text" placeholder="Filtrar empresas" [value]="empresaFilter" (input)="empresaFilter = $event.target.value" list="companies" formControlName="idCompany">
+          <input class="form-control is-valid" type="text" placeholder="Filtrar empresas" [value]="empresaFilter" (input)="onCompanySelected($event)" list="companies" formControlName="idCompany">
           <datalist id="companies">
-            <option *ngFor="let empresa of objEmpresa" [value]="empresa.razonSocial"></option>
+            <option *ngFor="let empresa of objEmpresa" [value]="empresa.razonSocial" [attr.data-id]="empresa.idCompany"></option>
           </datalist>
-          <div class="valid-feedback" *ngIf="!idCompany.hasError('required')">
+          <div class="valid-feedback" *ngIf="!formRol.get('idCompany').hasError('required')">
             Valor válido
           </div>
         </div>
@@ -33,6 +33,7 @@
           Por favor, ingrese un valor válido para la empresa.
         </div>
       </div>
+      
       
       
 <!-- 

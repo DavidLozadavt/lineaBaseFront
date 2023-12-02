@@ -92,34 +92,25 @@ export class CoreService {
 
       this.persona.next(auth.persona);
 
-      const idUserActive = {
-        "idUserActive": auth.persona.id
-      };
-
-      this.post<any>('auth/set_company', idUserActive).subscribe(permissions => {
+      this.post<any>('auth/set_company').subscribe(permissions => {
         const resultString = permissions.join(', ');
         this.permissions.next(resultString);
       });
 
-      var company = {
-        created_at: "2023-11-03T09:43:42.000000Z",
-        digitoVerificacion: 65535,
-        id: 1,
-        nit: "12132312312312",
-        principal_id: null,
-        razonSocial: "FUNDACION UNIVERSITARIA DE POPAYÁN",
-        representanteLegal: "Mr. Leonel Romaguera",
-        rutaLogo: "/default/logo.jpg",
-        rutaLogoUrl: "http://localhost:8000/default/logo.jpg",
-        updated_at: "2023-11-03T09:43:42.000000Z"
-      }
-
-      this.post<any>('auth/active_users').subscribe(companies => {
-        console.log(companies[0]);
-        this.empresa.next(company);
+      this.post<any>('auth/active_users').subscribe(responseArray => {
+        if (responseArray && responseArray.length > 0) {
+          const firstObject = responseArray[0];
+          if (firstObject && firstObject.company) {
+            const company = firstObject.company;
+            this.empresa.next(company);
+          } else {
+            console.error('La propiedad "company" no está presente en el primer objeto.');
+          }
+        } else {
+          console.error('La respuesta no contiene objetos.');
+        }
       });
 
-      // this.empresa.next(company);
     }, errs => {
       this.logout();
     });
