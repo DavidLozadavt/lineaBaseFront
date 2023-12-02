@@ -4,12 +4,10 @@ import { Router } from '@angular/router';
 import { AuthModel } from '@models/auth.model';
 import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '@models/persona.model';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { ActivationCompanyUserModel } from '../models/activation-company-user.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { TokenService } from './TokenService';
-import { PermisosService } from './permisos.service';
-import { map } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 
 const API_URL = environment.url;
 
@@ -18,6 +16,8 @@ const API_URL = environment.url;
 })
 export class CoreService {
 
+  private token: string;
+
   public persona: BehaviorSubject<PersonaModel> = new BehaviorSubject<PersonaModel>(null);
   public empresa: BehaviorSubject<CompanyModel> = new BehaviorSubject<CompanyModel>(null);
   public permissions: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -25,8 +25,7 @@ export class CoreService {
   constructor(
     private httpClient: HttpClient,
     private _router: Router,
-    private tokenService: TokenService,
-    // private permissionService: PermisosService
+    private tokenService: TokenService
   ) { }
 
   public get<T>(url: String, data: String | Object = ""): Observable<T> {
@@ -37,10 +36,9 @@ export class CoreService {
   }
 
   private getConfig() {
-
     const header = {
       'Accept': 'application/json',
-      'Authorization': `Bearer ${this.tokenService.getToken()}`
+      'Authorization': `Bearer ${this.token ?? this.tokenService.getToken()}`
     }
 
     console.log('Header ', header)
@@ -92,26 +90,41 @@ export class CoreService {
 
       this.persona.next(auth.persona);
 
-      this.post<any>('auth/set_company').subscribe(permissions => {
-        const resultString = permissions.join(', ');
-        this.permissions.next(resultString);
-      });
+      this.post<any>('auth/set_company').subscribe(
+        response => {
+          this.tokenService.updateToken(response.new_token);
+          this.token = this.tokenService.getToken();
+          console.log('NEW TOKEN: ', this.tokenService.getToken());
+          const permissions = response.payload.permissions;
+          console.log('permissions ', permissions);
+          const resultString = permissions.join(', ');
+          this.permissions.next(resultString);
+        },
+        error => {
+          console.error('Error al actualizar permisos:', error);
+        }
+      );
 
-      this.post<any>('auth/active_users').subscribe(responseArray => {
-        if (responseArray && responseArray.length > 0) {
-          const firstObject = responseArray[0];
+
+      this.post<any>('auth/active_users').pipe(
+        tap(responseArray => console.log('New data ', responseArray)),
+        map(responseArray => responseArray && responseArray.length > 0 ? responseArray[0] : null),
+        tap(firstObject => {
           if (firstObject && firstObject.company) {
             const company = firstObject.company;
             this.empresa.next(company);
           } else {
             console.error('La propiedad "company" no está presente en el primer objeto.');
           }
-        } else {
-          console.error('La respuesta no contiene objetos.');
-        }
-      });
+        }),
+        catchError(error => {
+          console.error('Error al obtener datos de usuarios activos:', error);
+          return [];
+        })
+      ).subscribe();
 
-    }, errs => {
+    }, (error) => {
+      console.log('AUTH ERROR: ', error)
       this.logout();
     });
   }

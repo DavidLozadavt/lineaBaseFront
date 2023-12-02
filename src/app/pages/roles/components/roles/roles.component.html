@@ -23,7 +23,7 @@
         <div class="col-md-7">
           <input class="form-control is-valid" type="text" placeholder="Filtrar empresas" [value]="empresaFilter" (input)="onCompanySelected($event)" list="companies" formControlName="idCompany">
           <datalist id="companies">
-            <option *ngFor="let empresa of objEmpresa" [value]="empresa.razonSocial" [attr.data-id]="empresa.idCompany"></option>
+            <option *ngFor="let empresa of objEmpresa" [value]="empresa.id" [attr.data-id]="empresa.razonSocial"></option>
           </datalist>
           <div class="valid-feedback" *ngIf="!formRol.get('idCompany').hasError('required')">
             Valor válido
