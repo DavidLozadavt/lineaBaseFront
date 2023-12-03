@@ -1,18 +1,14 @@
 <div class="modal-body">
   <div class="card-header">
-    <strong>Registrar Rol</strong>
+    <strong>Registrar rol</strong>
   </div>
   <div class="card-body">
     <form class="rolFormulario" [formGroup]="formRol" class="was-validated" novalidate>
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="name">Nombre Rol</label>
+        <label class="col-md-4 col-form-label" for="name">Nombre rol</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese el nombre del rol"
-            class="form-control is-valid"
-            formControlName='name'>
+          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
+            placeholder="Ingrese el nombre del rol" class="form-control is-valid" formControlName='name'>
           <div class="valid-feedback" *ngIf="!nombreRolField.hasError('required')">
             Valor válido
           </div>
@@ -21,34 +17,52 @@
           por favor ingresé un valor válido para el nombre del rol
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="idCompany">Empresa</label>
         <div class="col-md-7">
-          <select class="form-control is-valid" formControlName='idCompany'>
-            <option [ngValue]="null">Seleccionar empresa</option>
-            <option *ngFor='let emp of objEmpresa' [ngValue]="emp.id">{{emp.razonSocial}}</option>
+          <input class="form-control is-valid" type="text" placeholder="Filtrar empresas" [value]="empresaFilter" (input)="onCompanySelected($event)" list="companies" formControlName="idCompany">
+          <datalist id="companies">
+            <option *ngFor="let empresa of objEmpresa" [value]="empresa.id" [attr.data-id]="empresa.razonSocial"></option>
+          </datalist>
+          <div class="valid-feedback" *ngIf="!formRol.get('idCompany').hasError('required')">
+            Valor válido
+          </div>
+        </div>
+        <div class="invalid-feedback">
+          Por favor, ingrese un valor válido para la empresa.
+        </div>
+      </div>
+      
+      
+      
+<!-- 
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="idCompany">Empresa</label>
+        <div class="col-md-7">
+          <input type="text" placeholder="Filtrar empresas" [value]="empresaFilter"
+            (input)="empresaFilter = $event.target.value">
+          <select class="form-control is-valid" formControlName="idCompany" [ngModel]="selectedCompanyId" ng2Search>
+            <option value="" disabled selected>Seleccionar empresa</option>
+            <option *ngFor="let emp of objEmpresa | filter: empresaFilter" [ngValue]="emp.id">{{emp.razonSocial}}
+            </option>
           </select>
           <div class="valid-feedback" *ngIf="!idCompany.hasError('required')">
             Valor válido
           </div>
         </div>
         <div class="invalid-feedback">
-          por favor ingresé un valor válido para la empresa
+          Por favor, ingrese un valor válido para la empresa.
         </div>
-      </div>
+      </div> -->
+
+
     </form>
     <div class="card-footer">
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary"
-        (click)="guardarRol()"
-        [disabled]="formRol.invalid">
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarRol()" [disabled]="formRol.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
-      <button
-        type="reset"
-        class="btn btn-sm btn-danger"
-        (click)="closeModal()">
+      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
         <i class="fa fa-ban"></i>
         Cancelar
       </button>

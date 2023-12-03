@@ -78,7 +78,6 @@ export class UsuarioComponent implements OnInit {
       this.getUsuarios();
       this.showModalAsignacion = false;
       this._uiNotificationService.success('Se guardo la configuración exitosamente ');
-      // window.location.reload();
     }, (error) => {
       console.log(error)
       this._uiNotificationService.error('Error al guardar');
@@ -98,7 +97,7 @@ export class UsuarioComponent implements OnInit {
         this.reset();
       });
     } else {
-      this._usuarioService.crearUsuario(usuario).subscribe(usuario => {
+      this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
       })

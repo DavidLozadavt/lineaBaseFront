@@ -36,6 +36,9 @@ export class RolComponent implements OnInit {
   eliminarRol(rolId: number) {
     this._rolService.eliminarRol(rolId).subscribe(() => {
       this.getRoles();
+      this._uiNotificationService.success("Rol eliminado exitosamente", "Rol");
+    }, (error) => {
+      this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
     })
   }
 
@@ -44,7 +47,7 @@ export class RolComponent implements OnInit {
     this.showModalRol = true;
   }
 
-  createRol(){
+  createRol() {
     this.rol = null;
     this.showModalRol = true;
   }
@@ -54,11 +57,19 @@ export class RolComponent implements OnInit {
       this._rolService.actualizarRol(rol).subscribe(rol => {
         this.getRoles();
         this.reset();
+        this._uiNotificationService.success("Rol actualizado exitosamente", "Rol");
+      }, (error) => {
+        console.log(error)
+        this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
       });
     } else {
       this._rolService.crearRol(rol).subscribe(rol => {
         this.getRoles();
         this.reset();
+        this._uiNotificationService.success("Rol creado exitosamente", "Rol");
+      }, (error) => {
+        console.log(error)
+        this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
       })
     }
   }

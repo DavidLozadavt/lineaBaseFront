@@ -22,6 +22,9 @@ export class RolesComponent implements OnInit {
   formRol: UntypedFormGroup;
   objEmpresa: CompanyModel[] = [];
 
+  selectedCompanyId: number;
+  empresaFilter: string = '';
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private _companyService: CompanyService,
@@ -102,5 +105,15 @@ export class RolesComponent implements OnInit {
       name: this.getControl('name').value
     }
   }
+
+  // En tu componente TypeScript
+  onCompanySelected(event: any) {
+    const selectedValue = event.target.value;
+    const selectedCompanyId = this.objEmpresa.find(empresa => empresa.razonSocial === selectedValue)?.id;
+
+    // Asigna el idCompany al formulario
+    this.formRol.get('idCompany').setValue(selectedCompanyId);
+  }
+
 
 }

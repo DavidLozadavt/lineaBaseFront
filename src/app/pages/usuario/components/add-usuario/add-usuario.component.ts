@@ -70,6 +70,7 @@ export class AddUsuarioComponent implements OnInit {
       id: [0],
       email: ['', [Validators.required]],
       contrasena: ['', [Validators.required]],
+      identificacion: ['', [Validators.required]],
       nombre1: ['', [Validators.required]],
       nombre2: ['',],
       apellido1: ['', [Validators.required]],
@@ -93,7 +94,6 @@ export class AddUsuarioComponent implements OnInit {
     var contrasena = document.getElementById('contrasena')['value'];
     var contrasenaConfirm = document.getElementById('confirmContrasena')['value'];
     if (contrasena == contrasenaConfirm) {
-
       this.store.emit(this.getUsuario());
     } else {
       this._uiNotificationService.error("Las contraseñas no coinciden");
@@ -113,6 +113,7 @@ export class AddUsuarioComponent implements OnInit {
       id: this.usuario?.id,
       email: this.getControl('email').value,
       contrasena: this.getControl('contrasena').value,
+      identificacion: this.getControl('identificacion').value,
       nombre1: this.getControl('nombre1').value,
       nombre2: this.getControl('nombre2').value,
       apellido1: this.getControl('apellido1').value,
@@ -140,18 +141,27 @@ export class AddUsuarioComponent implements OnInit {
   get contrasenaField() {
     return this.formUsuario.get('contrasena');
   }
+
   get nombre1Field() {
     return this.formUsuario.get('nombre1');
   }
+
+  get identificacionField() {
+    return this.formUsuario.get('identificacion');
+  }
+
   get nombre2Field() {
     return this.formUsuario.get('nombre2');
   }
+
   get apellido1Field() {
     return this.formUsuario.get('apellido1');
   }
+
   get apellido2Field() {
     return this.formUsuario.get('apellido2');
   }
+
   get fechaNacField() {
     return this.formUsuario.get('fechaNac');
   }
@@ -159,6 +169,5 @@ export class AddUsuarioComponent implements OnInit {
   get celularField() {
     return this.formUsuario.get('celular');
   }
-
 
 }

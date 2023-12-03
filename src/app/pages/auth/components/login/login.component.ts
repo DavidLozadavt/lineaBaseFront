@@ -14,6 +14,9 @@ const KEY_CODE_ENTER = 13;
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  private token: string = '';
+
   formLogin: UntypedFormGroup;
 
   activationCompanyUsers: ActivationCompanyUserModel[] = [];
@@ -50,13 +53,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  selectCompany(idActivationUser: number) {
-    console.log(idActivationUser);
-    var data = {
-      "idUserActive":1
-    };
-    this._coreService.post<any>('auth/set_company', data).subscribe(res => {
-      console.log('one ' + res)
+  selectCompany() {
+    this._coreService.post<any>('auth/set_company').subscribe(res => {
+      console.log('one ' + res.payload.permissions)
+      this.tokenService.updateToken(res.new_token);
       this.router.navigate(['dashboard']);
     });
   }
@@ -68,18 +68,8 @@ export class LoginComponent implements OnInit {
         this.formLogin.get('password').value,
         (response: ActivationCompanyUserModel[]) => {
           console.log('two ', response);
-          this.selectCompany(1);
-          this._uiNotificationService.success("Inicio de session correcto");
-          /*this._uiNotificationService.clearAll();
-          if (response.length < 1) {
-            this._uiNotificationService.error('No tiene un perfil activo');
-          } else if (response.length === 1) {
-            this.selectCompany(1);
-            this._uiNotificationService.success("Inicio de session correcto");
-          } else if (response.length > 1) {
-            this.activationCompanyUsers = response;
-            this._uiNotificationService.success("Inicio de session correcto");
-          }*/
+          this.selectCompany();
+          this._uiNotificationService.success("Inicio de sesión correcto");
         },
         (e) => {
           if (e.status == 401 || e.status == 400) {
