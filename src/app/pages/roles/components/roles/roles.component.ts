@@ -58,9 +58,9 @@ export class RolesComponent implements OnInit {
     return this.formRol.get('name');
   }
 
-  get idCompany() {
-    return this.formRol.get('idCompany');
-  }
+  // get idCompany() {
+  //   return this.formRol.get('idCompany');
+  // }
 
   setRol() {
     if (this.rol) {
@@ -75,7 +75,7 @@ export class RolesComponent implements OnInit {
     this.formRol = this.formBuilder.group({
       id: [0],
       name: ['', [Validators.required]],
-      idCompany: ['', [Validators.required]],
+      // idCompany: ['', [Validators.required]],
     });
 
     this.formRol.valueChanges
