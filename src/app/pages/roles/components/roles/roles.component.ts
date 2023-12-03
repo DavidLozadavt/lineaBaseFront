@@ -69,7 +69,7 @@ export class RolesComponent implements OnInit {
   private buildForm() {
     this.formRol = this.formBuilder.group({
       id: [0],
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formRol.valueChanges
