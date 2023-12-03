@@ -40,28 +40,10 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // if(!localStorage.getItem('proceso_select')){
 
-    // }
-    // this.proceso_select = JSON.parse(localStorage.getItem('proceso_select'));
-    if (!localStorage.getItem('tipoDoc_select')) {
-      this.getTipoDocumentos();
-    }
-    console.log(localStorage.getItem('tipoDoc_select'));
+    this.getTipoDocumentos();
+
     
-    // localStorage.removeItem('tipoDoc_select');
-    const tipoDocString = localStorage.getItem('tipoDoc_select');
-
-  // Verifica que la cadena sea válida antes de intentar analizarla
-  if (tipoDocString) {
-    try {
-      this.tipoDoc_select = JSON.parse(tipoDocString);
-    } catch (error) {
-      console.error('Error al analizar JSON:', error);
-      console.log(tipoDocString);
-      // Puedes manejar el error de la manera que prefieras
-    }
-  }
     this.setProcesoTipoDocumento();
   }
 
@@ -82,7 +64,8 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     this._tipoDocumentos.traerTipoDocumentos({ columns: ['id', 'tituloDocumento'] })
       .subscribe(
         (tipo_documentos) => {
-          localStorage.setItem('tipoDoc_select',JSON.stringify(tipo_documentos));
+          // localStorage.setItem('tipoDoc_select',JSON.stringify(tipo_documentos));
+          this.tipoDoc_select = tipo_documentos;
         },
         (error: HttpErrorResponse) => {
           this._uiNotificationService.error(error.error.message);
@@ -103,11 +86,11 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
       });
   }
 
-  asignarTipoDocumento(){
+  asignarTipoDocumento() {
     this.store.emit(this.getProcesoTipoDocumento())
   }
 
-  closeModal(){
+  closeModal() {
     this.cancel.emit();
   }
 

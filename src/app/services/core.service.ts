@@ -10,6 +10,7 @@ import { environment } from './../../environments/environment';
 import { TokenService } from './TokenService';
 import { PermisosService } from './permisos.service';
 import { map } from 'rxjs/operators';
+import { UsuarioModel } from '@models/usuario.model';
 
 const API_URL = environment.url;
 
@@ -89,13 +90,13 @@ export class CoreService {
 
 
   public getUserAuthenticated() {
-    this.post<AuthModel>('auth/user').subscribe(auth => {
+    this.post<UsuarioModel>('auth/user').subscribe(auth => {
       console.log('AUTH ', auth.persona)
 
       this.persona.next(auth.persona);
 
       const idUserActive = {
-        "idUserActive": auth.persona.id
+        "idUserActive": 1
       };
 
       this.post<any>('auth/set_company', idUserActive).subscribe(permissions => {

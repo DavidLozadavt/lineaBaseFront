@@ -1,3 +1,4 @@
+import { PersonaModel } from "./persona.model";
 import { RolModel } from "./rol.model";
 
 export interface UsuarioModel {
@@ -5,5 +6,6 @@ export interface UsuarioModel {
   email: string;
   contrasena: string;
   idCompany?: number;
+  persona?:PersonaModel;
   roles?: RolModel[];
 }
