@@ -4,5 +4,5 @@ export interface RolModel {
   guard_name?: string;
 
   name: string;
-  idCompany: number;
+  idCompany?: number;
 }

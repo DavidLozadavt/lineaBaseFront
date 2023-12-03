@@ -35,7 +35,6 @@ export class RolesComponent implements OnInit {
       name: '',
       guard_name: '',
       idCompany: null
-
     };
     this.buildForm();
   }
@@ -58,10 +57,6 @@ export class RolesComponent implements OnInit {
     return this.formRol.get('name');
   }
 
-  // get idCompany() {
-  //   return this.formRol.get('idCompany');
-  // }
-
   setRol() {
     if (this.rol) {
       this.formRol.patchValue({
@@ -75,7 +70,6 @@ export class RolesComponent implements OnInit {
     this.formRol = this.formBuilder.group({
       id: [0],
       name: ['', [Validators.required]],
-      // idCompany: ['', [Validators.required]],
     });
 
     this.formRol.valueChanges
@@ -101,19 +95,8 @@ export class RolesComponent implements OnInit {
   getRol(): RolModel {
     return {
       id: this.rol?.id,
-      idCompany: this.getControl('idCompany').value,
       name: this.getControl('name').value
     }
   }
-
-  // En tu componente TypeScript
-  onCompanySelected(event: any) {
-    const selectedValue = event.target.value;
-    const selectedCompanyId = this.objEmpresa.find(empresa => empresa.razonSocial === selectedValue)?.id;
-
-    // Asigna el idCompany al formulario
-    this.formRol.get('idCompany').setValue(selectedCompanyId);
-  }
-
 
 }
