@@ -3,9 +3,9 @@ import { RolModel } from './rol.model';
 
 export interface ActivationCompanyUserModel {
   id?: number;
-  user_id: number;
-  state_id: number;
-  company_id: number;
+  idUser: number;
+  idEstado: number;
+  idCompany: number;
   fechaInicio: string;
   fechaFin: string;
   created_at?: string;

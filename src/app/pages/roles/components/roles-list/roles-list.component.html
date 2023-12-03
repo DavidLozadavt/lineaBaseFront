@@ -1,7 +1,7 @@
 <div class="div-principal col-lg-12 grid-margin stretch-card">
   <div class="card">
     <div class="card-header">
-      <i class="fa fa-align-justify"></i> Roles Registrados
+      <i class="fa fa-align-justify"></i> Roles registrados
       <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event.target.value) ">
         <option>10</option>
         <option>15</option>
@@ -15,7 +15,7 @@
           <thead>
             <tr class="table-info">
               <th>Código</th>
-              <th>Nombre Rol</th>
+              <th>Nombre rol</th>
               <th>Empresa</th>
               <th>Acciones</th>
           </thead>
@@ -31,7 +31,7 @@
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  [swal]="{ title: '¿De seguro deseas eliminar el rol ' + rol.name + '?',  showCancelButton: true }"
                   (confirm)="eliminar(rol.id)">
                   Eliminar
                 </span>

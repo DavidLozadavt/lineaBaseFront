@@ -75,7 +75,7 @@
 
 
     <div class="col-6 form-group">
-        <label>Departamento Actual</label>
+        <label>Departamento actual</label>
         <select class="form-control" [ngModel]="persona.ciudadUbicacion?.departamento"
             [compareWith]="compareDepartamento" (ngModelChange)="changeDepatamentoCiudadUbicacion($event)">
             <option [ngValue]="null">[ Seleccioné un departamento]</option>
@@ -84,7 +84,7 @@
         </select>
     </div>
     <div class="col-6 form-group">
-        <label>Ciudad Actual</label>
+        <label>Ciudad actual</label>
         <select class="form-control" name="ciudad" [(ngModel)]="persona.ciudadUbicacion"
             [disabled]="ciudadesUbicacion.length<1" [compareWith]="compareCiudad">
             <option [ngValue]="ciudadInitial">[ Seleccioné una ciudad]</option>

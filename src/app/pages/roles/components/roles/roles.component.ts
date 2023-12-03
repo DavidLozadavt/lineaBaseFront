@@ -22,6 +22,9 @@ export class RolesComponent implements OnInit {
   formRol: UntypedFormGroup;
   objEmpresa: CompanyModel[] = [];
 
+  selectedCompanyId: number;
+  empresaFilter: string = '';
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private _companyService: CompanyService,
@@ -32,7 +35,6 @@ export class RolesComponent implements OnInit {
       name: '',
       guard_name: '',
       idCompany: null
-
     };
     this.buildForm();
   }
@@ -55,10 +57,6 @@ export class RolesComponent implements OnInit {
     return this.formRol.get('name');
   }
 
-  get idCompany() {
-    return this.formRol.get('idCompany');
-  }
-
   setRol() {
     if (this.rol) {
       this.formRol.patchValue({
@@ -71,8 +69,7 @@ export class RolesComponent implements OnInit {
   private buildForm() {
     this.formRol = this.formBuilder.group({
       id: [0],
-      name: ['', [Validators.required]],
-      idCompany: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formRol.valueChanges
@@ -98,7 +95,6 @@ export class RolesComponent implements OnInit {
   getRol(): RolModel {
     return {
       id: this.rol?.id,
-      idCompany: this.getControl('idCompany').value,
       name: this.getControl('name').value
     }
   }

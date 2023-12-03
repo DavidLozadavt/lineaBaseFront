@@ -13,7 +13,7 @@ export class RolesService {
   ) { }
 
   public traerRol() {
-    return this._coreService.get<RolModel[]>('roles');
+    return this._coreService.get<RolModel[]>('roles/roles');
   }
 
 
@@ -21,29 +21,30 @@ export class RolesService {
   public rolBynombre(nombre: string) {
     let name = nombre.toUpperCase();
 
-    return this._coreService.get('virtualt/roles?nombre=' + name);
+    return this._coreService.get('roles/virtualt/roles?nombre=' + name);
 
   }
 
   public rolByCompany(id: number) {
 
-    return this._coreService.get('roles?company=' + id);
+    return this._coreService.get('roles/roles?company=' + id);
 
   }
 
 
   crearRol(rol: RolModel) {
+    console.log('create role ', rol);
     rol.name = rol.name.toUpperCase();
-    return this._coreService.post<RolModel>('roles', rol);
+    return this._coreService.post<RolModel>('roles/roles', rol);
   }
 
 
   eliminarRol(rolId: number) {
     // const url = `${this.path}/${todoId}`;
-    return this._coreService.delete('roles/' + rolId);
+    return this._coreService.delete('roles/roles/' + rolId);
   }
   actualizarRol(rol: RolModel) {
     rol.name = rol.name.toUpperCase();
-    return this._coreService.put('roles/' + rol.id, rol);
+    return this._coreService.put('roles/roles/' + rol.id, rol);
   }
 }
