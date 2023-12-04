@@ -3,28 +3,33 @@
         <strong>Asignar tipo de documento</strong>
     </div>
     <div class="card-body">
-        <form class="procesoFormulario" [formGroup]="formTipoDocumento" class="was-validated" novalidate>
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label" for="name">Tipo de documento</label>
-                <div class="col-md-7">
-                    <select class="form-control is-invalid" formControlName="idTipoDocumento">
-                        <option [value]="0" [defaultSelected]="0">Seleccione un tipo de documento</option>
-                        <option [value]="tipoDoc.id" *ngFor="let tipoDoc of tipoDoc_select">
-                            {{tipoDoc.tituloDocumento}}
-                        </option>
-                    </select>
-                    <div class="valid-feedback" *ngIf="!idTipoDocumentoField.hasError('required')">
-                        Valor válido
-                    </div>
-                </div>
-                <div class="invalid-feedback">
-                    por favor ingresé un valor válido para el nombre del proceso
-                </div>
-            </div>
-        </form>
+
+        <table class="table" *ngIf="tipoDocs.length;else emptyTipoDocs">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Tipo de Documento</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tipoDoc of tipoDocs; let index = index">
+                    <td>{{tipoDoc.id}}</td>
+                    <td>{{tipoDoc.tituloDocumento}}</td>
+                    <td>{{tipoDoc.descripcion ?? 'No hay descripción disponible'}}</td>
+                    <td>
+                        <app-custom-switch (checkedChange)="selectTipoDocumento($event,tipoDoc.id)" [size]="8">
+                        </app-custom-switch>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ng-template #emptyTipoDocs>
+            <p>No hay tipos de documentos disponibles para asignar</p>
+        </ng-template>
         <div class="card-footer">
-            <button type="submit" class="btn btn-sm btn-primary" (click)="asignarTipoDocumento()"
-                [disabled]="formTipoDocumento.invalid">
+            <button type="submit" class="btn btn-sm btn-primary" (click)="getProcesoTipoDocumentos()">
                 <i class="fa fa-dot-circle-o"></i> Aceptar
             </button>
             <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">

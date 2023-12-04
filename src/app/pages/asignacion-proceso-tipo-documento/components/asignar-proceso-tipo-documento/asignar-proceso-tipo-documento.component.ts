@@ -1,11 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AsignacionProcesoTipoDocumentoModel } from '@models/asignacion-proceso-tipo-documento';
-// import { ProcesoService } from '@services/proceso.service';
+import { TipoDocumentoModel } from '@models/tipo-documento.model';
 import { TipoDocumentoService } from '@services/tipo-documento.service';
 import { UINotificationService } from '@services/uinotification.service';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-asignar-proceso-tipo-documento',
@@ -14,95 +12,63 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AsignarProcesoTipoDocumentoComponent implements OnInit {
 
-  @Input() procesoTipoDocumento: AsignacionProcesoTipoDocumentoModel;//actualizar
 
-
-  @Output() store: EventEmitter<AsignacionProcesoTipoDocumentoModel> = new EventEmitter();
+  @Output() store: EventEmitter<AsignacionProcesoTipoDocumentoModel[]> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
-  formTipoDocumento: UntypedFormGroup;
-  // proceso_select:any[];
-  tipoDoc_select: any[];
+  idProceso: number;
+  tipoDocs: TipoDocumentoModel[];
+  tipoDoc_selected: AsignacionProcesoTipoDocumentoModel[];
 
   constructor(
-    // private _procesoService:ProcesoService,
     private _uiNotificationService: UINotificationService,
     private _tipoDocumentos: TipoDocumentoService,
-    private formBuilder: UntypedFormBuilder
   ) {
-    this.procesoTipoDocumento = {
-      idProceso: parseInt(localStorage.getItem('idProceso')) ?? 1,
-      idTipoDocumento: 0
-    }
-    // this.proceso_select = [];
-    this.tipoDoc_select = [];
-    this.buildForm();
+    this.idProceso = 1;
+    this.tipoDocs = [];
+    this.tipoDoc_selected = [];
   }
 
   ngOnInit(): void {
-
+    this.tipoDocs = [];
+    this.tipoDoc_selected = [];
+    this.idProceso = parseInt(localStorage.getItem('idProceso') ?? '1');
     this.getTipoDocumentos();
-
-    
-    this.setProcesoTipoDocumento();
   }
 
-  get idTipoDocumentoField() {
-    return this.formTipoDocumento.get('idTipoDocumento');
-  }
-
-
-  setProcesoTipoDocumento() {
-    if (this.procesoTipoDocumento) {
-      this.formTipoDocumento.patchValue({
-        idTipoDocumento: this.procesoTipoDocumento.idTipoDocumento
-      })
-    }
-  }
 
   getTipoDocumentos() {
-    this._tipoDocumentos.traerTipoDocumentos({ columns: ['id', 'tituloDocumento'] })
+    console.log(this.idProceso);
+    this._tipoDocumentos.traerTipoDocumentos({ idProceso: this.idProceso })
       .subscribe(
         (tipo_documentos) => {
-          // localStorage.setItem('tipoDoc_select',JSON.stringify(tipo_documentos));
-          this.tipoDoc_select = tipo_documentos;
+          console.log(tipo_documentos);
+          this.tipoDocs = tipo_documentos as TipoDocumentoModel[];
         },
         (error: HttpErrorResponse) => {
           this._uiNotificationService.error(error.error.message);
-        })
-  }
-
-  private buildForm() {
-    this.formTipoDocumento = this.formBuilder.group({
-      id: [0],
-      idTipoDocumento: [0, [Validators.required]],
-    });
-
-    this.formTipoDocumento.valueChanges
-      .pipe(
-        debounceTime(350),
-      ).subscribe(data => {
-        console.log(data);
-      });
-  }
-
-  asignarTipoDocumento() {
-    this.store.emit(this.getProcesoTipoDocumento())
+        });
   }
 
   closeModal() {
     this.cancel.emit();
   }
 
-  private getControl(controlName: string) {
-    return this.formTipoDocumento.controls[controlName];
+  selectTipoDocumento(event:boolean,idTipoDoc:number){
+    if(event){
+      this.tipoDoc_selected.push({
+        idProceso:this.idProceso,
+        idTipoDocumento:idTipoDoc
+      });
+    }else{
+      let index:number = this.tipoDoc_selected.findIndex((tipoDoc)=>tipoDoc.idTipoDocumento == idTipoDoc);
+      this.tipoDoc_selected.splice(index,1);
+    }
+    console.log(this.tipoDoc_selected);
+    
   }
 
-  private getProcesoTipoDocumento(): AsignacionProcesoTipoDocumentoModel {
-    return {
-      id: this.procesoTipoDocumento?.id,
-      idProceso: parseInt(localStorage.getItem('idProceso')) ?? 1,
-      idTipoDocumento: parseInt(this.getControl('idTipoDocumento').value),
-    }
+  getProcesoTipoDocumentos(): void  {
+    this.store.emit(this.tipoDoc_selected);
   }
 }

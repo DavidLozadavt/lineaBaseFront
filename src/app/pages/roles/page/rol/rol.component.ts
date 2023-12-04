@@ -29,6 +29,8 @@ export class RolComponent implements OnInit {
       .subscribe(roles => {
         this.roles = roles;
       }, error => {
+        console.log(error);
+        
         this._uiNotificationService.error("Error de conexión");
       });
   }

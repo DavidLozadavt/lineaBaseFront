@@ -71,8 +71,9 @@ export class ProcesoComponent implements OnInit {
     this.showModalProceso = false;
   }
 
-  vistaDocumentos(idProceso:number){
-    localStorage.setItem('idProceso',idProceso.toString());
+  vistaDocumentos(proceso:ProcesoModel){
+    localStorage.setItem('nombreProceso',proceso.nombreProceso);
+    localStorage.setItem('idProceso',proceso.id.toString());
     this.router.navigate(['/asignacion_proceso_tipo_documento']);
   }
 }

@@ -18,7 +18,7 @@ export class TipoDocumentoService {
 
   }
 
-  public traerTipoDocumentos(data?: { relations?: string[], columns?: string[] }): Observable<TipoDocumentoModel[] | any[]> {
+  public traerTipoDocumentos(data?: { relations?: string[], columns?: string[],idProceso?:number }): Observable<TipoDocumentoModel[] | any[]> {
     let url = this.url;
     url = !data 
     ? url
