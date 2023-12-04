@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { CompanyModel } from '@models/company.model';
 import { RolModel } from '@models/rol.model';
-import { CompanyService } from '@services/company.service';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-roles',
@@ -20,46 +16,49 @@ export class RolesComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   formRol: UntypedFormGroup;
-  objEmpresa: CompanyModel[] = [];
 
   selectedCompanyId: number;
   empresaFilter: string = '';
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private _companyService: CompanyService,
-    private _uiNotificationService: UINotificationService
   ) {
     this.rol = {
       id: null,
       name: '',
       guard_name: '',
       idCompany: null
-
     };
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.traerEmpresas();
     this.setRol()
-  }
-
-  traerEmpresas() {
-    this._companyService.traerEmpresas()
-      .subscribe((empresa: CompanyModel[]) => {
-        this.objEmpresa = empresa;
-      }, error => {
-        this._uiNotificationService.error('Error de conexión');
-      });
   }
 
   get nombreRolField() {
     return this.formRol.get('name');
   }
 
-  get idCompany() {
-    return this.formRol.get('idCompany');
+  isNameValid(): boolean {
+    const nameControl = this.nombreRolField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
+
+  isNameInvalid(): boolean {
+    const nameControl = this.nombreRolField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onNameInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formRol.get('name').setValue(inputValue);
   }
 
   setRol() {
@@ -74,8 +73,7 @@ export class RolesComponent implements OnInit {
   private buildForm() {
     this.formRol = this.formBuilder.group({
       id: [0],
-      name: ['', [Validators.required]],
-      idCompany: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formRol.valueChanges
@@ -101,19 +99,8 @@ export class RolesComponent implements OnInit {
   getRol(): RolModel {
     return {
       id: this.rol?.id,
-      idCompany: this.getControl('idCompany').value,
       name: this.getControl('name').value
     }
   }
-
-  // En tu componente TypeScript
-  onCompanySelected(event: any) {
-    const selectedValue = event.target.value;
-    const selectedCompanyId = this.objEmpresa.find(empresa => empresa.razonSocial === selectedValue)?.id;
-
-    // Asigna el idCompany al formulario
-    this.formRol.get('idCompany').setValue(selectedCompanyId);
-  }
-
 
 }
