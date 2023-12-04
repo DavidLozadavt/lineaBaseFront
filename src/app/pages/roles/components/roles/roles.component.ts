@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { RolModel } from '@models/rol.model';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -23,7 +22,6 @@ export class RolesComponent implements OnInit {
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private _uiNotificationService: UINotificationService
   ) {
     this.rol = {
       id: null,
@@ -40,6 +38,27 @@ export class RolesComponent implements OnInit {
 
   get nombreRolField() {
     return this.formRol.get('name');
+  }
+
+  isNameValid(): boolean {
+    const nameControl = this.nombreRolField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
+
+  isNameInvalid(): boolean {
+    const nameControl = this.nombreRolField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onNameInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formRol.get('name').setValue(inputValue);
   }
 
   setRol() {

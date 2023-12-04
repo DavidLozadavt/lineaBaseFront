@@ -3,18 +3,20 @@
     <strong>Registrar rol</strong>
   </div>
   <div class="card-body">
+
     <form class="rolFormulario" [formGroup]="formRol" class="was-validated" novalidate>
 
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="name">Nombre rol</label>
         <div class="col-md-7">
-          <input type="text" placeholder="Ingrese el nombre del rol" class="form-control is-valid" formControlName='name' required>
-          <div class="valid-feedback" *ngIf="!nombreRolField.hasError('required')">
+          <input type="text" placeholder="Ingrese el nombre del rol" class="form-control is-valid"
+            formControlName='name' [ngClass]="{'is-invalid': isNameInvalid()}" (input)="onNameInputChange($event)">
+          <div *ngIf="isNameValid()" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          Por favor ingrese un valor válido para el nombre del rol (sin caracteres especiales ni números).
+          <div *ngIf="isNameInvalid()" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+          </div>
         </div>
       </div>
 
