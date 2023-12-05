@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TipoPagoModel } from '@models/tipo-pago.model';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -11,7 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AddTipoPagoComponent implements OnInit {
 
-  @Input() tipoPago: TipoPagoModel;//actualizar
+  @Input() tipoPago: TipoPagoModel;
 
   @Output() store: EventEmitter<TipoPagoModel> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -19,8 +18,7 @@ export class AddTipoPagoComponent implements OnInit {
   formTipoPago: UntypedFormGroup;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private _uiNotificationService: UINotificationService
+    private formBuilder: UntypedFormBuilder
   ) {
     this.tipoPago = {
       id: null,
@@ -31,16 +29,34 @@ export class AddTipoPagoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.setTipoPago()
   }
-
 
   get detalleTipoPagoField() {
     return this.formTipoPago.get('detalleTipoPago');
   }
 
+  
+  isNameValid(): boolean {
+    const nameControl = this.detalleTipoPagoField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
 
+  isNameInvalid(): boolean {
+    const nameControl = this.detalleTipoPagoField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onNameInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formTipoPago.get('detalleTipoPago').setValue(inputValue);
+  }
 
   setTipoPago() {
     if (this.tipoPago) {
@@ -53,7 +69,7 @@ export class AddTipoPagoComponent implements OnInit {
   private buildForm() {
     this.formTipoPago = this.formBuilder.group({
       id: [0],
-      detalleTipoPago: ['', [Validators.required]]
+      detalleTipoPago: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formTipoPago.valueChanges
