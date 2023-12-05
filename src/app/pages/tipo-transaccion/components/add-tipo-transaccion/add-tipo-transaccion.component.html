@@ -3,6 +3,7 @@
     <strong>Registrar tipo transacción</strong>
   </div>
   <div class="card-body">
+    
     <form class="tipoTFormulario" [formGroup]="formTipoT" class="was-validated" novalidate>
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
@@ -21,6 +22,22 @@
           por favor ingresé un valor válido para el nombre del proceso
         </div>
       </div>
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
+        <div class="col-md-7">
+          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control is-valid"
+            formControlName='detalle' [ngClass]="{'is-invalid': isNameInvalid()}"
+            (input)="onNameInputChange($event)" required>
+          <div *ngIf="isNameValid()" class="valid-feedback">
+            Valor válido
+          </div>
+          <div *ngIf="isNameInvalid()" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+          </div>
+        </div>
+      </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
         <div class="col-md-7">

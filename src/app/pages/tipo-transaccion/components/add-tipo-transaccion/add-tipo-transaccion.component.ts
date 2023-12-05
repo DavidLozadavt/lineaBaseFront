@@ -12,7 +12,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AddTipoTransaccionComponent implements OnInit {
 
-  @Input() tipoT: TipoTransaccionModel;//actualizar
+  @Input() tipoT: TipoTransaccionModel;
 
   @Output() store: EventEmitter<TipoTransaccionModel> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -20,23 +20,19 @@ export class AddTipoTransaccionComponent implements OnInit {
   formTipoT: UntypedFormGroup;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private _uiNotificationService: UINotificationService
+    private formBuilder: UntypedFormBuilder
   ) {
     this.tipoT = {
       id: null,
       detalle: '',
       descripcion: '',
-
     };
     this.buildForm();
   }
 
   ngOnInit(): void {
-
     this.setTipoT()
   }
-
 
   get detalleField() {
     return this.formTipoT.get('detalle');
@@ -44,6 +40,35 @@ export class AddTipoTransaccionComponent implements OnInit {
 
   get descripcionField() {
     return this.formTipoT.get('descripcion');
+  }
+
+  isNameValid(): boolean {
+    const nameControl = this.detalleField;
+    const descripcionControl = this.descripcionField;
+    return (nameControl.valid && !/\d/.test(nameControl.value)) || (descripcionControl.valid && !/\d/.test(descripcionControl.value));
+  }
+
+  isNameInvalid(): boolean {
+    const nameControl = this.detalleField;
+    const descripcionControl = this.descripcionField;
+    return (nameControl.valid && !/\d/.test(nameControl.value)) || (descripcionControl.valid && !/\d/.test(descripcionControl.value));
+  }
+
+  isDescriptionInvalid(): boolean {
+    const descripcionControl = this.descripcionField;
+    return descripcionControl.valid && !/\d/.test(descripcionControl.value);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onNameInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formTipoT.get('detalle').setValue(inputValue);
+    this.formTipoT.get('descripcion').setValue(inputValue);
   }
 
   setTipoT() {
@@ -58,8 +83,8 @@ export class AddTipoTransaccionComponent implements OnInit {
   private buildForm() {
     this.formTipoT = this.formBuilder.group({
       id: [0],
-      detalle: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
+      detalle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      descripcion: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formTipoT.valueChanges
