@@ -12,7 +12,7 @@ export class RolesService {
     private _coreService: CoreService
   ) { }
 
-  public traerRol() {
+  public getRoles() {
     return this._coreService.get<RolModel[]>('roles/roles');
   }
 
@@ -26,9 +26,7 @@ export class RolesService {
   }
 
   public rolByCompany(id: number) {
-
     return this._coreService.get('roles/roles?company=' + id);
-
   }
 
 

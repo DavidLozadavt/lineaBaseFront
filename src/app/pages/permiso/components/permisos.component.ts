@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CompanyModel } from '@models/company.model';
-// import { FuncionalidadService } from '@services/funcionalidad.service';
 import { PermisoModel } from '@models/permiso.model';
 import { RolModel } from '@models/rol.model';
 import { CompanyService } from '@services/company.service';
@@ -10,7 +9,6 @@ import { PermisosService } from '@services/permisos.service';
 import { RolesService } from '@services/roles.service';
 import { UINotificationService } from '@services/uinotification.service';
 import { AlertComponent } from 'ngx-bootstrap/alert/public_api';
-
 
 @Component({
   selector: 'app-permisos',
@@ -33,12 +31,11 @@ export class PermisosComponent implements OnInit {
     private rolService: RolesService,
     private menuService: MenuService,
     private _companyService: CompanyService,
-    private formBuilder: UntypedFormBuilder,
     private permisosService: PermisosService,
     private _uiNotificationService: UINotificationService
   ) {
     this.fun = new Array();
-    this.enviarNumeroRegistros(10);
+    this.enviarNumeroRegistros(5);
   }
 
   ngOnInit(): void {
@@ -50,12 +47,16 @@ export class PermisosComponent implements OnInit {
       console.log('permisos', data)
       this.menus = data;
     }, error => {
+      console.log(error, "error in OnInit");
     });
-
   }
 
-  enviarNumeroRegistros(num: number) {
-    this.numReg = num;
+  /**
+   * Return value int
+   * @param param Event or number
+   */
+  enviarNumeroRegistros(valor: string | number): void {
+    this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;
   }
 
   traerEmpresas() {
@@ -75,7 +76,6 @@ export class PermisosComponent implements OnInit {
     });
   }
 
-
   menusByrol() {
     this.permissionsByrole();
   }
@@ -88,10 +88,19 @@ export class PermisosComponent implements OnInit {
     });
   }
 
-  rolesByCompany() {
+  /*rolesByCompany() {
     this.rolService.rolByCompany(document.getElementById('company')['value']).subscribe((data: any) => {
       this.objRol = data;
-      console.log(data, 'menu permi');
+      console.log(data, 'roles by company');
+    }, (error) => {
+      console.log('There was an error while retrieving data !!!', error);
+    });
+  }*/
+
+  rolesByCompany() {
+    this.rolService.getRoles().subscribe((data: any) => {
+      this.objRol = data;
+      console.log(data, 'roles by company');
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);
     });
@@ -107,8 +116,8 @@ export class PermisosComponent implements OnInit {
         havePermission.checked = (this.permisions.findIndex(p => p === havePermission.name) !== -1)
         return havePermission;
       });
-      console.log(this.menus, 'menu permi');
-      console.log(this.permisions, 'data permisions');
+      console.log(this.menus, 'permission permission');
+      console.log(this.permisions, 'permissions by role');
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);
     });
@@ -120,11 +129,9 @@ export class PermisosComponent implements OnInit {
   });
 
   guardarPermiso() {
-
     this.fun = this.menus.filter(m => m.checked).map(menu => menu.id);
-    console.log(this.fun, ' fun nuevo');
+    console.log(this.fun, 'permission new');
     if (this.fun.length !== 0) {
-
       if (this.form.valid) {
         const obj: any = new Object();
         obj.idRol = this.form.value.rol;

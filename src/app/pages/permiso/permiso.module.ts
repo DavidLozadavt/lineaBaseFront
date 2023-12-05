@@ -15,7 +15,7 @@ import { ComunModule } from '@components/comun.module';
     CommonModule,
     PermisoRoutingModule,
     ReactiveFormsModule,
-    ComunModule
+    ComunModule,
   ]
 })
 export class PermisoModule { }

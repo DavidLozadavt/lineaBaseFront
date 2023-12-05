@@ -25,7 +25,7 @@ export class RolComponent implements OnInit {
   }
 
   getRoles() {
-    this._rolService.traerRol()
+    this._rolService.getRoles()
       .subscribe(roles => {
         this.roles = roles;
       }, error => {
