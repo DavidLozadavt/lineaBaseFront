@@ -16,8 +16,6 @@ const API_URL = environment.url;
 })
 export class CoreService {
 
-  private token: string;
-
   public persona: BehaviorSubject<PersonaModel> = new BehaviorSubject<PersonaModel>(null);
   public empresa: BehaviorSubject<CompanyModel> = new BehaviorSubject<CompanyModel>(null);
   public permissions: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -38,7 +36,7 @@ export class CoreService {
   private getConfig() {
     const header = {
       'Accept': 'application/json',
-      'Authorization': `Bearer ${this.token ?? this.tokenService.getToken()}`
+      'Authorization': `Bearer ${this.tokenService.getToken()}`
     }
 
     console.log('Header ', header)
@@ -92,9 +90,6 @@ export class CoreService {
 
       this.post<any>('auth/set_company').subscribe(
         response => {
-          this.tokenService.updateToken(response.new_token);
-          this.token = this.tokenService.getToken();
-          console.log('NEW TOKEN: ', this.tokenService.getToken());
           const permissions = response.payload.permissions;
           console.log('permissions ', permissions);
           const resultString = permissions.join(', ');
@@ -104,7 +99,6 @@ export class CoreService {
           console.error('Error al actualizar permisos:', error);
         }
       );
-
 
       this.post<any>('auth/active_users').pipe(
         tap(responseArray => console.log('New data ', responseArray)),
@@ -123,8 +117,7 @@ export class CoreService {
         })
       ).subscribe();
 
-    }, (error) => {
-      console.log('AUTH ERROR: ', error)
+    }, (error: any) => {
       this.logout();
     });
   }
