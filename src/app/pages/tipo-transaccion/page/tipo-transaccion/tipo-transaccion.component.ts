@@ -37,7 +37,6 @@ export class TipoTransaccionComponent implements OnInit {
     this._tipoTService.eliminarTipo_transaccion(tipoTId).subscribe(() => {
       this.getTipoT();
     }, (error) => {
-      console.log(error);
       if (error.status === 500) {
         this._uiNotificationService.error("No puedes eliminar este tipo de transacción");
       }

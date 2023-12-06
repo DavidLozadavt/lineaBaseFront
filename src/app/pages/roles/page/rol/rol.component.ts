@@ -59,8 +59,6 @@ export class RolComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success("Rol actualizado exitosamente", "Rol");
       }, (error) => {
-        console.log(error)
-
         if (error.status === 422 && error.error.errors) {
           this._uiNotificationService.error("No puedes crear un nombre que tenga 3 caracteres o más de veinte con carecteres especiales", "Error");
         } else this._uiNotificationService.error("Ha ocurrido un error inesperado, intentalo más tarde.", "Ups");
@@ -72,7 +70,6 @@ export class RolComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success("Rol creado exitosamente", "Rol");
       }, (error) => {
-        console.log(error)
         if (error.status === 422 && error.error.errors) {
           this._uiNotificationService.error("No puedes crear un nombre que tenga 3 caracteres o más de veinte con carecteres especiales", "Error");
         } else this._uiNotificationService.error("Ha ocurrido un error inesperado, intentalo más tarde.", "Ups");

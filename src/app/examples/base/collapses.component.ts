@@ -10,11 +10,9 @@ export class CollapsesComponent {
   isCollapsed: boolean = false;
 
   collapsed(event: any): void {
-    // console.log(event);
   }
 
   expanded(event: any): void {
-    // console.log(event);
   }
 
 }

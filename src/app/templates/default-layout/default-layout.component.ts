@@ -24,7 +24,6 @@ export class DefaultLayoutComponent implements OnInit {
     this._coreService.getUserAuthenticated();
 
     this._coreService.persona.subscribe(persona => {
-      console.log('shit', persona)
       this.persona = persona
     })
 
@@ -35,7 +34,6 @@ export class DefaultLayoutComponent implements OnInit {
     })
 
     this._coreService.permissions.subscribe(permission => {
-      console.log(permission)
       this.navItems = navItems.filter(permissionNav => {
         return permission.indexOf(permissionNav.permiso) !== -1;
       })

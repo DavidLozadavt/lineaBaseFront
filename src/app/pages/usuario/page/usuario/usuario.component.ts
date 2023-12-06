@@ -36,7 +36,6 @@ export class UsuarioComponent implements OnInit {
       .subscribe(usuarios => {
         this.usuarios = usuarios;
         this.rolesByCompany();
-        console.log('user', this.usuarios)
       }, error => {
         this._uiNotificationService.error("Error de conexión");
       });

@@ -15,8 +15,6 @@ export class NotificacionService {
  }
 
  actualizarEstado(id:number) {
-
-// console.log(id, 'entro a servicio');
   return this._coreService.put('notificaciones/read/' +id, {});
 }
 }

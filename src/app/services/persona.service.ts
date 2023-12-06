@@ -25,23 +25,6 @@ export class PersonaService {
 
 
   crearPersona(persona: FormData) {
-    // console.log(persona);
-    // persona.idtipoIdentificacion = persona.tipoIdentificacion.id;
-    // persona.identificacion = persona.identificacion;
-    // persona.nombre1 = persona.nombre1.toUpperCase();
-    // persona.nombre2 = persona.nombre2.toUpperCase();
-    // persona.apellido1 = persona.apellido1.toUpperCase();
-    // persona.apellido2 = persona.apellido2.toUpperCase();
-    // persona.direccion = persona.direccion.toUpperCase();
-    // persona.idciudadNac = persona.ciudadNac.id;
-    // persona.idciudad = persona.ciudad.id;
-    // persona.telefonoFijo = persona.telefonoFijo;
-    // persona.celular = persona.celular;
-    // persona.idciudadUbicacion = persona.ciudadUbicacion.id;
-    // persona.email = persona.email;
-    // persona.fechaNac = persona.fechaNac[ 'formatted' ];
-    // console.log(persona);
-    // return this._coreService.post<PersonaModel>( '/persona', persona);
     return this._coreService.post<PersonaModel>('personas', persona);
   }
 

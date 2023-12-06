@@ -98,7 +98,6 @@ export class CoreService {
       );
 
       this.post<any>('auth/active_users').pipe(
-        // tap(responseArray => console.log('New data ', responseArray)),
         map(responseArray => responseArray && responseArray.length > 0 ? responseArray[0] : null),
         tap(firstObject => {
           if (firstObject && firstObject.company) {

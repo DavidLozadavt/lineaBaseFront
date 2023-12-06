@@ -31,7 +31,7 @@ export class PermisosComponent implements OnInit {
   constructor(
     private rolService: RolesService,
     private permisosService: PermisosService,
-    private _uiNotificationService: UINotificationService
+    private _uiNotificationService: UINotificationService,
   ) {
     this.fun = new Array();
     this.enviarNumeroRegistros(5);
@@ -42,8 +42,11 @@ export class PermisosComponent implements OnInit {
     this.getPermissions();
   }
 
-  onChangeSearch(val: string) {
-    this.resetForm();
+  onChangeSearch(val: string): string {
+    if (!val) {
+      this.resetForm();
+      return val;
+    }
   }
 
   onFocused(e: any) {
@@ -71,32 +74,29 @@ export class PermisosComponent implements OnInit {
       })
     ).subscribe((transformedData: any[]) => {
       this.objRol = transformedData;
-      console.log(transformedData, 'roles by company');
-    }, (error) => {
-      console.log('There was an error while retrieving data !!!', error);
+    }, (error: any) => {
+      this._uiNotificationService.error("Hubo un error al obtener los roles", "Roles");
     });
   }
 
   getPermissions() {
     this.permisosService.traerPermisos().subscribe((data: any) => {
       this.menus = data;
-    }, error => {
-      console.log(error, "Errors in get permissions");
+    }, (error: any) => {
+      this._uiNotificationService.error("Hubo un error al obtener los permisos", "Permisos");
     });
   }
 
   permissionsByrole(id: number) {
     this.permisions = [];
     this.permisosService.permissionsRole(id).subscribe((data: any) => {
-      console.log(data);
       this.permisions = data;
       this.menus = this.menus.map(havePermission => {
-        console.log(havePermission);
         havePermission.checked = (this.permisions.findIndex(p => p === havePermission.name) !== -1)
         return havePermission;
       });
-    }, (error) => {
-      console.log('There was an error while retrieving data !!!', error);
+    }, (error: any) => {
+      this._uiNotificationService.error("Hubo un error al obtener los permisos por el role", "Error");
     });
   }
 
@@ -112,12 +112,12 @@ export class PermisosComponent implements OnInit {
         obj.idRol = this.form.value.rol;
         obj.funciones = this.fun;
         this.permisosService.guardar(obj).subscribe((data: any) => {
-          this._uiNotificationService.success('Se guardo la configuración exitosamente ');
+          this._uiNotificationService.success('Se guardo la configuración exitosamente', 'Permisos');
         }, (error) => {
-          console.log('There was an error while retrieving data !!!', error);
+          this._uiNotificationService.error('Ha ocurrido un error inesperado al asignar los permisos', 'Error');
         });
       } else {
-        this._uiNotificationService.error('Debe seleccionar un rol');
+        this._uiNotificationService.error('Debe seleccionar al menos un rol', 'Rol');
       }
     } else {
       this._uiNotificationService.error('No puedes desasignar todos los permisos a este rol', 'Permisos');

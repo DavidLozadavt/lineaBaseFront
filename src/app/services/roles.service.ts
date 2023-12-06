@@ -26,7 +26,6 @@ export class RolesService {
   }
 
   crearRol(rol: RolModel) {
-    console.log('create role ', rol);
     rol.name = rol.name.toUpperCase();
     return this._coreService.post<RolModel>('roles/roles', rol);
   }

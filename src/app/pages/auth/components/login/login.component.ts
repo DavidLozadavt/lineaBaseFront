@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
 
   selectCompany() {
     this._coreService.post<any>('auth/set_company').subscribe(res => {
-      console.log('one ' + res.payload.permissions)
       this.tokenService.updateToken(res.new_token);
       this.router.navigate(['dashboard']);
     });
