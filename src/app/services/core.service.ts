@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpXsrfTokenExtractor } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthModel } from '@models/auth.model';
@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
 import { TokenService } from './TokenService';
 import { tap, map, catchError } from 'rxjs/operators';
+import { UINotificationService } from '@services/uinotification.service';
 
 const API_URL = environment.url;
 
@@ -23,7 +24,8 @@ export class CoreService {
   constructor(
     private httpClient: HttpClient,
     private _router: Router,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private _iuNotification: UINotificationService
   ) { }
 
   public get<T>(url: String, data: String | Object = ""): Observable<T> {
@@ -38,8 +40,6 @@ export class CoreService {
       'Accept': 'application/json',
       'Authorization': `Bearer ${this.tokenService.getToken()}`
     }
-
-    console.log('Header ', header)
 
     return { withCredentials: true, headers: new HttpHeaders(header) };
   }
@@ -71,7 +71,6 @@ export class CoreService {
       password: password
     }).subscribe(
       (response: any) => {
-        console.log(response)
         const token = response.access_token;
         this.tokenService.setToken(token);
         success(response);
@@ -84,24 +83,22 @@ export class CoreService {
 
   public getUserAuthenticated() {
     this.post<AuthModel>('auth/user').subscribe(auth => {
-      console.log('AUTH ', auth.persona)
 
       this.persona.next(auth.persona);
 
       this.post<any>('auth/set_company').subscribe(
         response => {
           const permissions = response.payload.permissions;
-          console.log('permissions ', permissions);
           const resultString = permissions.join(', ');
           this.permissions.next(resultString);
         },
         error => {
-          console.error('Error al actualizar permisos:', error);
+          this._iuNotification.error("Error al actualizar permisos", "Error de permisos")
         }
       );
 
       this.post<any>('auth/active_users').pipe(
-        tap(responseArray => console.log('New data ', responseArray)),
+        // tap(responseArray => console.log('New data ', responseArray)),
         map(responseArray => responseArray && responseArray.length > 0 ? responseArray[0] : null),
         tap(firstObject => {
           if (firstObject && firstObject.company) {

@@ -12,18 +12,6 @@
     <div class="card-body">
       <form [formGroup]="form" class="forms-sample" (ngSubmit)="guardarPermiso()">
 
-        <!-- <div class="form-group col-md-12" style="margin-left: -3%">
-          <label for="rol" style="font-weight: bold;">Empresas</label>
-          <select class="form-control border-primary " id="company" formControlName="company"
-            (change)="rolesByCompany()">
-            <option [value]="null">Seleccione una empresa </option>
-            <option *ngFor="let emp of empresas" [value]="emp.id">{{emp.razonSocial}}</option>
-          </select>
-          <div *ngIf="rol.invalid && (rol.dirty || rol.touched)">
-            <span style="color:red" *ngIf="rol.errors.required">Debe seleccionar una empresa </span>
-          </div>
-        </div> -->
-
         <div class="form-group col-md-12" style="margin-left: -3%">
           <label for="rol" style="font-weight: bold;">Roles</label>
           <select class="form-control border-primary" id="rol" formControlName="rol" (change)="menusByrol()">

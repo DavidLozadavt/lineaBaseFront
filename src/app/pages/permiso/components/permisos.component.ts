@@ -3,7 +3,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { CompanyModel } from '@models/company.model';
 import { PermisoModel } from '@models/permiso.model';
 import { RolModel } from '@models/rol.model';
-import { CompanyService } from '@services/company.service';
 import { MenuService } from '@services/menu.service';
 import { PermisosService } from '@services/permisos.service';
 import { RolesService } from '@services/roles.service';
@@ -30,7 +29,6 @@ export class PermisosComponent implements OnInit {
   constructor(
     private rolService: RolesService,
     private menuService: MenuService,
-    private _companyService: CompanyService,
     private permisosService: PermisosService,
     private _uiNotificationService: UINotificationService
   ) {
@@ -39,12 +37,9 @@ export class PermisosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('traer empresas');
-    this.traerEmpresas();
-    console.log('traer func');
+    this.rolesByCompany();
     this.traerfunc();
     this.permisosService.traerPermisos().subscribe((data: any) => {
-      console.log('permisos', data)
       this.menus = data;
     }, error => {
       console.log(error, "error in OnInit");
@@ -59,18 +54,9 @@ export class PermisosComponent implements OnInit {
     this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;
   }
 
-  traerEmpresas() {
-    this._companyService.traerEmpresas().subscribe((data: any) => {
-      this.empresas = data;
-    }, (error) => {
-      console.log('There was an error while retrieving data !!!', error);
-    });
-  }
-
   traerfunc() {
     this.permisosService.traerPermisos().subscribe((data: any) => {
       this.func = data;
-      console.log(this.func, 'funcionalidades')
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);
     });
@@ -82,23 +68,13 @@ export class PermisosComponent implements OnInit {
 
   findRoles() {
     this.menuService.findRoles().subscribe((data: any[]) => {
-      console.log(data, 'findRoles');
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);
     });
   }
 
-  /*rolesByCompany() {
-    this.rolService.rolByCompany(document.getElementById('company')['value']).subscribe((data: any) => {
-      this.objRol = data;
-      console.log(data, 'roles by company');
-    }, (error) => {
-      console.log('There was an error while retrieving data !!!', error);
-    });
-  }*/
-
   rolesByCompany() {
-    this.rolService.getRoles().subscribe((data: any) => {
+    this.rolService.rolesByCompany().subscribe((data: any) => {
       this.objRol = data;
       console.log(data, 'roles by company');
     }, (error) => {
@@ -116,8 +92,6 @@ export class PermisosComponent implements OnInit {
         havePermission.checked = (this.permisions.findIndex(p => p === havePermission.name) !== -1)
         return havePermission;
       });
-      console.log(this.menus, 'permission permission');
-      console.log(this.permisions, 'permissions by role');
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);
     });
@@ -125,12 +99,10 @@ export class PermisosComponent implements OnInit {
 
   form: UntypedFormGroup = new UntypedFormGroup({
     rol: new UntypedFormControl('', Validators.required),
-    company: new UntypedFormControl('', Validators.required),
   });
 
   guardarPermiso() {
     this.fun = this.menus.filter(m => m.checked).map(menu => menu.id);
-    console.log(this.fun, 'permission new');
     if (this.fun.length !== 0) {
       if (this.form.valid) {
         const obj: any = new Object();
@@ -142,11 +114,10 @@ export class PermisosComponent implements OnInit {
           this.form.reset();
           this.fun = [];
           this.menus = [];
-          window.location.reload();
-        },
-          error => {
-            console.log('There was an error while retrieving data !!!', error);
-          });
+          // window.location.reload();
+        }, (error) => {
+          console.log('There was an error while retrieving data !!!', error);
+        });
       } else {
         this._uiNotificationService.error('Debe seleccionar un rol');
       }
@@ -162,5 +133,3 @@ export class PermisosComponent implements OnInit {
   get rol() { return this.form.get('rol') }
 
 }
-
-
