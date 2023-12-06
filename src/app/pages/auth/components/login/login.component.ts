@@ -90,7 +90,7 @@ export class LoginComponent implements OnInit {
           this._uiNotificationService.error("Usuario o contraseña inválida", "Datos erroneos");
         } else {
           this._uiNotificationService.clearAll();
-          this._uiNotificationService.error("Error al iniciar sesión. Por favor, intenta nuevamente.");
+          this._uiNotificationService.error("Error al iniciar sesión. Por favor, intenta nuevamente.", "Error");
         }
       }
     );
