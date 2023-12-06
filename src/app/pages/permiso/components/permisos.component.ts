@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { CompanyModel } from '@models/company.model';
 import { RolModel } from '@models/rol.model';
@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 export class PermisosComponent implements OnInit {
 
   keyword = 'name'; // nombre por la que filtrar en el select
+  @ViewChild('auto') auto;
   pageActual: number = 1;
   objRol: RolModel[] = [];
   empresas: CompanyModel[] = [];
@@ -42,9 +43,10 @@ export class PermisosComponent implements OnInit {
   }
 
   onChangeSearch(val: string) {
+    this.resetForm();
   }
 
-  onFocused(e) {
+  onFocused(e: any) {
   }
 
   /**
@@ -55,7 +57,7 @@ export class PermisosComponent implements OnInit {
     this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;
   }
 
-  menusByrolNumber(id: number) {
+  menusByrol(id: number) {
     this.form.controls['rol'].setValue(id);
     this.form.controls['rol'].markAsTouched();
     this.form.controls['rol'].updateValueAndValidity();
@@ -110,7 +112,6 @@ export class PermisosComponent implements OnInit {
         obj.idRol = this.form.value.rol;
         obj.funciones = this.fun;
         this.permisosService.guardar(obj).subscribe((data: any) => {
-          console.log(data, 'bien')
           this._uiNotificationService.success('Se guardo la configuración exitosamente ');
         }, (error) => {
           console.log('There was an error while retrieving data !!!', error);
@@ -128,5 +129,9 @@ export class PermisosComponent implements OnInit {
   }
 
   get rol() { return this.form.get('rol') }
+
+  private resetForm() {
+    this.form.reset();
+  }
 
 }

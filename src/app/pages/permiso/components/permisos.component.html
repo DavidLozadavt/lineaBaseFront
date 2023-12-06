@@ -12,21 +12,23 @@
     <div class="card-body">
       <form [formGroup]="form" class="forms-sample" (ngSubmit)="guardarPermiso()">
 
-        <div class="ng-autocomplete">
+        <div class="ng-autocomplete mb-3">
           <label for="rol" style="font-weight: bold;">Roles</label>
-          <ng-autocomplete 
-            [data]="objRol"
+
+          <ng-autocomplete #auto 
+            [data]="objRol" 
             [searchKeyword]="keyword" 
             placeholder="Seleccione un rol"
-            (selected)='menusByrolNumber($event?.id)'
+            (selected)='menusByrol($event?.id)' 
             (inputChanged)='onChangeSearch($event)'
-            (inputFocused)='onFocused($event)'
-            [itemTemplate]="itemTemplate"
-            [notFoundTemplate]="notFoundTemplate">
+            (inputFocused)='onFocused($event)' 
+            [itemTemplate]="itemTemplate" 
+            [notFoundTemplate]="notFoundTemplate"
+            [initialValue]="''">
           </ng-autocomplete>
 
-          <div *ngIf="rol.invalid && (rol.dirty || rol.touched)">
-            <span style="color:red" *ngIf="rol.errors.required">Debe seleccionar un rol </span>
+          <div *ngIf="rol.invalid" class="mt-2">
+            <span style="color:red">Debes seleccionar un rol </span>
           </div>
 
           <ng-template #itemTemplate let-item>
@@ -34,11 +36,13 @@
           </ng-template>
 
           <ng-template #notFoundTemplate let-notFound>
-            <div [innerHTML]="notFound"></div>
+            <div [innerHTML]="'No se ha encontrado este rol'"></div>
           </ng-template>
         </div>
 
-        <div *ngIf="objRol">
+
+
+        <div *ngIf="rol.valid && objRol">
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>
@@ -57,15 +61,17 @@
                 </tr>
               </tbody>
             </table>
-            <ul>
+            <!-- <ul>
               <span>
                 <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
               </span>
-            </ul>
+            </ul> -->
           </div>
-          <button type="submit" class="mt-2" [class]="update?'btn btn-warning':'btn btn-success mr-10 btn-md'">
-            {{update?'Actualizar':'Guardar permiso'}}
+
+          <button type="submit" class="mt-2" class="btn btn-success">
+            Guardar permisos
           </button>
+
         </div>
 
       </form>
