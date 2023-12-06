@@ -36,14 +36,21 @@ export class UsuarioComponent implements OnInit {
       .subscribe(usuarios => {
         this.usuarios = usuarios;
         this.rolesByCompany();
-        console.log('user', this.usuarios)
       }, error => {
         this._uiNotificationService.error("Error de conexión");
       });
   }
 
+  // rolesByCompany() {
+  //   this._rolService.rolesByCompany(this.usuarios[0].idCompany).subscribe((data: any) => {
+  //     this.roles = data;
+  //   }, (error) => {
+  //     console.log('There was an error while retrieving data !!!', error);
+  //   });
+  // }
+
   rolesByCompany() {
-    this._rolService.rolByCompany(this.usuarios[0].idCompany).subscribe((data: any) => {
+    this._rolService.rolesByCompany().subscribe((data: any) => {
       this.roles = data;
     }, (error) => {
       console.log('There was an error while retrieving data !!!', error);

@@ -3,51 +3,46 @@
     <strong>Registrar tipo transacción</strong>
   </div>
   <div class="card-body">
+
     <form class="tipoTFormulario" [formGroup]="formTipoT" class="was-validated" novalidate>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese el nombre del tipo de transacción"
-            class="form-control is-valid"
-            formControlName='detalle'>
-          <div class="valid-feedback" *ngIf="!detalleField.hasError('required')">
+          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control is-valid"
+            formControlName='detalle' [ngClass]="{'is-invalid': isDetalleInvalid()}"
+            (input)="onDetalleInputChange($event)" required>
+          <div *ngIf="isDetalleValid()" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el nombre del proceso
+          <div *ngIf="isDetalleInvalid()" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+          </div>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
         <div class="col-md-7">
-          <textarea type="text" rows="9" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Descripcion..." class="form-control is-valid" formControlName='descripcion'
-            required></textarea>
-          <div class="valid-feedback" *ngIf="!descripcionField.hasError('required')">
-            Valor valido
+          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control is-valid"
+            formControlName='descripcion' [ngClass]="{'is-invalid': isDescriptionInvalid()}"
+            (input)="onDescriptionInputChange($event)" required>
+          <div *ngIf="isDescriptionValid()" class="valid-feedback">
+            Valor válido
+          </div>
+          <div *ngIf="isDescriptionInvalid()" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
           </div>
         </div>
-        <div class="invalid-feedback">
-          por favor ingrese un valor valido para la descripción
-        </div>
       </div>
+
     </form>
     <div class="card-footer">
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary"
-        (click)="guardarTipoT()"
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarTipoTransaccion()"
         [disabled]="formTipoT.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
-      <button
-        type="reset"
-        class="btn btn-sm btn-danger"
-        (click)="closeModal()">
+      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
         <i class="fa fa-ban"></i>
         Cancelar
       </button>

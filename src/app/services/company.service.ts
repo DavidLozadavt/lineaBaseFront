@@ -39,8 +39,5 @@ export class CompanyService {
   actualizarEmpresa(empresa: FormData) {
     return this._coreService.put<CompanyModel>('empresas/' + empresa.get('id'), empresa);
   }
-  // crearRolEmpresa(rolEmpresa: AsignarRolCompanyModel) {
-  //   console.log('objeto rol', rolEmpresa);
-  //   return this._coreService.post<AsignarRolCompanyModel>('asignacion_rol_empresas', rolEmpresa);
-  // }
+  
 }

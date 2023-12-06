@@ -1,3 +1,4 @@
+import { CompanyModel } from "./company.model";
 
 export interface RolModel {
   id?: number;
@@ -5,4 +6,5 @@ export interface RolModel {
 
   name: string;
   idCompany?: number;
+  company?: CompanyModel;
 }

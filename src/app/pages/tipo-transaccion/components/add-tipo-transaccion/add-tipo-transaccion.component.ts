@@ -2,7 +2,6 @@ import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TipoTransaccionModel } from '@models/tipo-transaccion.model';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AddTipoTransaccionComponent implements OnInit {
 
-  @Input() tipoT: TipoTransaccionModel;//actualizar
+  @Input() tipoT: TipoTransaccionModel;
 
   @Output() store: EventEmitter<TipoTransaccionModel> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -20,23 +19,19 @@ export class AddTipoTransaccionComponent implements OnInit {
   formTipoT: UntypedFormGroup;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private _uiNotificationService: UINotificationService
+    private formBuilder: UntypedFormBuilder
   ) {
     this.tipoT = {
       id: null,
       detalle: '',
       descripcion: '',
-
     };
     this.buildForm();
   }
 
   ngOnInit(): void {
-
     this.setTipoT()
   }
-
 
   get detalleField() {
     return this.formTipoT.get('detalle');
@@ -44,6 +39,43 @@ export class AddTipoTransaccionComponent implements OnInit {
 
   get descripcionField() {
     return this.formTipoT.get('descripcion');
+  }
+
+  isDetalleValid(): boolean {
+    const nameControl = this.detalleField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
+
+  isDetalleInvalid(): boolean {
+    const nameControl = this.detalleField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  isDescriptionValid(): boolean {
+    const nameControl = this.descripcionField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
+
+  isDescriptionInvalid(): boolean {
+    const nameControl = this.descripcionField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onDetalleInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formTipoT.get('detalle').setValue(inputValue);
+  }
+
+  onDescriptionInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formTipoT.get('descripcion').setValue(inputValue);
   }
 
   setTipoT() {
@@ -58,8 +90,8 @@ export class AddTipoTransaccionComponent implements OnInit {
   private buildForm() {
     this.formTipoT = this.formBuilder.group({
       id: [0],
-      detalle: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
+      detalle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      descripcion: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formTipoT.valueChanges
@@ -70,7 +102,7 @@ export class AddTipoTransaccionComponent implements OnInit {
       });
   }
 
-  guardarTipoT() {
+  guardarTipoTransaccion() {
     this.store.emit(this.getTipoT());
   }
 

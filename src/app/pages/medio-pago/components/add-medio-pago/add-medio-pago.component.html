@@ -7,34 +7,24 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="detalleMedioPago">Medio de pago</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese el nombre del medio de pago"
-            class="form-control is-valid"
-            formControlName='detalleMedioPago'>
-          <div class="valid-feedback" *ngIf="!detalleMedioPagoField.hasError('required')">
+          <input type="text" placeholder="Ingrese el nombre del medio de pago" class="form-control is-valid"
+            formControlName='detalleMedioPago' [ngClass]="{'is-invalid': isNameInvalid()}"
+            (input)="onNameInputChange($event)" required>
+          <div *ngIf="isNameValid()" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el nombre del proceso
+          <div *ngIf="isNameInvalid()" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+          </div>
         </div>
       </div>
-
     </form>
     <div class="card-footer">
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary"
-        (click)="guardarMedioPago()"
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarMedioPago()"
         [disabled]="formMedioPago.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
-      <button
-        type="reset"
-        class="btn btn-sm btn-danger"
-        (click)="closeModal()">
+      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
         <i class="fa fa-ban"></i>
         Cancelar
       </button>

@@ -44,6 +44,7 @@
     "@coreui/icons": "^2.0.0-rc.0",
     "@coreui/icons-angular": "1.0.0-alpha.3",
     "@sweetalert2/ngx-sweetalert2": "^10.0.0",
+    "angular-ng-autocomplete": "^2.0.12",
     "bootstrap": "^4.6.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.9.1",

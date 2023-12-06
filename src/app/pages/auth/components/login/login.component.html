@@ -1,4 +1,4 @@
-<div class="app-body" *ngIf="!showListCompanies">
+<div class="app-body">
   <main class="main d-flex align-items-center">
     <div class="container">
       <div class="row pt-3">
@@ -16,6 +16,9 @@
                     <input type="text" class="form-control" placeholder="ejemplo@gmail.com" autocomplete="usuario"
                       formControlName="usuario">
                   </div>
+                  <alert *ngIf="usuarioField.hasError('invalidEmail') && usuarioField.dirty" type="danger">
+                    <strong>Error!</strong> El correo electrónico debe ser válido.
+                  </alert>
                   <alert *ngIf="usuarioField.hasError('required') && usuarioField.dirty" type="danger">
                     <strong>Error!</strong> Este campo es obligatorio, ingrese su usuario
                   </alert>
@@ -34,7 +37,8 @@
                       <button type="button" (click)="login()" class="btn btn-primary px-4">Iniciar</button>
                     </div>
                     <div class="col-6 text-right">
-                      <button type="button" class="btn btn-link px-0">¿Olvido su contraseña?</button>
+                      <button type="button" class="btn btn-link px-0" (click)="recoverPassword()">¿Olvido su
+                        contraseña?</button>
                     </div>
                   </div>
                 </form>
@@ -46,6 +50,3 @@
     </div>
   </main>
 </div>
-<app-company *ngIf="showListCompanies" [activationCompanyUsers]="activationCompanyUsers"
-  (onSelect)="selectCompany($event)"></app-company>
-  

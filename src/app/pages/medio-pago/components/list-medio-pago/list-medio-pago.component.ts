@@ -20,8 +20,8 @@ export class ListMedioPagoComponent {
   constructor() {
   }
 
-  enviarNumeroRegistros(num: number) {
-    this.numReg = num;
+  enviarNumeroRegistros(valor: string | number): void {
+    this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;
   }
 
   actualizar(medioPago: MedioPagoModel) {

@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { CompanyModel } from '@models/company.model';
 import { RolModel } from '@models/rol.model';
-import { CompanyService } from '@services/company.service';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-roles',
@@ -20,15 +16,12 @@ export class RolesComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   formRol: UntypedFormGroup;
-  objEmpresa: CompanyModel[] = [];
 
   selectedCompanyId: number;
   empresaFilter: string = '';
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private _companyService: CompanyService,
-    private _uiNotificationService: UINotificationService
   ) {
     this.rol = {
       id: null,
@@ -40,21 +33,32 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.traerEmpresas();
     this.setRol()
-  }
-
-  traerEmpresas() {
-    this._companyService.traerEmpresas()
-      .subscribe((empresa: CompanyModel[]) => {
-        this.objEmpresa = empresa;
-      }, error => {
-        this._uiNotificationService.error('Error de conexión');
-      });
   }
 
   get nombreRolField() {
     return this.formRol.get('name');
+  }
+
+  isNameValid(): boolean {
+    const nameControl = this.nombreRolField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
+
+  isNameInvalid(): boolean {
+    const nameControl = this.nombreRolField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onNameInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formRol.get('name').setValue(inputValue);
   }
 
   setRol() {

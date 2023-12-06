@@ -2,11 +2,11 @@
   <div class="card">
     <div class="card-header">
       <i class="fa fa-align-justify"></i> Roles registrados
-      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event.target.value) ">
+      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros(nreg.value) ">
+        <option>5</option>
         <option>10</option>
         <option>15</option>
         <option>20</option>
-        <option>25</option>
       </select>
     </div>
     <div class="card-body">
@@ -36,10 +36,9 @@
                   Eliminar
                 </span>
               </td>
-              <!-- </div> -->
             </tr>
           </tbody>
-          <button type="button" class="btn btn-success mr-10 btn-sm" (click)="agregar()">Agregar</button>
+          <button type="button" class="btn btn-success mt-3" (click)="agregar()">Agregar</button>
         </table>
         <div>
           <ul>

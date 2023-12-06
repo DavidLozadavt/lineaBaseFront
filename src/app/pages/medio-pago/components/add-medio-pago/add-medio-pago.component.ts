@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MedioPagoModel } from '@models/medio-pago.model';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -19,28 +18,43 @@ export class AddMedioPagoComponent implements OnInit {
   formMedioPago: UntypedFormGroup;
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private _uiNotificationService: UINotificationService
+    private formBuilder: UntypedFormBuilder
   ) {
     this.medioPago = {
       id: null,
       detalleMedioPago: '',
-
     };
     this.buildForm();
   }
 
   ngOnInit(): void {
-
     this.setMedioPago()
   }
-
 
   get detalleMedioPagoField() {
     return this.formMedioPago.get('detalleMedioPago');
   }
 
+  isNameValid(): boolean {
+    const nameControl = this.detalleMedioPagoField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
+  }
 
+  isNameInvalid(): boolean {
+    const nameControl = this.detalleMedioPagoField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  hasNumericValue(value: string): boolean {
+    const numericRegex = /\d/;
+    return numericRegex.test(value);
+  }
+
+  onNameInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
+    this.formMedioPago.get('detalleMedioPago').setValue(inputValue);
+  }
 
   setMedioPago() {
     if (this.medioPago) {
@@ -53,9 +67,8 @@ export class AddMedioPagoComponent implements OnInit {
   private buildForm() {
     this.formMedioPago = this.formBuilder.group({
       id: [0],
-      detalleMedioPago: ['', [Validators.required]]
+      detalleMedioPago: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
-
     this.formMedioPago.valueChanges
       .pipe(
         debounceTime(350),
