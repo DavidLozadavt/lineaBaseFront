@@ -2,7 +2,6 @@ import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TipoTransaccionModel } from '@models/tipo-transaccion.model';
-import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -42,21 +41,24 @@ export class AddTipoTransaccionComponent implements OnInit {
     return this.formTipoT.get('descripcion');
   }
 
-  isNameValid(): boolean {
-    const nameControl = this.detalleField;
-    const descripcionControl = this.descripcionField;
-    return (nameControl.valid && !/\d/.test(nameControl.value)) || (descripcionControl.valid && !/\d/.test(descripcionControl.value));
+  isDetalleValid(): boolean {
+    const detalleControl = this.detalleField;
+    return detalleControl.valid && !/\d/.test(detalleControl.value);
   }
 
-  isNameInvalid(): boolean {
-    const nameControl = this.detalleField;
+  isDescriptionValid(): boolean {
     const descripcionControl = this.descripcionField;
-    return (nameControl.valid && !/\d/.test(nameControl.value)) || (descripcionControl.valid && !/\d/.test(descripcionControl.value));
+    return descripcionControl.valid && !/\d/.test(descripcionControl.value);
+  }
+
+  isDetalleInvalid(): boolean {
+    const detalleControl = this.detalleField;
+    return detalleControl.valid && (detalleControl.dirty || detalleControl.touched);
   }
 
   isDescriptionInvalid(): boolean {
     const descripcionControl = this.descripcionField;
-    return descripcionControl.valid && !/\d/.test(descripcionControl.value);
+    return descripcionControl.valid && (descripcionControl.dirty || descripcionControl.touched);
   }
 
   hasNumericValue(value: string): boolean {
@@ -64,10 +66,15 @@ export class AddTipoTransaccionComponent implements OnInit {
     return numericRegex.test(value);
   }
 
-  onNameInputChange(event: any): void {
+  onDetalleInputChange(event: any): void {
     const inputElement = event.target;
     const inputValue = inputElement.value.toUpperCase();
     this.formTipoT.get('detalle').setValue(inputValue);
+  }
+
+  onDescriptionInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value.toUpperCase();
     this.formTipoT.get('descripcion').setValue(inputValue);
   }
 
