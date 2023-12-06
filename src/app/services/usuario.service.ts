@@ -3,6 +3,7 @@ import { UsuarioModel } from '@models/usuario.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CoreService } from './core.service';
+import { ActivationCompanyUserModel } from '@models/activation-company-user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class UsuarioService {
   ) { }
 
   public traerUsuarios() {
-    return this._coreService.get<UsuarioModel[]>('users/users');
+    return this._coreService.get<ActivationCompanyUserModel[]>('users/users');
   }
 
   public actualizarUsuario(usuario: UsuarioModel) {
