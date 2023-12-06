@@ -42,23 +42,23 @@ export class AddTipoTransaccionComponent implements OnInit {
   }
 
   isDetalleValid(): boolean {
-    const detalleControl = this.detalleField;
-    return detalleControl.valid && !/\d/.test(detalleControl.value);
-  }
-
-  isDescriptionValid(): boolean {
-    const descripcionControl = this.descripcionField;
-    return descripcionControl.valid && !/\d/.test(descripcionControl.value);
+    const nameControl = this.detalleField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
   }
 
   isDetalleInvalid(): boolean {
-    const detalleControl = this.detalleField;
-    return detalleControl.valid && (detalleControl.dirty || detalleControl.touched);
+    const nameControl = this.detalleField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
+  }
+
+  isDescriptionValid(): boolean {
+    const nameControl = this.descripcionField;
+    return nameControl.valid && !/\d/.test(nameControl.value);
   }
 
   isDescriptionInvalid(): boolean {
-    const descripcionControl = this.descripcionField;
-    return descripcionControl.valid && (descripcionControl.dirty || descripcionControl.touched);
+    const nameControl = this.descripcionField;
+    return nameControl.invalid && (nameControl.dirty || nameControl.touched);
   }
 
   hasNumericValue(value: string): boolean {
@@ -102,7 +102,7 @@ export class AddTipoTransaccionComponent implements OnInit {
       });
   }
 
-  guardarTipoT() {
+  guardarTipoTransaccion() {
     this.store.emit(this.getTipoT());
   }
 

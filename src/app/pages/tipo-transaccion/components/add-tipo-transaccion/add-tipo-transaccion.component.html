@@ -10,8 +10,8 @@
         <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
         <div class="col-md-7">
           <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control is-valid"
-            formControlName='detalle' [ngClass]="{'is-invalid': isDetalleInvalid()}" (input)="onDetalleInputChange($event)"
-            required>
+            formControlName='detalle' [ngClass]="{'is-invalid': isDetalleInvalid()}"
+            (input)="onDetalleInputChange($event)" required>
           <div *ngIf="isDetalleValid()" class="valid-feedback">
             Valor válido
           </div>
@@ -38,7 +38,8 @@
 
     </form>
     <div class="card-footer">
-      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarTipoT()" [disabled]="formTipoT.invalid">
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarTipoTransaccion()"
+        [disabled]="formTipoT.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
       <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
