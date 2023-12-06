@@ -4,7 +4,8 @@ import { PermisoRoutingModule } from './permiso-routing.module';
 import { PermisosComponent } from './components/permisos.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComunModule } from '@components/comun.module';
-import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     PermisosComponent
@@ -15,7 +16,8 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
     ReactiveFormsModule,
     ComunModule,
     FormsModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    NgxPaginationModule,
   ]
 })
 export class PermisoModule { }

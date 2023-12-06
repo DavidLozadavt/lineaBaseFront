@@ -4,17 +4,15 @@
       <i class="fa fa-align-justify"></i>Asignación de permisos
       <select #nreg class="form-control col-lg-2" (change)="enviarNumeroRegistros(nreg.value)">
         <option>5</option>
+        <option>10</option>
         <option>15</option>
         <option>20</option>
-        <option>25</option>
       </select>
     </div>
     <div class="card-body">
       <form [formGroup]="form" class="forms-sample" (ngSubmit)="guardarPermiso()">
-
         <div class="ng-autocomplete mb-3">
           <label for="rol" style="font-weight: bold;">Roles</label>
-
           <ng-autocomplete #auto 
             [data]="objRol" 
             [searchKeyword]="keyword" 
@@ -26,22 +24,16 @@
             [notFoundTemplate]="notFoundTemplate"
             [initialValue]="''">
           </ng-autocomplete>
-
           <div *ngIf="rol.invalid" class="mt-2">
             <span style="color:red">Debes seleccionar un rol </span>
           </div>
-
           <ng-template #itemTemplate let-item>
             <a [innerHTML]="item.name"></a>
           </ng-template>
-
           <ng-template #notFoundTemplate let-notFound>
             <div [innerHTML]="'No se ha encontrado este rol'"></div>
           </ng-template>
         </div>
-
-
-
         <div *ngIf="rol.valid && objRol">
           <div class="table-responsive">
             <table class="table table-striped">
@@ -53,7 +45,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let m of menus; let indice=index">
+                <tr *ngFor="let m of menus | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
                   <td>{{ m.name }}</td>
                   <td>{{ m.description }}</td>
                   <app-custom-switch [(checked)]="m.checked" [size]="8">
@@ -61,19 +53,16 @@
                 </tr>
               </tbody>
             </table>
-            <!-- <ul>
+            <ul>
               <span>
                 <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
               </span>
-            </ul> -->
+            </ul>
           </div>
-
           <button type="submit" class="mt-2" class="btn btn-success">
             Guardar permisos
           </button>
-
         </div>
-
       </form>
     </div>
   </div>
