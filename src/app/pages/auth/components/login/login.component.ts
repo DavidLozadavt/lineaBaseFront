@@ -15,8 +15,6 @@ const KEY_CODE_ENTER = 13;
 })
 export class LoginComponent implements OnInit {
 
-  private token: string = '';
-
   formLogin: UntypedFormGroup;
 
   activationCompanyUsers: ActivationCompanyUserModel[] = [];
@@ -36,15 +34,25 @@ export class LoginComponent implements OnInit {
 
   private buildFormLogin() {
     this.formLogin = this.formBuilder.group({
-      usuario: ['', [Validators.required]],
-      password: ['', [Validators.required]]
+      usuario: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40), this.emailValidation]],
+      password: ['', [Validators.required, Validators.maxLength(20)]]
     });
   }
+
   get usuarioField() {
     return this.formLogin.get('usuario');
   }
+
   get passwordField() {
     return this.formLogin.get('password');
+  }
+
+  emailValidation(control) {
+    const email = control.value;
+    if (email && !email.includes('@')) {
+      return { invalidEmail: true };
+    }
+    return null;
   }
 
   onEnter(event) {
@@ -53,40 +61,44 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  selectCompany() {
+  selectCompany(): void {
     this._coreService.post<any>('auth/set_company').subscribe(res => {
       this.tokenService.updateToken(res.new_token);
       this.router.navigate(['dashboard']);
     });
   }
 
-  login() {
-    if (this.formLogin.valid || this.tokenService.getToken()) {
-      this._coreService.login(
-        this.formLogin.get('usuario').value,
-        this.formLogin.get('password').value,
-        (response: ActivationCompanyUserModel[]) => {
-          console.log('two ', response);
-          this.selectCompany();
-          this._uiNotificationService.success("Inicio de sesión correcto");
-        },
-        (e) => {
-          if (e.status == 401 || e.status == 400) {
-            this._uiNotificationService.clearAll();
-            this._uiNotificationService.error("Usuario o contraseña invalida");
-          }
-        }
-      );
+  login(): void {
+    if (this.formLogin.valid) {
+      this.doLogin();
+    } else {
+      this._uiNotificationService.error("Por favor, completa el formulario correctamente", "Error");
     }
   }
 
-  get showListCompanies() {
-    return this.activationCompanyUsers.length > 1;
+  doLogin(): void {
+    this._coreService.login(
+      this.usuarioField.value,
+      this.passwordField.value,
+      (response: ActivationCompanyUserModel[]) => {
+        this.selectCompany();
+        this._uiNotificationService.success("Inicio de sesión correcto", "Inicio de sesión");
+      },
+      (error) => {
+        if (error.status == 401 || error.status == 400) {
+          this._uiNotificationService.clearAll();
+          this._uiNotificationService.error("Usuario o contraseña inválida", "Datos erroneos");
+        } else {
+          this._uiNotificationService.clearAll();
+          this._uiNotificationService.error("Error al iniciar sesión. Por favor, intenta nuevamente.");
+        }
+      }
+    );
   }
 
   recoverPassword() {
     this._uiNotificationService.clearAll();
-    this._uiNotificationService.success("Por favor comuníquese con el administrador.");
+    this._uiNotificationService.success("Por favor comuníquese con el administrador.", "Contraseña");
   }
 
 }
