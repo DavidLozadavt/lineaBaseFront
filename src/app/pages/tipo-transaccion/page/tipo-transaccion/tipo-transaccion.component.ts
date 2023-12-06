@@ -10,7 +10,7 @@ import { UINotificationService } from '@services/uinotification.service';
 })
 export class TipoTransaccionComponent implements OnInit {
 
-  private showModalTipoT = false;
+  protected showModalTipoT = false;
 
   tipoT: TipoTransaccionModel = null;
   tipoTs: TipoTransaccionModel[] = [];
