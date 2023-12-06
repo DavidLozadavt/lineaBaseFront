@@ -18,7 +18,7 @@ export class TipoDocumentoService {
 
   }
 
-  public traerTipoDocumentos(data?: { relations?: string[], columns?: string[] }): Observable<TipoDocumentoModel[] | any[]> {
+  public traerTipoDocumentos(data?: { relations?: string[], columns?: string[],idProceso?:number }): Observable<TipoDocumentoModel[] | any[]> {
     let url = this.url;
     url = !data 
     ? url
@@ -28,6 +28,8 @@ export class TipoDocumentoService {
 
 
   crearTipoDocumento(data:{tipoDocumento: TipoDocumentoModel,relations?:string[],columns?:[]}) {
+    data.tipoDocumento.tituloDocumento = data.tipoDocumento.tituloDocumento.toUpperCase();
+    data.tipoDocumento.descripcion = data.tipoDocumento.descripcion.toLowerCase();
     return this._coreService.post<TipoDocumentoModel>(this.url, data);
   }
 

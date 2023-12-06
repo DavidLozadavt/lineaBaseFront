@@ -23,8 +23,8 @@ export class AsignacionProcesoTipoDocumentoService {
     return this._coreService.get<AsignacionProcesoTipoDocumentoModel[]|any[]>(url);
   }
 
-  asignarProcesoTipoDocumento(data:{asignacionProcesoTipoDocumento:AsignacionProcesoTipoDocumentoModel,relations?:string[],columns?:[]}){
-    return this._coreService.post<AsignacionProcesoTipoDocumentoModel>(this.url,data);
+  asignarProcesoTipoDocumento(data:{asignaciones:AsignacionProcesoTipoDocumentoModel[],relations?:string[],columns?:[]}){    
+    return this._coreService.post<AsignacionProcesoTipoDocumentoModel[]>(this.url,data);
   }
   reAsignarProcesoTipoDocumento(data:{asignacionProcesoTipoDocumento:AsignacionProcesoTipoDocumentoModel,relations?:string[],columns?:[]}){
     return this._coreService.put<AsignacionProcesoTipoDocumentoModel>(this.url+data.asignacionProcesoTipoDocumento.id,data);

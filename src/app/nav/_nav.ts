@@ -33,18 +33,6 @@ export const navItems: NavegacionModel[] = [
     icon: 'icon-drop',
     permiso: GESTION_PROCESOS
   },
-  // {
-  //   name:'Proceso documentos',
-  //   url:'asignacion_proceso_tipo_documento',
-  //   icon:'icon-drop',
-  //   permiso:GESTION_PROCESOS
-  // },
-  {
-    name: "Tipo Documentos",
-    url: 'add_tipo_documento',
-    icon: 'icon-drop',
-    permiso: GESTION_TIPO_DOCUMENTOS
-  },
   {
     name: "Medios de Pago",
     url: 'add_medio_pago',

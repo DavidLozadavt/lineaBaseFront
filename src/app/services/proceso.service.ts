@@ -53,6 +53,8 @@ export class ProcesoService {
   }
 
   crearProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
+    data.proceso.nombreProceso = data.proceso.nombreProceso.toUpperCase();
+    data.proceso.descripcion = data.proceso.descripcion.toLowerCase();
     return this._coreService.post<ProcesoModel>(this.url, data);
   }
 
