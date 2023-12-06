@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivationCompanyUserModel } from '@models/activation-company-user.model';
 import { RolModel } from '@models/rol.model';
 import { UsuarioModel } from '@models/usuario.model';
 import { RolesService } from '@services/roles.service';
@@ -12,11 +13,11 @@ import { UsuarioService } from '@services/usuario.service';
 })
 export class UsuarioComponent implements OnInit {
 
-  private showModalUsuario = false;
-  private showModalAsignacion = false;
+  protected showModalUsuario = false;
+  protected showModalAsignacion = false;
 
-  usuario: UsuarioModel = null;
-  usuarios: UsuarioModel[] = [];
+  usuario: ActivationCompanyUserModel = null;
+  usuarios: ActivationCompanyUserModel[] = [];
   userRoles: any[] = [];
   roles: any[] = [];
   rolUser: RolModel[];
@@ -34,20 +35,13 @@ export class UsuarioComponent implements OnInit {
   getUsuarios() {
     this._usuarioService.traerUsuarios()
       .subscribe(usuarios => {
+        console.log(usuarios)
         this.usuarios = usuarios;
         this.rolesByCompany();
       }, error => {
         this._uiNotificationService.error("Error de conexión");
       });
   }
-
-  // rolesByCompany() {
-  //   this._rolService.rolesByCompany(this.usuarios[0].idCompany).subscribe((data: any) => {
-  //     this.roles = data;
-  //   }, (error) => {
-  //     console.log('There was an error while retrieving data !!!', error);
-  //   });
-  // }
 
   rolesByCompany() {
     this._rolService.rolesByCompany().subscribe((data: any) => {
@@ -63,12 +57,10 @@ export class UsuarioComponent implements OnInit {
     })
   }
 
-  asignarRol(usuario: UsuarioModel) {
-    console.log(usuario, 'el usuario')
+  asignarRol(usuario: ActivationCompanyUserModel) {
     this.rolUser = [];
     usuario.roles.map(u => {
       this.rolUser.push(u);
-      console.log(this.rolUser, 'nuevo rol ')
     })
     this.roles = this.roles.map(haveRoles => {
       haveRoles.checked = (this.rolUser.findIndex(p => p.name === haveRoles.name) !== -1)
@@ -79,9 +71,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   guardarAsignacion(roles: any) {
-    console.log('aqui', roles);
     this._usuarioService.asignarRoles(roles).subscribe((data: any) => {
-      console.log(data, 'bien')
       this.getUsuarios();
       this.showModalAsignacion = false;
       this._uiNotificationService.success('Se guardo la configuración exitosamente ');
@@ -90,7 +80,6 @@ export class UsuarioComponent implements OnInit {
       this._uiNotificationService.error('Error al guardar');
     });
   }
-
 
   createUsuarios() {
     this.usuario = null;

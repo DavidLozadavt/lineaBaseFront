@@ -1,7 +1,6 @@
 <app-list-usuario
   [usuarios]="usuarios"
   (delete)="eliminarUsuarios($event)"
-  (update)="actualizarUsuarios($event)"
   (create)="createUsuarios()"
   (asignation)="asignarRol($event)"></app-list-usuario>
 
@@ -10,7 +9,6 @@
   [(show)]="showModalUsuario">
   <app-add-usuario
     *ngIf="showModalUsuario"
-    [usuario]="usuario"
     (store)="guardarUsuarios($event)"
     (cancel)="reset()">
   </app-add-usuario>

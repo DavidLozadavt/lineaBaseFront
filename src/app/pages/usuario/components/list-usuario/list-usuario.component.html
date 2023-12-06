@@ -2,11 +2,11 @@
   <div class="card">
     <div class="card-header">
       <i class="fa fa-align-justify"></i> Usuarios registrados
-      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event.target.value) ">
+      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros(nreg.value)">
+        <option>5</option>
         <option>10</option>
         <option>15</option>
         <option>20</option>
-        <option>25</option>
       </select>
     </div>
     <div class="card-body">
@@ -15,15 +15,12 @@
           <thead>
             <tr class="table-info">
               <th>Código</th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
               <th>Rol</th>
               <th>Estado</th>
               <th>Acciones</th>
               <th>Asignar Rol</th>
-              <router-link></router-link>
-              
-
           </thead>
           <tbody>
             <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
@@ -41,21 +38,15 @@
               </td>
               <td>
                 {{ usuario.estado.estado }}
-                <!-- <app-custom-switch [checked]="usuario.estado.estado=='ACTIVO'?true:false" size="5">
-                </app-custom-switch> -->
               </td>
               <td>
-                <span *ngIf="usuario.roles.length === 0; else noDelete"
-                  class="badge badge-danger"
-                  style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
-                  (confirm)="eliminar(usuario.user_id)">
+                <span *ngIf="usuario.roles.length === 0; else noDelete" class="badge badge-danger"
+                  style="cursor: pointer;" [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  (confirm)="eliminar(usuario.id)">
                   Eliminar
                 </span>
                 <ng-template #noDelete>
-                  <span
-                    class="badge badge-danger"
-                    style="cursor: pointer;"
+                  <span class="badge badge-danger" style="cursor: pointer;"
                     [swal]="{ title: 'No puede eliminar este usuario'}">
                     Eliminar
                   </span>

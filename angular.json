@@ -35,7 +35,9 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "chart.js",
-              "classnames"
+              "classnames",
+              "sweetalert2",
+              "events"
             ],
             "aot": false,
             "vendorChunk": true,

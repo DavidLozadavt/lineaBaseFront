@@ -12,7 +12,7 @@ import { IMyDpOptions } from 'mydatepicker';
 })
 export class AddUsuarioComponent implements OnInit {
 
-  @Input() usuario: UsuarioModel;//actualizar
+  @Input() usuarioNew: UsuarioModel;//actualizar
 
   @Output() store: EventEmitter<UsuarioModel> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
@@ -24,11 +24,10 @@ export class AddUsuarioComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private _uiNotificationService: UINotificationService
   ) {
-    this.usuario = {
+    this.usuarioNew = {
       id: null,
       email: '',
       contrasena: '',
-
     };
     this.buildForm();
   }
@@ -39,28 +38,23 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   public fechaNac: IMyDpOptions = {
-    // other options...
     dateFormat: 'yyyy-mm-dd',
     openSelectorOnInputClick: true,
     showInputField: true,
     inline: false,
     editableDateField: false,
     disableSince: {
-
       year: new Date().getFullYear(),
       month: new Date().getUTCMonth() + 1,
       day: new Date().getDate() + 1
-
     }
-
   };
 
-
   setProceso() {
-    if (this.usuario) {
+    if (this.usuarioNew) {
       this.formUsuario.patchValue({
-        email: this.usuario.email,
-        contrasena: this.usuario.contrasena
+        email: this.usuarioNew.email,
+        contrasena: this.usuarioNew.contrasena
       })
     }
   }
@@ -79,8 +73,6 @@ export class AddUsuarioComponent implements OnInit {
       celular: ['', [Validators.required]],
     });
 
-
-
     this.formUsuario.valueChanges
       .pipe(
         debounceTime(350),
@@ -88,7 +80,6 @@ export class AddUsuarioComponent implements OnInit {
       .subscribe(data => {
       });
   }
-
 
   guardarUsuario() {
     var contrasena = document.getElementById('contrasena')['value'];
@@ -110,7 +101,7 @@ export class AddUsuarioComponent implements OnInit {
 
   getUsuario() {
     return {
-      id: this.usuario?.id,
+      id: this.usuarioNew?.id,
       email: this.getControl('email').value,
       contrasena: this.getControl('contrasena').value,
       identificacion: this.getControl('identificacion').value,
@@ -130,7 +121,6 @@ export class AddUsuarioComponent implements OnInit {
       idCiudadNac: 1,
       idCiudadUbicacion: 1,
       rutaFoto: '/default/user.svg',
-
     }
   }
 

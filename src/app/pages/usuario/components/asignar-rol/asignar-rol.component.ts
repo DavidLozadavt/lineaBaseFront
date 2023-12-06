@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RolModel } from '@models/rol.model';
-import { UsuarioModel } from '@models/usuario.model';
+import { ActivationCompanyUserModel } from '@models/activation-company-user.model';
 
 @Component({
   selector: 'app-asignar-rol',
@@ -8,23 +7,26 @@ import { UsuarioModel } from '@models/usuario.model';
   styleUrls: ['./asignar-rol.component.scss']
 })
 export class AsignarRolComponent implements OnInit {
+
   @Output() asignation: EventEmitter<any> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
   @Input() roles: any[] = [];
-  @Input() usuario: UsuarioModel;
+  @Input() usuario: ActivationCompanyUserModel;
   rol: number[];
+
+  numReg = 5;
+  pageActual = 0;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
+
   closeModal() {
     this.cancel.emit();
   }
 
   asignarRol() {
     this.asignation.emit(this.getRoles());
-
-
   }
 
   getRoles() {
@@ -33,4 +35,5 @@ export class AsignarRolComponent implements OnInit {
       idActivation: this.usuario.id
     }
   }
+
 }
