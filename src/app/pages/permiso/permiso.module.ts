@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { PermisoRoutingModule } from './permiso-routing.module';
 import { PermisosComponent } from './components/permisos.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComunModule } from '@components/comun.module';
-
-
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 @NgModule({
   declarations: [
     PermisosComponent
@@ -16,6 +14,8 @@ import { ComunModule } from '@components/comun.module';
     PermisoRoutingModule,
     ReactiveFormsModule,
     ComunModule,
+    FormsModule,
+    AutocompleteLibModule
   ]
 })
 export class PermisoModule { }

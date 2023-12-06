@@ -24,7 +24,6 @@ export class PermisosService {
   }
 
   public permissionsRole(idRol: number) {
-
     return this._coreService.get<any[]>('permisos/permisos_rol?rol=' + idRol);
   }
 
