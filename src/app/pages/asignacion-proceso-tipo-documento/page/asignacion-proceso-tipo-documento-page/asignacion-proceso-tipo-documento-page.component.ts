@@ -13,7 +13,8 @@ import { UINotificationService } from '@services/uinotification.service';
 export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
 
   idProceso: number;
-  tituloProceso:string;
+  tituloProceso: string;
+  tipoDocsId: number[];
   tipoDocumentos: AsignacionProcesoTipoDocumentoModel[];
   tipoDocumento: AsignacionProcesoTipoDocumentoModel;
 
@@ -30,12 +31,12 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
     this.idProceso = 1;
     this.tituloProceso = "";
     this.tipoDocumentos = [];
+    this.tipoDocsId = [];
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
   }
   ngOnInit(): void {
     this.tituloProceso = localStorage.getItem('nombreProceso') ?? 'Proceso';
     this.idProceso = localStorage.getItem('idProceso') ? parseInt(localStorage.getItem('idProceso')) : 1;
-    // localStorage.removeItem('tipoDoc_select');
     this.getTipoDocumentos();
   }
 
@@ -59,34 +60,20 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   }
 
   asignarTipoDocumento() {
+    this.tipoDocsId = this.tipoDocumentos.map((tipoDoc) => tipoDoc.idTipoDocumento);   
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
     this.showModalTipoDocumento = true;
   }
 
   guardarAsignacion(tipoDocumentos: AsignacionProcesoTipoDocumentoModel[]) {
-    if(!tipoDocumentos.length){
+    this._asignacionProcesoTDocumento.asignarProcesoTipoDocumento({ asignaciones: tipoDocumentos, relations: ['tipoDocumento'] }).subscribe(tipoDocs => {
+      this.tipoDocumentos = tipoDocs;
       this.reset();
-      return;
-    }
-    this._asignacionProcesoTDocumento.asignarProcesoTipoDocumento({ asignaciones: tipoDocumentos, relations: ['tipoDocumento'] }).subscribe(tipoDoc => {
-      this.tipoDocumentos = this.tipoDocumentos.concat(tipoDoc);
-      this.reset();
-    },
-    (error)=>{
-      this._uiNotificationService.error(error.error.message);
-    })
-
-  }
-
-  desasignar(idTipoDocumento: number) {
-    console.log(idTipoDocumento);
-    this._asignacionProcesoTDocumento.desasignarTipoDocumento(idTipoDocumento).subscribe(() => {
-      let tipoDocumentoIndex = this.tipoDocumentos.findIndex((tipoDoc) => tipoDoc.id == idTipoDocumento);
-      this.tipoDocumentos.splice(tipoDocumentoIndex, 1)
     },
       (error) => {
-        console.log(error)
+        this._uiNotificationService.error(error.error.message);
       })
+
   }
 
   reset() {

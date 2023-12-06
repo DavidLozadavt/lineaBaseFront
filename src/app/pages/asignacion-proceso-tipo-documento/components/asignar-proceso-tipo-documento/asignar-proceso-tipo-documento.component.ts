@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core';
 import { AsignacionProcesoTipoDocumentoModel } from '@models/asignacion-proceso-tipo-documento';
 import { TipoDocumentoModel } from '@models/tipo-documento.model';
 import { TipoDocumentoService } from '@services/tipo-documento.service';
@@ -8,17 +8,24 @@ import { UINotificationService } from '@services/uinotification.service';
 @Component({
   selector: 'app-asignar-proceso-tipo-documento',
   templateUrl: './asignar-proceso-tipo-documento.component.html',
-  styleUrls: ['./asignar-proceso-tipo-documento.component.scss']
+  styleUrls: ['./asignar-proceso-tipo-documento.component.scss'],
 })
 export class AsignarProcesoTipoDocumentoComponent implements OnInit {
 
+  @Input() tipoDocsId: number[];
+  showModalTipoDoc = false;
+  tipoDocsAsigned: boolean[];
 
   @Output() store: EventEmitter<AsignacionProcesoTipoDocumentoModel[]> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   idProceso: number;
   tipoDocs: TipoDocumentoModel[];
-  tipoDoc_selected: AsignacionProcesoTipoDocumentoModel[];
+  tipoDoc: TipoDocumentoModel;
+  tipoDoc_selected: (AsignacionProcesoTipoDocumentoModel|null)[];
+
+  numReg = 5;
+  pageActual = 0;
 
   constructor(
     private _uiNotificationService: UINotificationService,
@@ -27,23 +34,39 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     this.idProceso = 1;
     this.tipoDocs = [];
     this.tipoDoc_selected = [];
+    this.tipoDocsAsigned = [];
+    this.tipoDocsId = [];
   }
 
   ngOnInit(): void {
-    this.tipoDocs = [];
-    this.tipoDoc_selected = [];
     this.idProceso = parseInt(localStorage.getItem('idProceso') ?? '1');
     this.getTipoDocumentos();
+    
+    
   }
 
 
   getTipoDocumentos() {
-    console.log(this.idProceso);
     this._tipoDocumentos.traerTipoDocumentos({ idProceso: this.idProceso })
       .subscribe(
         (tipo_documentos) => {
-          console.log(tipo_documentos);
           this.tipoDocs = tipo_documentos as TipoDocumentoModel[];
+          this.tipoDocsId = this.tipoDocs.map((tipoDoc)=>{
+            if(this.tipoDocsId.some((id)=>id==tipoDoc.id)){
+              this.tipoDocsAsigned.push(true);
+              this.tipoDoc_selected.push({idProceso:this.idProceso,idTipoDocumento:tipoDoc.id});
+              return tipoDoc.id
+            }
+            this.tipoDocsAsigned.push(false);
+            this.tipoDoc_selected.push(null);
+            console.log(this.tipoDoc_selected);
+            return 0;
+          });
+          console.log(this.tipoDocsId);
+          
+          this.tipoDocs.forEach((tipoDoc) => {
+            this.tipoDocsAsigned.push(this.checkedTipoDoc(tipoDoc.id));
+          });          
         },
         (error: HttpErrorResponse) => {
           this._uiNotificationService.error(error.error.message);
@@ -54,21 +77,76 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     this.cancel.emit();
   }
 
-  selectTipoDocumento(event:boolean,idTipoDoc:number){
-    if(event){
-      this.tipoDoc_selected.push({
-        idProceso:this.idProceso,
-        idTipoDocumento:idTipoDoc
-      });
-    }else{
-      let index:number = this.tipoDoc_selected.findIndex((tipoDoc)=>tipoDoc.idTipoDocumento == idTipoDoc);
-      this.tipoDoc_selected.splice(index,1);
-    }
-    console.log(this.tipoDoc_selected);
+  selectTipoDocumento(index:number) {
+    let idTipoDoc:number = this.tipoDocs[index].id;
     
+    if (this.tipoDocsAsigned[index]) {
+      this.tipoDoc_selected[index] = {idProceso:this.idProceso,idTipoDocumento:idTipoDoc};
+      this.tipoDocsId[index] = idTipoDoc;
+    } else {
+      this.tipoDoc_selected[index] = null;
+      this.tipoDocsId[index] = 0;
+    }
   }
 
-  getProcesoTipoDocumentos(): void  {
-    this.store.emit(this.tipoDoc_selected);
+  guardarTipoDoc(tipoDoc: TipoDocumentoModel) {
+    if (tipoDoc.id) {
+      this._tipoDocumentos.actualizarTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
+        let tipoDocIndex: number = this.tipoDocs.findIndex(tDoc => tDoc.id == tipoDoc.id);
+        this.tipoDocs[tipoDocIndex] = tipoDoc;
+        this.reset();
+      });
+    } else {
+      this._tipoDocumentos.crearTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
+        this.tipoDocs.push(tipoDoc);
+        this.tipoDocsAsigned.push(false);
+        this.tipoDoc_selected.push(null);
+        this.reset();
+      })
+    }
+  }
+
+
+  actualizarTipoDoc(tipoDoc: TipoDocumentoModel) {
+    this.tipoDoc = tipoDoc;
+    this.showModalTipoDoc = true;
+  }
+
+  createTipoDoc() {
+    this.tipoDoc = {} as TipoDocumentoModel;
+    this.showModalTipoDoc = true;
+  }
+
+  reset() {
+    this.tipoDoc = {} as TipoDocumentoModel;
+    this.showModalTipoDoc = false;
+  }
+
+  eliminarTipoDoc(tipoDocId: number) {
+    this._tipoDocumentos.eliminarTipoDocumento(tipoDocId).subscribe(() => {
+      let tipoDocIndex: number = this.tipoDocs.findIndex(tDoc => tDoc.id == tipoDocId);
+      this.tipoDocs.splice(tipoDocIndex, 1);
+      this.tipoDoc_selected.splice(tipoDocIndex,1);
+      this.tipoDocsAsigned.splice(tipoDocIndex,1);
+    },
+      (error: HttpErrorResponse) => {
+        this._uiNotificationService.error(`${error.error.message}`);
+      });
+  }
+
+  checkedTipoDoc(idTipoDoc: number): boolean {
+    let checked = this.tipoDocsId.some((tipoDocId) => tipoDocId == idTipoDoc);
+    return checked;
+  }
+
+  getProcesoTipoDocumentos(): void {
+    let asignados:AsignacionProcesoTipoDocumentoModel[] = this.tipoDoc_selected.filter((tipoDoc)=>tipoDoc) as AsignacionProcesoTipoDocumentoModel[];
+    console.log(asignados);
+    
+    this.store.emit(asignados);
+  }
+
+  enviarNumeroRegistros(event: any) {
+    this.numReg = event.target.value;
   }
 }

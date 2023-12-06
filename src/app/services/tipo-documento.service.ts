@@ -28,6 +28,8 @@ export class TipoDocumentoService {
 
 
   crearTipoDocumento(data:{tipoDocumento: TipoDocumentoModel,relations?:string[],columns?:[]}) {
+    data.tipoDocumento.tituloDocumento = data.tipoDocumento.tituloDocumento.toUpperCase();
+    data.tipoDocumento.descripcion = data.tipoDocumento.descripcion.toLowerCase();
     return this._coreService.post<TipoDocumentoModel>(this.url, data);
   }
 

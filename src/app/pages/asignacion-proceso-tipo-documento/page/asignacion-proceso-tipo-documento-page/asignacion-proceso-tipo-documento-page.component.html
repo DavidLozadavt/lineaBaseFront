@@ -1,7 +1,8 @@
 <div class="card col col-md-12">
     <div class="card-header row justify-content-between">
         <div class="row w-75">
-            <span class="col col-md-2 badge  badge-info" (click)="backToProcesos()"><i class="fa-arrow-right"></i></span>
+            <span class="col back-button  badge  badge-info p-3" (click)="backToProcesos()">
+                <i class="fa fa-arrow-left"></i></span>
             <h3 class="col h4">{{tituloProceso}}</h3>
         </div>
         <select #nreg class="col col-md-2 form-control col-lg-1" (change)="enviarNumeroRegistros($event) ">
@@ -18,7 +19,6 @@
                     <th>Código</th>
                     <th>Documento</th>
                     <th>Descripción</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,19 +26,26 @@
                     *ngFor="let tipoDocumento of tipoDocumentos | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
                     <td>{{tipoDocumento.id}}</td>
                     <td>{{tipoDocumento.tipoDocumento.tituloDocumento}}</td>
-                    <td>{{tipoDocumento.tipoDocumento.descripcion ?? 'No hay descripción disponible'}}</td>
+                    <td class="text-capitalize ">{{tipoDocumento.tipoDocumento.descripcion ?? 'No hay descripción disponible'}}</td>
                 </tr>
             </tbody>
         </table>
+        <div>
+            <ul>
+                <span>
+                    <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+                </span>
+            </ul>
+        </div>
     </div>
     <div class="card-footer">
         <button class="btn btn-success" (click)="asignarTipoDocumento()">
-            Asignar otro documento
+            Asignar
         </button>
     </div>
 </div>
 
 <app-custom-modal title="Gestión Proceso" [(show)]="showModalTipoDocumento">
-    <app-asignar-proceso-tipo-documento *ngIf="showModalTipoDocumento" (store)="guardarAsignacion($event)"
-        (cancel)="reset()"></app-asignar-proceso-tipo-documento>
+    <app-asignar-proceso-tipo-documento [tipoDocsId]="tipoDocsId" *ngIf="showModalTipoDocumento"
+        (store)="guardarAsignacion($event)" (cancel)="reset()"></app-asignar-proceso-tipo-documento>
 </app-custom-modal>

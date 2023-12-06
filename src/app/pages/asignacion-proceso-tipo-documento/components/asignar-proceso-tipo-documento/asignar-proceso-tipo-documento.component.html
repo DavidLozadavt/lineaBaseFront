@@ -14,28 +14,60 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let tipoDoc of tipoDocs; let index = index">
+                <tr
+                    *ngFor="let tipoDoc of tipoDocs | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }; let index = index">
                     <td>{{tipoDoc.id}}</td>
                     <td>{{tipoDoc.tituloDocumento}}</td>
                     <td>{{tipoDoc.descripcion ?? 'No hay descripción disponible'}}</td>
                     <td>
-                        <app-custom-switch (checkedChange)="selectTipoDocumento($event,tipoDoc.id)" [size]="8">
-                        </app-custom-switch>
+                        <app-custom-switch [(checked)] = "tipoDocsAsigned[index]"
+                            (checkedChange)="selectTipoDocumento(index)" [size]="8">
+                    </app-custom-switch>
+                        <span class="badge badge-primary" style="cursor: pointer;"
+                            (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
+                        <span class="badge badge-danger" style="cursor: pointer;"
+                            [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                            (confirm)="eliminarTipoDoc(tipoDoc.id)">
+                            Eliminar
+                        </span>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div *ngIf="tipoDocs.length">
+            <ul>
+                <span>
+                    <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+                </span>
+            </ul>
+        </div>
         <ng-template #emptyTipoDocs>
             <p>No hay tipos de documentos disponibles para asignar</p>
         </ng-template>
-        <div class="card-footer">
-            <button type="submit" class="btn btn-sm btn-primary" (click)="getProcesoTipoDocumentos()">
-                <i class="fa fa-dot-circle-o"></i> Aceptar
-            </button>
-            <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
-                <i class="fa fa-ban"></i>
-                Cancelar
-            </button>
+        <div class="card-footer w-100  d-flex justify-content-between ">
+            <div class="col">
+                <button type="submit" class="btn btn-sm btn-primary" (click)="getProcesoTipoDocumentos()">
+                    <i class="fa fa-dot-circle-o"></i> Aceptar
+                </button>
+                <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
+                    <i class="fa fa-ban"></i>
+                    Cancelar
+                </button>
+            </div>
+            <div class="col d-flex  justify-content-end ">
+                <button type="button" class="btn btn-success mr-10 btn-sm" (click)="createTipoDoc()">Nuevo</button>
+            </div>
         </div>
     </div>
 </div>
+
+<app-custom-modal
+  title="Gestión Tipo Documento"
+  [(show)]="showModalTipoDoc">
+  <app-add-tipo-documento
+    *ngIf="showModalTipoDoc"
+    [tipoDocumento]="tipoDoc"
+    (store)="guardarTipoDoc($event)"
+    (cancel)="reset()">
+  </app-add-tipo-documento>
+</app-custom-modal>

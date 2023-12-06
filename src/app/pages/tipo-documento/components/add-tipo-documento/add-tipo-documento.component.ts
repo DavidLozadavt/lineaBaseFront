@@ -37,6 +37,8 @@ export class AddTipoDocumentoComponent implements OnInit {
 
   ngOnInit(): void {
     this.traerProcesos();
+    console.log(this.tipoDocumento ? true: false);
+    
     this.setTipoDoc()
   }
 
@@ -70,7 +72,7 @@ export class AddTipoDocumentoComponent implements OnInit {
     this.formTipoDoc = this.formBuilder.group({
       id: [0],
       tituloDocumento: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
+      descripcion: [''],
     });
 
     this.formTipoDoc.valueChanges

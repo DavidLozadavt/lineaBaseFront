@@ -12,7 +12,7 @@
             onkeyup="javascript:this.value=this.value.toUpperCase();"
             placeholder="Ingrese el título del documento"
             class="form-control is-valid"
-            formControlName='tituloDocumento'>
+            formControlName='tituloDocumento' required>
           <div class="valid-feedback" *ngIf="!tituloDocumentoField.hasError('required')">
             Valor válido
           </div>
@@ -24,9 +24,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
         <div class="col-md-7">
-          <textarea type="text" rows="9" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Descripcion..." class="form-control is-valid" formControlName='descripcion'
-            required></textarea>
+          <textarea type="text" rows="9"
+            placeholder="Descripcion..." class="form-control is-valid" formControlName='descripcion'></textarea>
           <div class="valid-feedback" *ngIf="!descripcion.hasError('required')">
             Valor valido
           </div>

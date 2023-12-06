@@ -8,6 +8,7 @@ import { AsignarProcesoTipoDocumentoComponent } from './components/asignar-proce
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComunModule } from '@components/comun.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { TipoDocumentoModule } from '../tipo-documento/tipo-documento.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     NgxPaginationModule,
     ReactiveFormsModule,
     ComunModule,
-    SweetAlert2Module.forChild()
+    SweetAlert2Module.forChild(),
+    TipoDocumentoModule
   ]
 })
 export class AsignacionProcesoTipoDocumentoModule { }
