@@ -46,13 +46,15 @@ export class UsuarioComponent implements OnInit {
     this._rolService.rolesByCompany().subscribe((data: any) => {
       this.roles = data;
     }, (error) => {
-      console.log('There was an error while retrieving data !!!', error);
+      this._uiNotificationService.error('Ha ocurrido un error al obtener los roles', 'Error roles')
     });
   }
 
   eliminarUsuarios(userId: number) {
     this._usuarioService.eliminarUsuario(userId).subscribe(() => {
       this.getUsuarios();
+    }, (error) => {
+      this._uiNotificationService.error('No puedes eliminar este usuario sin haber desasignado sus roles', 'Error al eliminar usuario')
     })
   }
 
@@ -73,7 +75,7 @@ export class UsuarioComponent implements OnInit {
     this._usuarioService.asignarRoles(roles).subscribe((data: any) => {
       this.getUsuarios();
       this.showModalAsignacion = false;
-      this._uiNotificationService.success('Se guardo la configuración exitosamente ');
+      this._uiNotificationService.success('Asignación de roles exitosamente', 'Rol');
     }, (error) => {
       console.log(error)
       this._uiNotificationService.error('Error al guardar');

@@ -6,9 +6,9 @@
     <form class="usuarioFormulario" [formGroup]="formUsuario" class="was-validated" novalidate>
 
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="nombre1">Número de identificación</label>
+        <label class="col-md-4 col-form-label" for="identificacion">Número de identificación *</label>
         <div class="col-md-7">
-          <input type="number" placeholder="Número de identificación" class="form-control is-valid"
+          <input type="number" placeholder="Número de identificación *" class="form-control is-valid"
             formControlName='identificacion' [ngClass]="{'is-invalid': isInvalidIdentificacion}"
             (input)="onIdentificacionInputChange()" required>
           <div *ngIf="isValidIdentificacion" class="valid-feedback">
@@ -21,76 +21,81 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="nombre1">Primer nombre</label>
+        <label class="col-md-4 col-form-label" for="nombre1">Primer nombre *</label>
         <div class="col-md-7">
-          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su primer nombre" class="form-control is-valid" formControlName='nombre1' required>
-          <div class="valid-feedback" *ngIf="!nombre1Field.hasError('required')">
+          <input type="text" placeholder="Primer nombre *" class="form-control is-valid" formControlName='nombre1'
+            [ngClass]="{'is-invalid': isInvalidNombre1}" (input)="onNombre1InputChange($event)" required>
+          <div *ngIf="isValidNombre1" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el nombre
+          <div *ngIf="isInvalidNombre1" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+          </div>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="nombre2">Segundo nombre</label>
         <div class="col-md-7">
-          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su segundo nombre" class="form-control is-valid" formControlName='nombre2'>
-          <div class="valid-feedback" *ngIf="!nombre2Field.hasError('required')">
+          <input type="text" placeholder="Segundo nombre" class="form-control is-valid" formControlName='nombre2'
+            [ngClass]="{'is-invalid': isInvalidNombre2}" (input)="onNombre2InputChange($event)">
+          <div *ngIf="isValidNombre1" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el nombre
+          <div *ngIf="isInvalidNombre2" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+          </div>
         </div>
       </div>
+
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="apellido1">Primer apellido</label>
+        <label class="col-md-4 col-form-label" for="apellido1">Primer apellido *</label>
         <div class="col-md-7">
-          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su primer apellido" class="form-control is-valid" formControlName='apellido1' required>
-          <div class="valid-feedback" *ngIf="!apellido1Field.hasError('required')">
+          <input type="text" placeholder="Primer apellido *" class="form-control is-valid" formControlName='apellido1'
+            [ngClass]="{'is-invalid': isInvalidApellido1}" (input)="onApellido1InputChange($event)" required>
+          <div *ngIf="isValidApellido1" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el apellido
+          <div *ngIf="isInvalidApellido1" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+          </div>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="apellido2">Segundo apellido</label>
         <div class="col-md-7">
-          <input type="text" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su primer apellido" class="form-control is-valid" formControlName='apellido2'>
-          <div class="valid-feedback" *ngIf="!apellido2Field.hasError('required')">
+          <input type="text" placeholder="Segundo apellido" class="form-control is-valid" formControlName='apellido2'
+            [ngClass]="{'is-invalid': isInvalidApellido2}" (input)="onApellido2InputChange($event)">
+          <div *ngIf="isValidApellido2" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el apellido
+          <div *ngIf="isInvalidApellido2" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+          </div>
         </div>
       </div>
+
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento</label>
+        <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento *</label>
         <div class="col-md-7">
-          <my-date-picker class="is-valid" placeholder="Seleccione su fecha de nacimiento" [options]="fechaNac"
+          <my-date-picker class="is-valid" placeholder="Fecha de nacimiento *" [options]="fechaNac"
             formControlName="fechaNac">
           </my-date-picker>
           <div class="valid-feedback" *ngIf="!fechaNacField.hasError('required');else formato ">
             Valor valido
           </div>
           <ng-template #formato>
-            formato de fecha:(aaaa/mm/dd)
+            <p class="text-success">Formato de fecha: (aaaa/mm/dd) </p>
           </ng-template>
         </div>
       </div>
+
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="celular">Celular</label>
+        <label class="col-md-4 col-form-label" for="celular">Celular *</label>
         <div class="col-md-7">
-          <input type="number" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese su celular" class="form-control is-valid" formControlName='celular' required>
+          <input type="number" placeholder="Número de celular *" class="form-control is-valid" formControlName='celular'
+            required>
           <div class="valid-feedback" *ngIf="!celularField.hasError('required')">
             Valor válido
           </div>
@@ -99,43 +104,53 @@
           por favor ingresé un valor válido para el nombre
         </div>
       </div>
+
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="email">Email</label>
+        <label class="col-md-4 col-form-label" for="email">Correo electronico *</label>
         <div class="col-md-7">
-          <input type="email" onkeyup="javascript:this.value=this.value;" placeholder="Ingrese su email"
-            class="form-control is-valid" formControlName="email" required>
-          <div class="valid-feedback" *ngIf="!emailField.hasError('required')">
-            Valor valido
-          </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingrese un valor valido para el nombre del menú
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="contrasena">Contraseña</label>
-        <div class="col-md-7">
-          <input type="password" placeholder="Ingrese su contraseña" class="form-control is-valid"
-            formControlName='contrasena' id="contrasena" required>
-          <div class="valid-feedback" *ngIf="!contrasenaField.hasError('required')">
+          <input type="email" placeholder="Correo electronico *" class="form-control is-valid" formControlName='email'
+            [ngClass]="{'is-invalid': isInvalidEmail}" (input)="onEmailInputChange($event)" required>
+          <div *ngIf="isValidEmail" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para la contraseña
+          <div *ngIf="isInvalidEmail" class="invalid-feedback">
+            El correo electrónico debe ser válido.
+          </div>
         </div>
       </div>
+
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="contrasena">Confirmar contraseña</label>
+        <label class="col-md-4 col-form-label" for="contrasena">Contraseña *</label>
         <div class="col-md-7">
-          <input id="confirmContrasena" type="password" placeholder="Ingrese su contraseña"
-            class="form-control is-valid" required>
-
+          <input type="password" placeholder="Contraseña *" class="form-control is-valid" formControlName='contrasena'
+            id="contrasena" [ngClass]="{'is-invalid': isInvalidPassword}" (input)="onPasswordInputChange($event)"
+            required>
+          <div *ngIf="isValidPassword" class="valid-feedback">
+            Valor válido
+          </div>
+          <div *ngIf="isInvalidPassword" class="invalid-feedback">
+            La contraseña debe incluir entre 8 a 20 caracteres con al menos una letra, un número y un carácter especial.
+          </div>
         </div>
+      </div>      
 
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="contrasenaConfirm">Confirmar contraseña *</label>
+        <div class="col-md-7">
+          <input type="password" id="confirmContrasena" placeholder="Confirmar contraseña *" class="form-control is-valid" formControlName='confirmarContrasena'
+            [ngClass]="{'is-invalid': isInvalidConfirmPassword}" (input)="onPasswordConfirmInputChange($event)"
+            required>
+          <div *ngIf="isValidConfirmPassword" class="valid-feedback">
+            Valor válido
+          </div>
+          <div *ngIf="isInvalidConfirmPassword" class="invalid-feedback">
+            La contraseña debe incluir entre 8 a 20 caracteres con al menos una letra, un número y un carácter especial.
+          </div>
+        </div>
       </div>
 
     </form>
+
     <div class="card-footer">
       <button type="submit" class="btn btn-sm btn-primary" (click)="guardarUsuario()" [disabled]="formUsuario.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar

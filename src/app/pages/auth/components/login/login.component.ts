@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
       this.passwordField.value,
       (response: ActivationCompanyUserModel[]) => {
         this.selectCompany();
-        this._uiNotificationService.success("Inicio de sesión correcto", "Inicio de sesión");
+        this._uiNotificationService.success("Inicio de sesión exitosamente", "Inicio de sesión");
       },
       (error) => {
         if (error.status == 401 || error.status == 400) {

@@ -5,7 +5,7 @@ import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 import { IMyDpOptions } from 'mydatepicker';
 import { fechaNacimientoValida } from '@components/validations/fecha-nacimiento-validador';
-import { isControlValid, isControlInvalid, containsOnlyNumbersFromStrings, containsOnlyNumbers, convertInputToUppercase } from '@components/validations/inputs';
+import { isControlValid, isControlInvalid, containsOnlyNumbers, convertInputToUppercase, isStrongPassword } from '@components/validations/inputs';
 
 @Component({
   selector: 'app-add-usuario',
@@ -24,6 +24,30 @@ export class AddUsuarioComponent implements OnInit {
 
   isValidIdentificacion: boolean = false;
   isInvalidIdentificacion: boolean = false;
+
+  isValidNombre1: boolean = false;
+  isInvalidNombre1: boolean = false;
+
+  isValidNombre2: boolean = false;
+  isInvalidNombre2: boolean = false;
+
+  isValidApellido1: boolean = false;
+  isInvalidApellido1: boolean = false;
+
+  isValidApellido2: boolean = false;
+  isInvalidApellido2: boolean = false;
+
+  isValidEmail: boolean = false;
+  isInvalidEmail: boolean = false;
+
+  isValidFechaNacimiento: boolean = false;
+  isInvalidFechaNacimiento: boolean = false;
+
+  isValidPassword: boolean = false;
+  isInvalidPassword: boolean = false;
+
+  isValidConfirmPassword: boolean = false;
+  isInvalidConfirmPassword: boolean = false;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -68,11 +92,12 @@ export class AddUsuarioComponent implements OnInit {
       id: [0],
       email: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40), this.emailValidation]],
       contrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      confirmarContrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       identificacion: ['', [Validators.required, Validators.maxLength(20)]],
-      nombre1: ['', [Validators.required, Validators.maxLength(10)]],
-      nombre2: ['', [Validators.maxLength(10)]],
-      apellido1: ['', [Validators.required, Validators.maxLength(10)]],
-      apellido2: ['', [Validators.maxLength(10)]],
+      nombre1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      nombre2: ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido2: ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       fechaNac: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
       celular: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
     });
@@ -150,8 +175,9 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onNombre1InputChange(event: any): void {
-    const nombre1Value = this.nombre1Field?.value || '';
-    convertInputToUppercase(nombre1Value, this.formUsuario, event);
+    convertInputToUppercase('nombre1', this.formUsuario, event);
+    this.isValidNombre1 = isControlValid(this.nombre1Field)
+    this.isInvalidNombre1 = isControlInvalid(this.nombre1Field)
   }
 
   get nombre2Field() {
@@ -159,8 +185,9 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onNombre2InputChange(event: any): void {
-    const nombre2Value = this.nombre2Field?.value || '';
-    convertInputToUppercase(nombre2Value, this.formUsuario, event);
+    convertInputToUppercase('nombre2', this.formUsuario, event);
+    this.isValidNombre2 = isControlValid(this.nombre2Field);
+    this.isInvalidNombre2 = isControlInvalid(this.nombre2Field);
   }
 
   get apellido1Field() {
@@ -168,8 +195,9 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onApellido1InputChange(event: any): void {
-    const apellido1Value = this.apellido1Field?.value || '';
-    convertInputToUppercase(apellido1Value, this.formUsuario, event);
+    convertInputToUppercase('apellido1', this.formUsuario, event);
+    this.isValidApellido1 = isControlValid(this.apellido1Field);
+    this.isInvalidApellido1 = isControlInvalid(this.apellido1Field);
   }
 
   get apellido2Field() {
@@ -177,8 +205,9 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onApellido2InputChange(event: any): void {
-    const apellido2Value = this.apellido2Field?.value || '';
-    convertInputToUppercase(apellido2Value, this.formUsuario, event);
+    convertInputToUppercase('apellido2', this.formUsuario, event);
+    this.isValidApellido2 = isControlValid(this.apellido2Field);
+    this.isInvalidApellido2 = isControlInvalid(this.apellido2Field);
   }
 
   get fechaNacField() {
@@ -204,12 +233,29 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onEmailInputChange(event: any): void {
-    const emailValue = this.emailField?.value || '';
-    convertInputToUppercase(emailValue, this.formUsuario, event);
+    convertInputToUppercase('email', this.formUsuario, event);
+    this.isValidEmail = isControlValid(this.emailField);
+    this.isInvalidEmail = isControlInvalid(this.emailField);
   }
 
   get contrasenaField() {
     return this.formUsuario.get('contrasena');
+  }
+
+  onPasswordInputChange(event: any): void {
+    const passwordValue = this.contrasenaField.value;
+    this.isValidPassword = isStrongPassword(passwordValue);
+    this.isInvalidPassword = !this.isValidPassword && (this.contrasenaField.dirty || this.contrasenaField.touched);
+  }
+
+  get contrasenaConfirmField() {
+    return this.formUsuario.get('confirmarContrasena');
+  }
+
+  onPasswordConfirmInputChange(event: any): void {
+    const passwordConfirmValue = this.contrasenaConfirmField.value;
+    this.isValidConfirmPassword = isStrongPassword(passwordConfirmValue);
+    this.isInvalidConfirmPassword = !this.isValidConfirmPassword && (this.contrasenaConfirmField.dirty || this.contrasenaConfirmField.touched);
   }
 
 }

@@ -23,6 +23,7 @@ export class UsuarioService {
   }
 
   public crearUsuario(usuario: UsuarioModel) {
+    usuario.email = usuario.email.toLowerCase();
     return this._coreService.post<UsuarioModel>('users/users', usuario);
   }
 

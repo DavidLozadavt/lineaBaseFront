@@ -24,9 +24,13 @@
           </thead>
           <tbody>
             <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
+
               <td>{{usuario.id}}</td>
+
               <td>{{usuario.user.persona.nombre1}}</td>
+
               <td>{{usuario.user.persona.apellido1}}</td>
+
               <td>
                 <div *ngIf="usuario.roles.length > 0; else noRol">
                   <label *ngFor="let rol of usuario.roles">{{rol.name}}{{ usuario.roles.length > 1 ? ' - ' : ''
@@ -36,9 +40,11 @@
                   No hay roles asignados
                 </ng-template>
               </td>
+
               <td>
                 {{ usuario.estado.estado }}
               </td>
+
               <td>
                 <span *ngIf="usuario.roles.length === 0; else noDelete" class="badge badge-danger"
                   style="cursor: pointer;" [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
@@ -46,8 +52,11 @@
                   Eliminar
                 </span>
                 <ng-template #noDelete>
-                  <span class="badge badge-danger" style="cursor: pointer;"
-                    [swal]="{ title: 'No puede eliminar este usuario'}">
+                  <span class="badge badge-danger" style="cursor: pointer;" [swal]="{ 
+                      title: 'Error',
+                      text: 'No puedes eliminar este usuario',
+                      icon: 'error'
+                      }">
                     Eliminar
                   </span>
                 </ng-template>
