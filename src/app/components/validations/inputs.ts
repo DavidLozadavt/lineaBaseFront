@@ -31,7 +31,7 @@ export function isStrongPassword(value: string): boolean {
   // Verifica si la contraseña tiene al menos una letra, un número y un carácter especial
   const hasLetter = /[a-zA-Z]/.test(value);
   const hasNumber = /\d/.test(value);
-  const hasSpecialChar = /[;+\-\/°_¡¿¨´!@#$%^&*(),.?":{}|<>]/.test(value);
+  const hasSpecialChar = /[=¬ ^`~';+\-\/°_¡¿¨´!@#$%^&*(),.?":{}|<>]/.test(value);
 
   // La contraseña es fuerte si cumple con todos los criterios
   return hasLetter && hasNumber && hasSpecialChar;
