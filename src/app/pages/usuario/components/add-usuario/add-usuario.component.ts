@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
@@ -42,6 +42,9 @@ export class AddUsuarioComponent implements OnInit {
 
   isValidFechaNacimiento: boolean = false;
   isInvalidFechaNacimiento: boolean = false;
+
+  isValidCelular: boolean = false;
+  isInvalidCelular: boolean = false;
 
   isValidPassword: boolean = false;
   isInvalidPassword: boolean = false;
@@ -100,7 +103,7 @@ export class AddUsuarioComponent implements OnInit {
       apellido2: ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       fechaNac: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
       celular: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-    });
+    }, { validators: this.passwordMatchValidator.bind(this) });
 
     this.formUsuario.valueChanges
       .pipe(
@@ -110,12 +113,18 @@ export class AddUsuarioComponent implements OnInit {
       });
   }
 
-  emailValidation(control) {
+  emailValidation(control: AbstractControl) {
     const email = control.value;
     if (email && !email.includes('@')) {
       return { invalidEmail: true };
     }
     return null;
+  }
+
+  private passwordMatchValidator(g: FormGroup) {
+    const contrasena = g.get('contrasena')?.value;;
+    const confirmarContrasena = g.get('confirmarContrasena')?.value;
+    return confirmarContrasena === contrasena ? null : { mismatch: true };
   }
 
   guardarUsuario() {
@@ -165,9 +174,16 @@ export class AddUsuarioComponent implements OnInit {
     return this.formUsuario.get('identificacion');
   }
 
-  onIdentificacionInputChange(): void {
-    this.isValidIdentificacion = containsOnlyNumbers(this.identificacionField)
-    this.isInvalidIdentificacion = !this.isValidIdentificacion
+  onIdentificacionInputChange(event: any): void {
+    const inputElement = event.target;
+    const inputValue = inputElement.value;
+
+    const sanitizedValue = inputValue.replace(/e/gi, '');
+
+    this.identificacionField.setValue(sanitizedValue);
+
+    this.isValidIdentificacion = containsOnlyNumbers(this.identificacionField);
+    this.isInvalidIdentificacion = !this.isValidIdentificacion;
   }
 
   get nombre1Field() {
@@ -224,8 +240,15 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onCelularInputChange(event: any): void {
-    const celularValue = this.celularField?.value || '';
-    convertInputToUppercase(celularValue, this.formUsuario, event);
+    const inputElement = event.target;
+    const inputValue = inputElement.value;
+
+    const sanitizedValue = inputValue.replace(/e/gi, '');
+
+    this.celularField.setValue(sanitizedValue);
+
+    this.isValidCelular = containsOnlyNumbers(this.celularField);
+    this.isInvalidCelular = !this.isValidCelular;
   }
 
   get emailField() {

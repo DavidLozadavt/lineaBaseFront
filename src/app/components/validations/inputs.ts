@@ -19,7 +19,7 @@ export function isControlInvalid(control: AbstractControl): boolean {
 
 export function containsOnlyNumbers(control: AbstractControl): boolean {
   const value = control.value;
-  return !isNaN(Number(value));
+  return /^\d+$/.test(value);
 }
 
 export function containsOnlyNumbersFromStrings(control: AbstractControl): boolean {
@@ -28,13 +28,14 @@ export function containsOnlyNumbersFromStrings(control: AbstractControl): boolea
 }
 
 export function isStrongPassword(value: string): boolean {
-  // Verifica si la contraseña tiene al menos una letra, un número y un carácter especial
   const hasLetter = /[a-zA-Z]/.test(value);
   const hasNumber = /\d/.test(value);
   const hasSpecialChar = /[=¬ ^`~';+\-\/°_¡¿¨´!@#$%^&*(),.?":{}|<>]/.test(value);
 
-  // La contraseña es fuerte si cumple con todos los criterios
   return hasLetter && hasNumber && hasSpecialChar;
 }
 
-
+export function numericOnly(event: any): boolean {
+  const charCode = (event.which) ? event.which : event.key || event.keyCode;
+  return !(charCode === 101 || charCode === 69 || charCode === 45 || charCode === 43);
+}
