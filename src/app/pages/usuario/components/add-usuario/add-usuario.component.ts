@@ -4,6 +4,8 @@ import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 import { IMyDpOptions } from 'mydatepicker';
+import { fechaNacimientoValida } from '@components/validations/fecha-nacimiento-validador';
+import { isControlValid, isControlInvalid, containsOnlyNumbersFromStrings, containsOnlyNumbers, convertInputToUppercase } from '@components/validations/inputs';
 
 @Component({
   selector: 'app-add-usuario',
@@ -20,6 +22,9 @@ export class AddUsuarioComponent implements OnInit {
   formUsuario: UntypedFormGroup;
   confirmC: boolean = false;
 
+  isValidIdentificacion: boolean = false;
+  isInvalidIdentificacion: boolean = false;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private _uiNotificationService: UINotificationService
@@ -33,7 +38,6 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.setProceso()
   }
 
@@ -62,15 +66,15 @@ export class AddUsuarioComponent implements OnInit {
   private buildForm() {
     this.formUsuario = this.formBuilder.group({
       id: [0],
-      email: ['', [Validators.required]],
-      contrasena: ['', [Validators.required]],
-      identificacion: ['', [Validators.required]],
-      nombre1: ['', [Validators.required]],
-      nombre2: ['',],
-      apellido1: ['', [Validators.required]],
-      apellido2: ['',],
-      fechaNac: ['', [Validators.required]],
-      celular: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40), this.emailValidation]],
+      contrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      identificacion: ['', [Validators.required, Validators.maxLength(20)]],
+      nombre1: ['', [Validators.required, Validators.maxLength(10)]],
+      nombre2: ['', [Validators.maxLength(10)]],
+      apellido1: ['', [Validators.required, Validators.maxLength(10)]],
+      apellido2: ['', [Validators.maxLength(10)]],
+      fechaNac: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
+      celular: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
     });
 
     this.formUsuario.valueChanges
@@ -81,13 +85,21 @@ export class AddUsuarioComponent implements OnInit {
       });
   }
 
+  emailValidation(control) {
+    const email = control.value;
+    if (email && !email.includes('@')) {
+      return { invalidEmail: true };
+    }
+    return null;
+  }
+
   guardarUsuario() {
-    var contrasena = document.getElementById('contrasena')['value'];
-    var contrasenaConfirm = document.getElementById('confirmContrasena')['value'];
-    if (contrasena == contrasenaConfirm) {
+    var password = document.getElementById('contrasena')['value'];
+    var passwordConfirm = document.getElementById('confirmContrasena')['value'];
+    if (password == passwordConfirm) {
       this.store.emit(this.getUsuario());
     } else {
-      this._uiNotificationService.error("Las contraseñas no coinciden");
+      this._uiNotificationService.error("Las contraseñas no coinciden", "Error");
     }
   }
 
@@ -124,40 +136,80 @@ export class AddUsuarioComponent implements OnInit {
     }
   }
 
-  get emailField() {
-    return this.formUsuario.get('email');
+  get identificacionField() {
+    return this.formUsuario.get('identificacion');
   }
 
-  get contrasenaField() {
-    return this.formUsuario.get('contrasena');
+  onIdentificacionInputChange(): void {
+    this.isValidIdentificacion = containsOnlyNumbers(this.identificacionField)
+    this.isInvalidIdentificacion = !this.isValidIdentificacion
   }
 
   get nombre1Field() {
     return this.formUsuario.get('nombre1');
   }
 
-  get identificacionField() {
-    return this.formUsuario.get('identificacion');
+  onNombre1InputChange(event: any): void {
+    const nombre1Value = this.nombre1Field?.value || '';
+    convertInputToUppercase(nombre1Value, this.formUsuario, event);
   }
 
   get nombre2Field() {
     return this.formUsuario.get('nombre2');
   }
 
+  onNombre2InputChange(event: any): void {
+    const nombre2Value = this.nombre2Field?.value || '';
+    convertInputToUppercase(nombre2Value, this.formUsuario, event);
+  }
+
   get apellido1Field() {
     return this.formUsuario.get('apellido1');
+  }
+
+  onApellido1InputChange(event: any): void {
+    const apellido1Value = this.apellido1Field?.value || '';
+    convertInputToUppercase(apellido1Value, this.formUsuario, event);
   }
 
   get apellido2Field() {
     return this.formUsuario.get('apellido2');
   }
 
+  onApellido2InputChange(event: any): void {
+    const apellido2Value = this.apellido2Field?.value || '';
+    convertInputToUppercase(apellido2Value, this.formUsuario, event);
+  }
+
   get fechaNacField() {
     return this.formUsuario.get('fechaNac');
   }
 
+  onFechaNacInputChange(event: any): void {
+    const fechaNacimientoValue = this.fechaNacField?.value || '';
+    convertInputToUppercase(fechaNacimientoValue, this.formUsuario, event);
+  }
+
   get celularField() {
     return this.formUsuario.get('celular');
+  }
+
+  onCelularInputChange(event: any): void {
+    const celularValue = this.celularField?.value || '';
+    convertInputToUppercase(celularValue, this.formUsuario, event);
+  }
+
+  get emailField() {
+    return this.formUsuario.get('email');
+  }
+
+  onEmailInputChange(event: any): void {
+    const emailValue = this.emailField?.value || '';
+    convertInputToUppercase(emailValue, this.formUsuario, event);
+  }
+
+  get contrasenaField() {
+    return this.formUsuario.get('contrasena');
   }
 
 }

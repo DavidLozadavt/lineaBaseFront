@@ -35,7 +35,6 @@ export class UsuarioComponent implements OnInit {
   getUsuarios() {
     this._usuarioService.traerUsuarios()
       .subscribe(usuarios => {
-        console.log(usuarios)
         this.usuarios = usuarios;
         this.rolesByCompany();
       }, error => {

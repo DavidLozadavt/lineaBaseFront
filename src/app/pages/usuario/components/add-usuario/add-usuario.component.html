@@ -8,14 +8,15 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="nombre1">Número de identificación</label>
         <div class="col-md-7">
-          <input type="number"
-            placeholder="Ingrese número de identificación" class="form-control is-valid" formControlName='identificacion' required>
-          <div class="valid-feedback" *ngIf="!identificacionField.hasError('required')">
+          <input type="number" placeholder="Número de identificación" class="form-control is-valid"
+            formControlName='identificacion' [ngClass]="{'is-invalid': isInvalidIdentificacion}"
+            (input)="onIdentificacionInputChange()" required>
+          <div *ngIf="isValidIdentificacion" class="valid-feedback">
             Valor válido
           </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el número de identificación
+          <div *ngIf="isInvalidIdentificacion" class="invalid-feedback">
+            Por favor ingrese un valor válido (sin caracteres especiales ni letras).
+          </div>
         </div>
       </div>
 

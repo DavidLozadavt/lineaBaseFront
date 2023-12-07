@@ -29,12 +29,12 @@
               <td>{{usuario.user.persona.apellido1}}</td>
               <td>
                 <div *ngIf="usuario.roles.length > 0; else noRol">
-                  <label *ngFor="let rol of usuario.roles">{{rol.name}} {{ usuario.roles.length > 1?',':' ' }}</label>
+                  <label *ngFor="let rol of usuario.roles">{{rol.name}}{{ usuario.roles.length > 1 ? ' - ' : ''
+                    }}</label>
                 </div>
                 <ng-template #noRol>
                   No hay roles asignados
                 </ng-template>
-
               </td>
               <td>
                 {{ usuario.estado.estado }}
