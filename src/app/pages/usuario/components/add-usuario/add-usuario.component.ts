@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
@@ -66,6 +66,7 @@ export class AddUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.setProceso()
+    this.setupPasswordValidators();
   }
 
   public fechaNac: IMyDpOptions = {
@@ -121,11 +122,40 @@ export class AddUsuarioComponent implements OnInit {
     return null;
   }
 
-  private passwordMatchValidator(g: FormGroup) {
+  /*private passwordMatchValidator(g: FormGroup) {
     const contrasena = g.get('contrasena')?.value;;
     const confirmarContrasena = g.get('confirmarContrasena')?.value;
     return confirmarContrasena === contrasena ? null : { mismatch: true };
+  }*/
+
+  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const contrasena = control.get('contrasena')?.value;
+    const confirmarContrasena = control.value;
+  
+    return contrasena === confirmarContrasena ? null : { mismatch: true };
   }
+
+  private setupPasswordValidators(): void {
+    const contrasenaControl = this.formUsuario.get('contrasena');
+    const confirmarContrasenaControl = this.formUsuario.get('confirmarContrasena');
+  
+    contrasenaControl.setValidators([
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(20),
+    ]);
+  
+    confirmarContrasenaControl.setValidators([
+      Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(20),
+      this.passwordMatchValidator.bind(this.formUsuario), // Llama a la función con el contexto del formulario
+    ]);
+  
+    // Actualiza el estado de los controles
+    contrasenaControl.updateValueAndValidity();
+    confirmarContrasenaControl.updateValueAndValidity();
+  } 
 
   guardarUsuario() {
     var password = document.getElementById('contrasena')['value'];
