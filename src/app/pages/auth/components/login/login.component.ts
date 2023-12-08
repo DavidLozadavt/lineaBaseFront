@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
     if (this.formLogin.valid) {
       this.doLogin();
     } else {
-      this._uiNotificationService.error("Por favor, completa el formulario correctamente", "Error");
+      this._uiNotificationService.error("Por favor, Ingresa tus credenciales", "Error");
     }
   }
 
