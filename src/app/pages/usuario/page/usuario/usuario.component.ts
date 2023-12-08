@@ -37,7 +37,7 @@ export class UsuarioComponent implements OnInit {
       .subscribe(usuarios => {
         this.usuarios = usuarios;
         this.rolesByCompany();
-      }, error => {
+      }, (error: any) => {
         this._uiNotificationService.error("Error de conexión");
       });
   }
@@ -53,6 +53,7 @@ export class UsuarioComponent implements OnInit {
   eliminarUsuarios(userId: number) {
     this._usuarioService.eliminarUsuario(userId).subscribe(() => {
       this.getUsuarios();
+      this._uiNotificationService.success('Usuario eliminado correctamente', 'Usuario');
     }, (error) => {
       this._uiNotificationService.error('No puedes eliminar este usuario sin haber desasignado sus roles', 'Error al eliminar usuario')
     })
@@ -89,14 +90,16 @@ export class UsuarioComponent implements OnInit {
 
   guardarUsuarios(usuario: UsuarioModel) {
     if (usuario.id) {
-      this._usuarioService.actualizarUsuario(usuario).subscribe(usuario => {
+      this._usuarioService.actualizarUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
+        this._uiNotificationService.success('Usuario actualizado exitosamente', 'usuario: ' + usuario.persona.nombre1)
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
+        this._uiNotificationService.success('Usuario creado exitosamente', 'usuario: ' + usuario.persona.nombre1)
       })
     }
   }

@@ -19,7 +19,7 @@ export class UsuarioService {
   }
 
   public actualizarUsuario(usuario: UsuarioModel) {
-    return this._coreService.put('users/users' + usuario.id, usuario);
+    return this._coreService.put<UsuarioModel>('users/users' + usuario.id, usuario);
   }
 
   public crearUsuario(usuario: UsuarioModel) {
