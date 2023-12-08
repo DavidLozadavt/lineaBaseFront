@@ -1,66 +1,79 @@
 <div class="form form-row p-4 form-personal mb-2">
   <div class="col-6 text-center">
     <div [style.backgroundImage]="'url('+persona.rutaFotoUrl+')'" class="d-inline-block profile_img">
-
     </div>
   </div>
+
   <div class="col-6">
+
     <p>
       <strong>Nombres: </strong>
-      {{persona.nombre1}} {{persona.nombre2}}
-    <p>
+      {{ persona.nombre1 ? persona.nombre1 : '' }}
+      {{ persona.nombre2 ? ' ' + persona.nombre2 : '' }}
+    </p>
+
     <p>
       <strong>Apellidos: </strong>
-      {{persona.apellido1}} {{persona.apellido2}}
+      {{ persona.apellido1 ? persona.apellido1 : '' }}
+      {{ persona.apellido2 ? ' ' + persona.apellido2 : '' }}
     </p>
-    <p>
-      <strong>Apellidos: </strong>
-      {{persona.apellido1}} {{persona.apellido2}}
-    </p>
+
     <p>
       <strong>Identificación: </strong>
-      {{persona.identificacion}}
+      {{ persona.identificacion ? persona.identificacion : 'Información no disponible' }}
     </p>
+
     <p>
       <strong>Fecha nacimiento: </strong>
-      {{persona.fechaNac | date:'MMMM d, y'}}
+      {{ persona.fechaNac ? (persona.fechaNac | date:'MMMM d, y') : 'Información no disponible' }}
     </p>
+
     <p>
       <strong>Correo electrónico: </strong>
-      {{persona.email}}
+      {{ persona.email ? persona.email : 'Información no disponible' }}
     </p>
+
   </div>
+
   <p class="col-md-6">
     <strong>Dirección: </strong>
-    {{persona.direccion}}
+    {{ persona.direccion ? persona.direccion : 'Información no disponible' }}
   </p>
 
   <p class="col-md-6">
     <strong>Ciudad: </strong>
-    {{persona.ciudad?.departamento.descripcion}} {{persona.ciudad?.descripcion}}
+    {{ persona.ciudad ?
+    (persona.ciudad.departamento.descripcion + ' ' + persona.ciudad.descripcion) :
+    'Información no disponible' }}
   </p>
 
   <p class="col-md-6">
     <strong>Celular: </strong>
-    {{persona.celular}}
+    {{ persona.celular ? persona.celular : 'Información no disponible' }}
   </p>
 
-  <p class="col-md-6">
-    <strong>Ciudad nacimiento: </strong>
-    {{persona.ciudadNac?.departamento.descripcion}} {{persona.ciudadNac?.descripcion}}
-  </p>
+  <div class="col-md-6">
+    <p>
+      <strong>Ciudad nacimiento: </strong>
+      {{persona.ciudadNac ? persona.ciudadNac.descripcion :
+      'Información no disponible'}}
+    </p>
+  </div>
 
   <p class="col-md-6">
     <strong>Teléfono fijo: </strong>
-    {{persona.telefonoFijo}}
+    {{ persona.telefonoFijo ? persona.telefonoFijo : 'Información no disponible' }}
   </p>
 
   <p class="col-md-6">
     <strong>Ciudad ubicación: </strong>
-    {{persona.ciudadUbicacion?.departamento.descripcion}} {{persona.ciudadUbicacion?.descripcion}}
+    {{ persona.ciudadUbicacion ?
+    persona.ciudadUbicacion?.departamento.descripcion + ' ' +
+    persona.ciudadUbicacion?.descripcion : 'Inforamción no disponible' }}
   </p>
 
   <div class="col-12 text-right">
-    <a class="btn btn-primary" routerLink="/perfil/editar">Editar perfil</a>
+    <a class="btn btn-primary" [routerLink]="'/perfil/editar'">Editar perfil</a>
   </div>
+
 </div>
