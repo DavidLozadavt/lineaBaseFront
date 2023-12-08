@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, AbstractControlOptions, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 import { IMyDpOptions } from 'mydatepicker';
-import { fechaNacimientoValida } from '@components/validations/fecha-nacimiento-validador';
 import { isControlValid, isControlInvalid, containsOnlyNumbers, convertInputToUppercase, isStrongPassword } from '@components/validations/inputs';
 
 @Component({
@@ -104,12 +103,12 @@ export class AddUsuarioComponent implements OnInit {
       email:               ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(50), this.emailValidation]],
       contrasena:          ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(20)]],
       confirmarContrasena: ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(20)]],
-      identificacion:      ['', [Validators.required,     Validators.maxLength(20)]],
+      identificacion:      ['', [Validators.required,     Validators.minLength(6),  Validators.maxLength(20)]],
       nombre1:             ['', [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       nombre2:             ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       apellido1:           ['', [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       apellido2:           ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      fechaNac:            ['', [Validators.required,     Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
+      fechaNac:            ['', [Validators.required ]],
       celular:             ['', [Validators.required,     Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
     }, this.formOptions);
 
@@ -129,12 +128,13 @@ export class AddUsuarioComponent implements OnInit {
     return null;
   }
 
-  private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
-    const contrasena = control.get('contrasena')?.value;
-    const confirmarContrasena = control.value;
+  private passwordMatchValidator(g: FormGroup) {
+    const contrasena = g.get('contrasena')?.value;
+    const confirmarContrasena = g.get('confirmarContrasena')?.value;
   
     return contrasena === confirmarContrasena ? null : { mismatch: true };
   }
+  
 
   private setupPasswordValidators(): void {
     const contrasenaControl = this.formUsuario.get('contrasena');
@@ -159,12 +159,10 @@ export class AddUsuarioComponent implements OnInit {
   } 
 
   guardarUsuario() {
-    var password = document.getElementById('contrasena')['value'];
-    var passwordConfirm = document.getElementById('confirmContrasena')['value'];
-    if (password == passwordConfirm) {
+    if (this.formUsuario.valid) {
       this.store.emit(this.getUsuario());
     } else {
-      this._uiNotificationService.error("Las contraseñas no coinciden", "Error");
+      this._uiNotificationService.error("Por favor, completa correctamente el formulario", "Error");
     }
   }
 
@@ -207,14 +205,18 @@ export class AddUsuarioComponent implements OnInit {
 
   onIdentificacionInputChange(event: any): void {
     const inputElement = event.target;
-    const inputValue = inputElement.value;
-
+    let inputValue = inputElement.value;
+  
     const sanitizedValue = inputValue.replace(/e/gi, '');
-
     this.identificacionField.setValue(sanitizedValue);
-
-    this.isValidIdentificacion = containsOnlyNumbers(this.identificacionField);
-    this.isInvalidIdentificacion = !this.isValidIdentificacion;
+  
+    if ((sanitizedValue.length >= 6 && sanitizedValue.length <= 20) && /^\d+$/.test(sanitizedValue)) {
+      this.isValidIdentificacion = containsOnlyNumbers(this.identificacionField);
+      this.isInvalidIdentificacion = !this.isValidIdentificacion;
+    } else {
+      this.isValidIdentificacion = false;
+      this.isInvalidIdentificacion = true;
+    }
   }
 
   get nombre1Field() {
@@ -272,14 +274,18 @@ export class AddUsuarioComponent implements OnInit {
 
   onCelularInputChange(event: any): void {
     const inputElement = event.target;
-    const inputValue = inputElement.value;
+    let inputValue = inputElement.value;
 
     const sanitizedValue = inputValue.replace(/e/gi, '');
-
     this.celularField.setValue(sanitizedValue);
 
-    this.isValidCelular = containsOnlyNumbers(this.celularField);
-    this.isInvalidCelular = !this.isValidCelular;
+    if (sanitizedValue.length === 10 && /^\d{10}$/.test(sanitizedValue)) {
+      this.isValidCelular = containsOnlyNumbers(this.celularField);
+      this.isInvalidCelular = !this.isValidCelular;
+    } else {
+      this.isValidCelular = false;
+      this.isInvalidCelular = true;
+    }
   }
 
   get emailField() {
@@ -307,8 +313,8 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onPasswordConfirmInputChange(event: any): void {
-    const passwordConfirmValue = this.contrasenaConfirmField.value;
-    this.isValidConfirmPassword = isStrongPassword(passwordConfirmValue);
+    const passwordConfirmValue    = this.contrasenaConfirmField.value;
+    this.isValidConfirmPassword   = passwordConfirmValue === this.contrasenaField.value;
     this.isInvalidConfirmPassword = !this.isValidConfirmPassword && (this.contrasenaConfirmField.dirty || this.contrasenaConfirmField.touched);
   }
 

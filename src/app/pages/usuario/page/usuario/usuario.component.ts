@@ -93,13 +93,13 @@ export class UsuarioComponent implements OnInit {
       this._usuarioService.actualizarUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
-        this._uiNotificationService.success('Usuario actualizado exitosamente', 'usuario: ' + usuario.persona.nombre1)
+        this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
-        this._uiNotificationService.success('Usuario creado exitosamente', 'usuario: ' + usuario.persona.nombre1)
+        this._uiNotificationService.success('Usuario creado exitosamente', 'Usuario')
       })
     }
   }

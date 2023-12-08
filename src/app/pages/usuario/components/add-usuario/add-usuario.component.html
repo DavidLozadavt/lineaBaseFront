@@ -15,7 +15,7 @@
             Valor válido
           </div>
           <div *ngIf="isInvalidIdentificacion" class="invalid-feedback">
-            Por favor ingrese un valor válido (sin caracteres especiales ni letras).
+            Por favor ingrese un valor válido (sin caracteres especiales ni letras) y entre 6 a 20 dígitos.
           </div>
         </div>
       </div>
@@ -100,10 +100,10 @@
             Valor válido
           </div>
           <div *ngIf="isInvalidCelular" class="invalid-feedback">
-            Por favor ingrese un valor válido (sin caracteres especiales ni letras).
+            Por favor ingrese un valor válido (sin caracteres especiales ni letras) y con 10 dígitos.
           </div>
         </div>
-      </div>
+      </div>      
 
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="email">Correo electronico *</label>
@@ -123,7 +123,7 @@
         <label class="col-md-4 col-form-label" for="contrasena">Contraseña *</label>
         <div class="col-md-7">
           <input type="password" placeholder="Contraseña *" class="form-control is-valid" formControlName='contrasena'
-            id="contrasena" [ngClass]="{'is-invalid': isInvalidPassword}" (input)="onPasswordInputChange($event)"
+            [ngClass]="{'is-invalid': isInvalidPassword}" (input)="onPasswordInputChange($event)"
             required>
           <div *ngIf="isValidPassword" class="valid-feedback">
             Valor válido
@@ -137,7 +137,7 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="contrasenaConfirm">Confirmar contraseña *</label>
         <div class="col-md-7">
-          <input type="password" id="confirmContrasena" placeholder="Confirmar contraseña *"
+          <input type="password" placeholder="Confirmar contraseña *"
             class="form-control is-valid" formControlName='confirmarContrasena'
             [ngClass]="{'is-invalid': isInvalidConfirmPassword}" (input)="onPasswordConfirmInputChange($event)"
             required>
