@@ -158,10 +158,10 @@
     </form>
 
     <div class="card-footer">
-      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarUsuario()" >
+      <button type="submit" class="btn btn-primary" (click)="guardarUsuario()" [disabled]="formUsuario.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
-      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
+      <button type="reset" class="btn btn-danger" (click)="closeModal()">
         <i class="fa fa-ban"></i>
         Cancelar
       </button>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormGroup, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
@@ -40,9 +40,6 @@ export class AddUsuarioComponent implements OnInit {
   isValidEmail: boolean = false;
   isInvalidEmail: boolean = false;
 
-  isValidFechaNacimiento: boolean = false;
-  isInvalidFechaNacimiento: boolean = false;
-
   isValidCelular: boolean = false;
   isInvalidCelular: boolean = false;
 
@@ -51,6 +48,8 @@ export class AddUsuarioComponent implements OnInit {
 
   isValidConfirmPassword: boolean = false;
   isInvalidConfirmPassword: boolean = false;
+
+  formOptions: AbstractControlOptions = { validators: this.passwordMatchValidator.bind(this) };
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -93,18 +92,18 @@ export class AddUsuarioComponent implements OnInit {
 
   private buildForm() {
     this.formUsuario = this.formBuilder.group({
-      id: [0],
-      email: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50), this.emailValidation]],
-      contrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      confirmarContrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      identificacion: ['', [Validators.required, Validators.maxLength(20)]],
-      nombre1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      nombre2: ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      apellido1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      apellido2: ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      fechaNac: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
-      celular: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
-    }, { validators: this.passwordMatchValidator.bind(this) });
+      id:                  [0],
+      email:               ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(50), this.emailValidation]],
+      contrasena:          ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(20)]],
+      confirmarContrasena: ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(20)]],
+      identificacion:      ['', [Validators.required,     Validators.maxLength(20)]],
+      nombre1:             ['', [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      nombre2:             ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido1:           ['', [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido2:           ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      fechaNac:            ['', [Validators.required,     Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
+      celular:             ['', [Validators.required,     Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
+    }, this.formOptions);
 
     this.formUsuario.valueChanges
       .pipe(
@@ -121,12 +120,6 @@ export class AddUsuarioComponent implements OnInit {
     }
     return null;
   }
-
-  /*private passwordMatchValidator(g: FormGroup) {
-    const contrasena = g.get('contrasena')?.value;;
-    const confirmarContrasena = g.get('confirmarContrasena')?.value;
-    return confirmarContrasena === contrasena ? null : { mismatch: true };
-  }*/
 
   private passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
     const contrasena = control.get('contrasena')?.value;
