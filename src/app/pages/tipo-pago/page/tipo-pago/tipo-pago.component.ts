@@ -38,7 +38,7 @@ export class TipoPagoComponent implements OnInit {
       this.getTipoPago();
       this._uiNotificationService.success('Tipo de pago eliminado exitosamente!!!', 'Tipo de pago');
     }, (error: any) => {
-      this._uiNotificationService.error('No puedes eliminar este itpo de pago eliminado', 'Tipo de pago');
+      this._uiNotificationService.error('No puedes eliminar este tipo de pago', 'Tipo de pago');
     });
   }
 
