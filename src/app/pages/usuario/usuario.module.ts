@@ -11,7 +11,6 @@ import { AddUsuarioComponent } from './components/add-usuario/add-usuario.compon
 import { MyDatePickerModule } from 'mydatepicker';
 import { AsignarRolComponent } from './components/asignar-rol/asignar-rol.component';
 
-
 @NgModule({
   declarations: [
     UsuarioComponent,
