@@ -21,7 +21,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let rol of roles | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
-              <!-- <div *ngIf="rol.estado.id !=3"> -->
               <td>{{rol.id}}</td>
               <td>{{rol.name}}</td>
               <td>{{rol.company.razonSocial}}</td>
@@ -31,7 +30,11 @@
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: '¿De seguro deseas eliminar el rol ' + rol.name + '?',  showCancelButton: true }"
+                  [swal]="{
+                    title: '¿De seguro deseas eliminar el rol ' + rol.name + '?',
+                    icon: 'question',
+                    showCancelButton: true 
+                  }"
                   (confirm)="eliminar(rol.id)">
                   Eliminar
                 </span>

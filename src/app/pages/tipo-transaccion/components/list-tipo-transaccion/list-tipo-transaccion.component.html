@@ -30,7 +30,11 @@
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  [swal]="{ 
+                    title: '¿Deseas eliminar el tipo de transacción ' + tipoT.detalle + '?',
+                    icon: 'question',
+                    showCancelButton: true
+                    }"
                   (confirm)="eliminar(tipoT.id)">
                   Eliminar
                 </span>

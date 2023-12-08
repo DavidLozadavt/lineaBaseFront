@@ -35,7 +35,7 @@
                 <span class="badge badge-primary" style="cursor: pointer;"
                   (click)="actualizar(proceso)">Actualizar</span>
                 <span class="badge badge-danger" style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }" (confirm)="eliminar(proceso.id)">
+                  [swal]="{ title: '¿Deseas eliminar?',  showCancelButton: true }" (confirm)="eliminar(proceso.id)">
                   Eliminar
                 </span>
               </td>

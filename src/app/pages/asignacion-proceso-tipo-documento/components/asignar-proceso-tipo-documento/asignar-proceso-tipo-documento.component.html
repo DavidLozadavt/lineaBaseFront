@@ -26,7 +26,7 @@
                         <span class="badge badge-primary" style="cursor: pointer;"
                             (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
                         <span class="badge badge-danger" style="cursor: pointer;"
-                            [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                            [swal]="{ title: '¿Deseas eliminar?',  showCancelButton: true }"
                             (confirm)="eliminarTipoDoc(tipoDoc.id)">
                             Eliminar
                         </span>

@@ -20,7 +20,6 @@
           </thead>
           <tbody>
             <tr *ngFor="let tipo of tipoPagos | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
-              <!-- <div *ngIf="rol.estado.id !=3"> -->
               <td>{{tipo.id}}</td>
               <td>{{tipo.detalleTipoPago}}</td>
               <td>
@@ -29,12 +28,15 @@
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  [swal]="{ 
+                    title: '¿Deseas eliminar el tipo de pago ' + tipo.detalleTipoPago + '?',
+                    icon: 'question',
+                    showCancelButton: true
+                  }"
                   (confirm)="eliminar(tipo.id)">
                   Eliminar
                 </span>
               </td>
-              <!-- </div> -->
             </tr>
           </tbody>
           <button type="button" class="btn btn-success mr-10 btn-sm" (click)="agregar()">Agregar</button>

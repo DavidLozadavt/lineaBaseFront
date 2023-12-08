@@ -30,7 +30,11 @@
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar ' + medio.detalleMedioPago,  showCancelButton: true }"
+                  [swal]="{ 
+                    title: '¿Deseas eliminar el medio de pago ' + medio.detalleMedioPago + '?',
+                    icon: 'question',
+                    showCancelButton: true
+                  }"
                   (confirm)="eliminar(medio.id)">
                   Eliminar
                 </span>

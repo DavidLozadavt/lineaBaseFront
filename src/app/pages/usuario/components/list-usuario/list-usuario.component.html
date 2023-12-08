@@ -47,8 +47,11 @@
 
               <td>
                 <span *ngIf="usuario.roles.length === 0; else noDelete" class="badge badge-danger"
-                  style="cursor: pointer;" [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
-                  (confirm)="eliminar(usuario.id)">
+                  style="cursor: pointer;" [swal]="{ 
+                    title: '¿Deseas eliminar  el usuario ' + usuario.user.persona.nombre1 + ' ' + usuario.user.persona.apellido1 + '?',
+                    icon: 'question',
+                    showCancelButton: true
+                  }" (confirm)="eliminar(usuario.id)">
                   Eliminar
                 </span>
                 <ng-template #noDelete>
