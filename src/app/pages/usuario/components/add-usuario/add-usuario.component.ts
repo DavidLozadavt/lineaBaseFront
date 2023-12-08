@@ -94,7 +94,7 @@ export class AddUsuarioComponent implements OnInit {
   private buildForm() {
     this.formUsuario = this.formBuilder.group({
       id: [0],
-      email: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(40), this.emailValidation]],
+      email: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(50), this.emailValidation]],
       contrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       confirmarContrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       identificacion: ['', [Validators.required, Validators.maxLength(20)]],
@@ -103,7 +103,7 @@ export class AddUsuarioComponent implements OnInit {
       apellido1: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       apellido2: ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
       fechaNac: ['', [Validators.required, Validators.pattern(/^\d{4}-\d{2}-\d{2}$/), fechaNacimientoValida]],
-      celular: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      celular: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
     }, { validators: this.passwordMatchValidator.bind(this) });
 
     this.formUsuario.valueChanges

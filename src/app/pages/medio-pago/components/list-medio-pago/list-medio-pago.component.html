@@ -20,21 +20,21 @@
           </thead>
           <tbody>
             <tr *ngFor="let medio of medioPagos | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
-              <!-- <div *ngIf="rol.estado.id !=3"> -->
               <td>{{medio.id}}</td>
               <td>{{medio.detalleMedioPago}}</td>
               <td>
-                <span class="badge badge-primary" style="cursor: pointer;"
-                  (click)="actualizar(medio)">Actualizar</span>
+                <span class="badge badge-primary"
+                  style="cursor: pointer;"
+                  (click)="actualizar(medio)">Actualizar
+                </span>
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  [swal]="{ title: 'Desea eliminar ' + medio.detalleMedioPago,  showCancelButton: true }"
                   (confirm)="eliminar(medio.id)">
                   Eliminar
                 </span>
               </td>
-              <!-- </div> -->
             </tr>
           </tbody>
           <button type="button" class="btn btn-success mr-10 btn-sm" (click)="agregar()">Agregar</button>
