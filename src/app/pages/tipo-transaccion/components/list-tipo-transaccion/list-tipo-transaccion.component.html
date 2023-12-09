@@ -24,13 +24,13 @@
               <td>{{tipoT.id}}</td>
               <td>{{tipoT.detalle}}</td>
               <td>
-                {{tipoT.descripcion}}
                 <span
+                    *ngIf="tipoT.descripcion.length > 30"
                     class="badge badge-primary"
                     style="cursor:pointer"
                     (click)="verInfo(tipoT)">
                     Ver info
-                  </span>
+                </span>
               </td>
               <td>
                 <span class="badge badge-primary" style="cursor: pointer;"

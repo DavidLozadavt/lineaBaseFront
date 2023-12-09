@@ -79,6 +79,7 @@ export class TipoTransaccionComponent implements OnInit {
   reset() {
     this.tipoT = null;
     this.showModalTipoT = false;
+    this.showInfoTipoT = false;
   }
 
 }
