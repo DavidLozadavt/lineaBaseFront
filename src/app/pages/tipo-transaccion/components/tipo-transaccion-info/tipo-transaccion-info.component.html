@@ -1,0 +1,50 @@
+<div class="modal-body">
+    <div class="card-header">
+      <strong>{{tipoTransaccion.descripcion}}</strong>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <b>Sede: </b>
+        </div>
+        <div class="col">
+          <p>{{tipoTransaccion.descripcion}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Área: </b>
+        </div>
+        <div class="col">
+          <p>{{tipoTransaccion.descripcion}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Capacidad: </b>
+        </div>
+        <div class="col">
+          <p>{{tipoTransaccion.descripcion}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <b>Información: </b>
+        </div>
+        <div class="col col-md-6">
+          <textarea cols="30" rows="7" [disabled]="true">
+            {{tipoTransaccion.descripcion}}
+          </textarea>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row justify-content-center">
+        <button
+          class="btn btn-primary"
+          (click)="cerrarInfo()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>

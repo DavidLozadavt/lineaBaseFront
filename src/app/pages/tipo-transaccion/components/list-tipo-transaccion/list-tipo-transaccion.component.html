@@ -23,7 +23,15 @@
             <tr *ngFor="let tipoT of tipoTs | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
               <td>{{tipoT.id}}</td>
               <td>{{tipoT.detalle}}</td>
-              <td>{{tipoT.descripcion}}</td>
+              <td>
+                {{tipoT.descripcion}}
+                <span
+                    class="badge badge-primary"
+                    style="cursor:pointer"
+                    (click)="verInfo(tipoT)">
+                    Ver info
+                  </span>
+              </td>
               <td>
                 <span class="badge badge-primary" style="cursor: pointer;"
                   (click)="actualizar(tipoT)">Actualizar</span>

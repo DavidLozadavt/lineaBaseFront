@@ -10,7 +10,8 @@ import { UINotificationService } from '@services/uinotification.service';
 })
 export class TipoTransaccionComponent implements OnInit {
 
-  protected showModalTipoT = false;
+  protected showModalTipoT:boolean = false;
+  protected showInfoTipoT:boolean = false;
 
   tipoT: TipoTransaccionModel = null;
   tipoTs: TipoTransaccionModel[] = [];
@@ -68,6 +69,11 @@ export class TipoTransaccionComponent implements OnInit {
         this._uiNotificationService.success('Tipo de transacción creada exitosamente', 'Tipo transacción');
       })
     }
+  }
+
+  verInfoTipoTransaccion(event: TipoTransaccionModel){
+    this.tipoT = event;
+    this.showInfoTipoT = true;
   }
 
   reset() {
