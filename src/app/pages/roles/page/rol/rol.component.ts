@@ -40,7 +40,7 @@ export class RolComponent implements OnInit {
       this.getRoles();
       this._uiNotificationService.success("Rol eliminado exitosamente", "Rol");
     }, (error) => {
-      this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
+      this._uiNotificationService.error("Ha ocurrido un error, intentalo más tarde.", "Ups");
     })
   }
 

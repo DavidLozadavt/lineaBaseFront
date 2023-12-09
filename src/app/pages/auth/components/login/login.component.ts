@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
       (error) => {
         if (error.status == 401 || error.status == 400) {
           this._uiNotificationService.clearAll();
-          this._uiNotificationService.error("Usuario o contraseña inválida", "Datos erroneos");
+          this._uiNotificationService.error("Usuario y/o contraseña inválida o usuario inactivo", "Datos erroneos");
         } else {
           this._uiNotificationService.clearAll();
           this._uiNotificationService.error("Error al iniciar sesión. Por favor, intenta nuevamente.", "Error");
