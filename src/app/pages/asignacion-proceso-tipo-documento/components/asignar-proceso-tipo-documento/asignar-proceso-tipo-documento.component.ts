@@ -91,18 +91,27 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
 
   guardarTipoDoc(tipoDoc: TipoDocumentoModel) {
     if (tipoDoc.id) {
-      this._tipoDocumentos.actualizarTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
+      this._tipoDocumentos.actualizarTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(
+        (tipoDoc) => {
         let tipoDocIndex: number = this.tipoDocs.findIndex(tDoc => tDoc.id == tipoDoc.id);
         this.tipoDocs[tipoDocIndex] = tipoDoc;
+        this._uiNotificationService.success('Actualizado correctamente',tipoDoc.tituloDocumento);
         this.reset();
+      },
+      (error)=>{
+        this._uiNotificationService.error(error.error.code,'Error al actualizar');
       });
     } else {
       this._tipoDocumentos.crearTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
         this.tipoDocs.push(tipoDoc);
         this.tipoDocsAsigned.push(false);
         this.tipoDoc_selected.push(null);
+        this._uiNotificationService.success('Agregado correctamente',tipoDoc.tituloDocumento);
         this.reset();
-      })
+      },
+      (error)=>{
+        this._uiNotificationService.error(error.error.code,'Error al agregar');
+      });
     }
   }
 
@@ -125,9 +134,11 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   eliminarTipoDoc(tipoDocId: number) {
     this._tipoDocumentos.eliminarTipoDocumento(tipoDocId).subscribe(() => {
       let tipoDocIndex: number = this.tipoDocs.findIndex(tDoc => tDoc.id == tipoDocId);
+      let tituloDocumento = this.tipoDocs[tipoDocIndex].tituloDocumento;
       this.tipoDocs.splice(tipoDocIndex, 1);
       this.tipoDoc_selected.splice(tipoDocIndex,1);
       this.tipoDocsAsigned.splice(tipoDocIndex,1);
+      this._uiNotificationService.success('Eliminado correctamente',tituloDocumento);
     },
       (error: HttpErrorResponse) => {
         this._uiNotificationService.error(`${error.error.message}`);
@@ -140,9 +151,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   }
 
   getProcesoTipoDocumentos(): void {
-    let asignados:AsignacionProcesoTipoDocumentoModel[] = this.tipoDoc_selected.filter((tipoDoc)=>tipoDoc) as AsignacionProcesoTipoDocumentoModel[];
-    console.log(asignados);
-    
+    let asignados:AsignacionProcesoTipoDocumentoModel[] = this.tipoDoc_selected.filter((tipoDoc)=>tipoDoc) as AsignacionProcesoTipoDocumentoModel[];    
     this.store.emit(asignados);
   }
 

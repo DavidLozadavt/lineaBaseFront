@@ -36,9 +36,16 @@ export class ProcesoComponent implements OnInit {
   }
 
   eliminarProceso(procesoId: number) {
-    this._procesoService.eliminarProceso(procesoId).subscribe(() => {
-      this.getProcesos();
-    })
+    this._procesoService.eliminarProceso(procesoId).subscribe(
+      () => {
+        let procesoIndex = this.procesos.findIndex((proceso)=>proceso.id == procesoId);
+        let nombreProceso = this.procesos[procesoIndex].nombreProceso;
+        this.procesos.splice(procesoIndex,1);
+        this._uiNotificationService.success('Eliminado correctamente',nombreProceso);
+      },
+      (error)=>{
+        this._uiNotificationService.error(`${error.error.message}`,'No se pudo eliminar');
+      });
   }
 
   actualizarProceso(proceso: ProcesoModel) {
@@ -53,16 +60,26 @@ export class ProcesoComponent implements OnInit {
 
   guardarProceso(proceso: ProcesoModel) {
     if (proceso.id) {
-      this._procesoService.actualizarProceso({proceso:proceso}).subscribe(newProceso => {
+      this._procesoService.actualizarProceso({proceso:proceso}).subscribe(
+        (newProceso) => {
         let procesoIndex:number = this.procesos.findIndex(proceso=>proceso.id == newProceso.id);
         this.procesos[procesoIndex] = newProceso;
+        this._uiNotificationService.success('Actualizado correctamente',newProceso.nombreProceso);
         this.reset();
+      },
+      (error)=>{
+        this._uiNotificationService.error(error.error.code,'Error al actualizar');
       });
     } else {
-      this._procesoService.crearProceso({proceso:proceso}).subscribe(newProceso => {
+      this._procesoService.crearProceso({proceso:proceso}).subscribe(
+        (newProceso) => {
         this.procesos.push(newProceso);
+        this._uiNotificationService.success('Agregado correctamente',newProceso.nombreProceso);
         this.reset();
-      })
+      },
+      (error)=>{
+        this._uiNotificationService.error(error.error.code,'Error al agregar');
+      });
     }
   }
 

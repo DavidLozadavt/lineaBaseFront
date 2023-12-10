@@ -1,39 +1,54 @@
 <div class="modal-body">
   <div class="card-header">
-    <strong>Registrar tipo de documento</strong>
+    <strong>{{formTitle}}</strong>
   </div>
   <div class="card-body">
-    <form class="tipoDocFormulario" [formGroup]="formTipoDoc" class="was-validated" novalidate>
+    <form class="tipoDocFormulario" [formGroup]="formTipoDoc">
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="tituloDocumento">Título documento</label>
         <div class="col-md-7">
           <input
             type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
             placeholder="Ingrese el título del documento"
-            class="form-control is-valid"
-            formControlName='tituloDocumento' required>
-          <div class="valid-feedback" *ngIf="!tituloDocumentoField.hasError('required')">
+            class="form-control text-uppercase"
+            [ngClass]="{
+              'is-valid': tituloDocumentoField.valid && (tituloDocumentoField.dirty || tituloDocumentoField.touched),
+              'is-invalid': tituloDocumentoField.invalid && (tituloDocumentoField.dirty || tituloDocumentoField.touched)
+            }"
+            formControlName='tituloDocumento'>
+          <div *ngIf="tituloDocumentoField.invalid && (tituloDocumentoField.dirty || tituloDocumentoField.touched)" class="invalid-feedback">
+            <div *ngIf="tituloDocumentoField.hasError('required')">Por favor, ingrese un valor para el título del documento.</div>
+            <div *ngIf="tituloDocumentoField.hasError('minlength')">El título del documento debe tener al menos 5 caracteres.</div>
+            <div *ngIf="tituloDocumentoField.hasError('maxlength')">El título del documento no debe tener más de 40 caracteres.</div>
+            <div *ngIf="tituloDocumentoField.hasError('pattern')">Por favor, ingrese un valor válido para el título del documento.</div>
+          </div>
+          <div *ngIf="tituloDocumentoField.valid" class="valid-feedback">
             Valor válido
           </div>
         </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el nombre del rol
-        </div>
       </div>
-      <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
-        <div class="col-md-7">
-          <textarea type="text" rows="9"
-            placeholder="Descripcion..." class="form-control is-valid" formControlName='descripcion'></textarea>
-          <div class="valid-feedback" *ngIf="!descripcion.hasError('required')">
-            Valor valido
-          </div>
-        </div>
-        <div class="invalid-feedback">
-          por favor ingrese un valor valido para la descripción
-        </div>
-      </div>
+      
+     <div class="form-group row">
+  <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
+  <div class="col-md-7">
+    <textarea type="text" rows="9"
+      placeholder="Descripcion..." class="form-control"
+      [ngClass]="{
+        'is-valid': descripcionField.valid && (descripcionField.dirty || descripcionField.touched),
+        'is-invalid': descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)
+      }"
+      formControlName='descripcion'></textarea>
+    <div *ngIf="descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)" class="invalid-feedback">
+      <div *ngIf="!descripcionField.hasError('required')">Por favor, ingrese un valor para la descripción.</div>
+      <div *ngIf="descripcionField.hasError('maxlength')">La descripción no debe tener más de 120 caracteres.</div>
+      <div *ngIf="descripcionField.hasError('pattern')">Por favor, ingrese un valor válido para la descripción.</div>
+    </div>
+    <div *ngIf="descripcionField.valid" class="valid-feedback">
+      Valor válido
+    </div>
+  </div>
+</div>
+
 
     </form>
     <div class="card-footer">

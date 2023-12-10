@@ -1,52 +1,54 @@
 <div class="modal-body">
   <div class="card-header">
-    <strong>Registrar proceso</strong>
+    <strong>{{formTitle}}</strong>
   </div>
   <div class="card-body">
-    <form class="procesoFormulario" [formGroup]="formProceso" class="was-validated" novalidate>
+    <form class="procesoFormulario" [formGroup]="formProceso">
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="name">Nombre proceso</label>
+        <label class="col-md-4 col-form-label" for="nombreProceso">Nombre proceso</label>
         <div class="col-md-7">
-          <input
-            type="text"
-            onkeyup="javascript:this.value=this.value.toUpperCase();"
-            placeholder="Ingrese el nombre del proceso"
-            class="form-control is-valid"
-            formControlName='nombreProceso' required>
-          <div class="valid-feedback" *ngIf="!nombreProcesoField.hasError('required')">
-            Valor válido
+          <input type="text" placeholder="Escriba el nombre" class="form-control text-uppercase"
+            [ngClass]="{
+              'is-valid': nombreProcesoField.valid && (nombreProcesoField.dirty || nombreProcesoField.touched),
+              'is-invalid': nombreProcesoField.invalid && (nombreProcesoField.dirty || nombreProcesoField.touched)
+            }" formControlName="nombreProceso">
+          <div *ngIf="nombreProcesoField.invalid && (nombreProcesoField.dirty || nombreProcesoField.touched)"
+            class="invalid-feedback">
+            <div *ngIf="nombreProcesoField.hasError('required')">Por favor, ingrese un valor para el nombre del proceso.
+            </div>
+            <div *ngIf="nombreProcesoField.hasError('minlength')">El nombre del proceso debe tener al menos 5
+              caracteres.</div>
+            <div *ngIf="nombreProcesoField.hasError('maxlength')">El nombre del proceso no debe tener más de 40
+              caracteres.</div>
+            <div *ngIf="nombreProcesoField.hasError('pattern')">Por favor, ingrese un valor válido para el nombre del
+              proceso.</div>
           </div>
         </div>
-        <div class="invalid-feedback">
-          por favor ingresé un valor válido para el nombre del proceso
-        </div>
       </div>
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
         <div class="col-md-7">
-          <textarea type="text" rows="9"
-            placeholder="Descripcion..." class="form-control is-valid" formControlName='descripcion'></textarea>
-          <div class="valid-feedback" *ngIf="!descripcionField.hasError('required')">
-            Valor valido
+          <textarea type="text" rows="9" [ngClass]="{
+            'is-valid': descripcionField.valid && (descripcionField.dirty || descripcionField.touched),
+            'is-invalid': descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)
+          }" placeholder="Descripcion..." class="form-control" formControlName='descripcion'></textarea>
+          <div class="valid-feedback" *ngIf="descripcionField.valid && (descripcionField.dirty || descripcionField.touched)">
+            Valor válido
+          </div>
+          <div class="invalid-feedback" *ngIf="descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)">
+            <div *ngIf="descripcionField.hasError('maxLength')">La descripción no debe tener más de 120 caracteres.</div>
+            <div *ngIf="descripcionField.hasError('pattern')">Por favor, ingrese un valor válido para la descripción.</div>
           </div>
         </div>
-        <div class="invalid-feedback">
-          por favor ingrese un valor valido para la descripción
-        </div>
       </div>
+      
     </form>
     <div class="card-footer">
-      <button
-        type="submit"
-        class="btn btn-sm btn-primary"
-        (click)="guardarProceso()"
-        [disabled]="formProceso.invalid">
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarProceso()" [disabled]="formProceso.invalid">
         <i class="fa fa-dot-circle-o"></i> Aceptar
       </button>
-      <button
-        type="reset"
-        class="btn btn-sm btn-danger"
-        (click)="closeModal()">
+      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
         <i class="fa fa-ban"></i>
         Cancelar
       </button>

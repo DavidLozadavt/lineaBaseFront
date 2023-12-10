@@ -16,10 +16,9 @@ export class AddProcesoComponent implements OnInit {
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   formProceso: UntypedFormGroup;
-
+  formTitle: string;
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private _uiNotificationService: UINotificationService
   ) {
     this.proceso = {
       id: null,
@@ -27,11 +26,15 @@ export class AddProcesoComponent implements OnInit {
       descripcion: '',
       idCompany:1
     };
+    this.formTitle = "";
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.setProceso()
+    this.setProceso();
+    this.formTitle = !this.proceso || !this.proceso.id
+    ? 'Agregar proceso'
+    : 'Actualizar proceso';
   }
 
 
@@ -55,8 +58,20 @@ export class AddProcesoComponent implements OnInit {
   private buildForm() {
     this.formProceso = this.formBuilder.group({
       id: [0],
-      nombreProceso: ['', [Validators.required]],
-      descripcion: ['', [Validators.required]],
+      nombreProceso: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(40),
+          Validators.minLength(5),
+          Validators.pattern(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ.,;:¡!¿?"'()[\]-]*$/)        ]
+      ],
+      descripcion: [
+        '',
+        [
+          Validators.maxLength(120),
+          Validators.pattern(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ.,;:¡!¿?"'()[\]-]*$/)        ]
+      ],
     });
 
     this.formProceso.valueChanges
@@ -81,8 +96,8 @@ export class AddProcesoComponent implements OnInit {
   getProceso(): ProcesoModel {
     return {
       id: this.proceso?.id,
-      descripcion: this.getControl('descripcion').value,
-      nombreProceso: this.getControl('nombreProceso').value,
+      descripcion: this.getControl('descripcion').value.trim(),
+      nombreProceso: this.getControl('nombreProceso').value.trim(),
       idCompany:1
     }
   }

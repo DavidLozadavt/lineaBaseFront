@@ -28,8 +28,10 @@ export class TipoDocumentoService {
 
 
   crearTipoDocumento(data:{tipoDocumento: TipoDocumentoModel,relations?:string[],columns?:[]}) {
-    data.tipoDocumento.tituloDocumento = data.tipoDocumento.tituloDocumento.toUpperCase();
-    data.tipoDocumento.descripcion = data.tipoDocumento.descripcion.toLowerCase();
+    data.tipoDocumento.tituloDocumento = data.tipoDocumento.tituloDocumento.toUpperCase().trim();
+    data.tipoDocumento.descripcion = data.tipoDocumento.descripcion
+    ? data.tipoDocumento.descripcion.toLowerCase().trim()
+    : "";
     return this._coreService.post<TipoDocumentoModel>(this.url, data);
   }
 
@@ -39,6 +41,8 @@ export class TipoDocumentoService {
     return this._coreService.delete(url);
   }
   actualizarTipoDocumento(data:{tipoDocumento: TipoDocumentoModel,relations?:string[],columns?:[]}) {
+    data.tipoDocumento.tituloDocumento = data.tipoDocumento.tituloDocumento.toUpperCase().trim();
+    data.tipoDocumento.descripcion = data.tipoDocumento.descripcion.toLowerCase().trim();  
     return this._coreService.put<TipoDocumentoModel>(this.url + data.tipoDocumento.id, data);
   }
 }

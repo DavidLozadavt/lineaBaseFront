@@ -1,13 +1,20 @@
 <div class="modal-body">
-    <div class="card-header">
-        <strong>Asignar tipo de documento</strong>
+    <div class="card-header col gap-3">
+        <strong class="row">Marque o desmarque los tipos de documento segun la necesidad del proceso.</strong>
+        <select #nreg class="form-select mt-2" (change)="enviarNumeroRegistros($event) ">
+            <option>5</option>
+            <option>10</option>
+            <option>15</option>
+            <option>20</option>
+            <option>25</option>
+          </select>
     </div>
     <div class="card-body">
 
         <table class="table" *ngIf="tipoDocs.length;else emptyTipoDocs">
             <thead>
                 <tr>
-                    <th>Código</th>
+                    <th>ID</th>
                     <th>Tipo de Documento</th>
                     <th>Descripción</th>
                     <th>Acciones</th>
@@ -55,7 +62,7 @@
                 </button>
             </div>
             <div class="col d-flex  justify-content-end ">
-                <button type="button" class="btn btn-success mr-10 btn-sm" (click)="createTipoDoc()">Nuevo</button>
+                <button type="button" class="btn btn-success mr-10 btn-sm" (click)="createTipoDoc()">Agregar</button>
             </div>
         </div>
     </div>

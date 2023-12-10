@@ -37,11 +37,15 @@ export class TipoDocumentoComponent implements OnInit {
   }
 
   eliminarTipoDoc(tipoDocId: number) {
-    this._tipoDocumentoService.eliminarTipoDocumento(tipoDocId).subscribe(() => {
-      this.getTipoDocumento();
-    },
+    this._tipoDocumentoService.eliminarTipoDocumento(tipoDocId).subscribe(
+      () => {
+        let tipoDocIndex = this.tipoDocumentos.findIndex((tipoDoc)=>tipoDoc.id == tipoDocId);
+        let tituloDocumento = this.tipoDocumentos[tipoDocIndex].tituloDocumento;
+        this.tipoDocumentos.splice(tipoDocIndex,1);
+        this._uiNotificationService.success('Eliminado correctamente',tituloDocumento);
+      },
       (error: HttpErrorResponse) => {
-        this._uiNotificationService.error(`${error.error.message}`);
+        this._uiNotificationService.error(`${error.error.message}`, 'No se pudo eliminar');
       });
   }
 
@@ -55,15 +59,15 @@ export class TipoDocumentoComponent implements OnInit {
     this.showModalTipoDoc = true;
   }
 
-  guardarTipoDoc(tipoDoc: TipoDocumentoModel) {    
+  guardarTipoDoc(tipoDoc: TipoDocumentoModel) {
     if (tipoDoc.id) {
-      this._tipoDocumentoService.actualizarTipoDocumento({tipoDocumento:tipoDoc}).subscribe(tipoDoc => {
-        let tipoDocIndex:number = this.tipoDocumentos.findIndex(tDoc=>tDoc.id == tipoDoc.id);
+      this._tipoDocumentoService.actualizarTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
+        let tipoDocIndex: number = this.tipoDocumentos.findIndex(tDoc => tDoc.id == tipoDoc.id);
         this.tipoDocumentos[tipoDocIndex] = tipoDoc;
         this.reset();
       });
     } else {
-      this._tipoDocumentoService.crearTipoDocumento({tipoDocumento:tipoDoc}).subscribe(tipoDoc => {
+      this._tipoDocumentoService.crearTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
         this.tipoDocumentos.push(tipoDoc)
         this.reset();
       })

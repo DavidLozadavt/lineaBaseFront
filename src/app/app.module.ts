@@ -23,7 +23,7 @@ import { P500Component } from './pages/error/500.component';
 // Import containers
 import { DefaultLayoutComponent } from './templates';
 import { RouterModule } from '@angular/router';
-import { TokenService } from '@services/TokenService';
+import { TokenService } from '@services/token.service';
 // import { PermisosService } from '@services/permisos.service';
 
 // import { CompetenciasComponent } from './pages/competencias/components/competencias/competencias.component';

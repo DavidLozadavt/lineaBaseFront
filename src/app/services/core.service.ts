@@ -6,7 +6,7 @@ import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '@models/persona.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from './../../environments/environment';
-import { TokenService } from './TokenService';
+import { TokenService } from './token.service';
 import { tap, map, catchError } from 'rxjs/operators';
 import { UINotificationService } from '@services/uinotification.service';
 

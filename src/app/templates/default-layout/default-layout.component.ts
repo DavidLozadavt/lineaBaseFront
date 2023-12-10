@@ -3,7 +3,7 @@ import { CompanyModel } from '@models/company.model';
 import { PersonaModel } from '../../models/persona.model';
 import { navItems } from '../../nav/_nav';
 import { CoreService } from '../../services/core.service';
-import { TokenService } from '@services/TokenService';
+import { TokenService } from '@services/token.service';
 
 @Component({
   selector: 'app-dashboard',

@@ -63,6 +63,8 @@ export class ProcesoService {
     return this._coreService.delete(this.url + procesoId);
   }
   actualizarProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
+    data.proceso.nombreProceso = data.proceso.nombreProceso.toUpperCase();
+    data.proceso.descripcion = data.proceso.descripcion.toLowerCase();
     return this._coreService.put<ProcesoModel>(this.url+ data.proceso.id,data);
   }
 }

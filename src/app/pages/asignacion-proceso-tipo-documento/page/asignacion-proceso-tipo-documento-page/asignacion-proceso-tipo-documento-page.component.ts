@@ -68,10 +68,12 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   guardarAsignacion(tipoDocumentos: AsignacionProcesoTipoDocumentoModel[]) {
     this._asignacionProcesoTDocumento.asignarProcesoTipoDocumento({ asignaciones: tipoDocumentos, relations: ['tipoDocumento'] }).subscribe(tipoDocs => {
       this.tipoDocumentos = tipoDocs;
+      this._uiNotificationService.success('Editada correctamente','Configuración');
+
       this.reset();
     },
       (error) => {
-        this._uiNotificationService.error(error.error.message);
+        this._uiNotificationService.error(error.error.message,'Ocurrio un error');
       })
 
   }

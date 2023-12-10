@@ -20,6 +20,8 @@ export class AddTipoDocumentoComponent implements OnInit {
 
   formTipoDoc: UntypedFormGroup;
   procesos: ProcesoModel[] = [];
+  formTitle: string;
+
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -30,16 +32,18 @@ export class AddTipoDocumentoComponent implements OnInit {
       id: null,
       tituloDocumento: '',
       descripcion: '',
-      idCompany:1
+      idCompany: 1
     };
+    this.formTitle = "";
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.traerProcesos();
-    console.log(this.tipoDocumento ? true: false);
-    
-    this.setTipoDoc()
+    // this.traerProcesos();
+    this.setTipoDoc();
+    this.formTitle = !this.tipoDocumento || !this.tipoDocumento.id
+      ? 'Agregar tipo de documento'
+      : 'Actualizar tipo de documento';
   }
 
   traerProcesos() {
@@ -55,7 +59,7 @@ export class AddTipoDocumentoComponent implements OnInit {
     return this.formTipoDoc.get('tituloDocumento');
   }
 
-  get descripcion() {
+  get descripcionField() {
     return this.formTipoDoc.get('descripcion');
   }
 
@@ -71,8 +75,22 @@ export class AddTipoDocumentoComponent implements OnInit {
   private buildForm() {
     this.formTipoDoc = this.formBuilder.group({
       id: [0],
-      tituloDocumento: ['', [Validators.required]],
-      descripcion: [''],
+      tituloDocumento: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(40),
+          Validators.minLength(5),
+          Validators.pattern(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ.,;:¡!¿?"'()[\]-]*$/)
+        ]
+      ],
+      descripcion: [
+        '',
+        [
+          Validators.maxLength(120),
+          Validators.pattern(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ.,;:¡!¿?"'()[\]-]*$/)
+        ]
+      ],
     });
 
     this.formTipoDoc.valueChanges
