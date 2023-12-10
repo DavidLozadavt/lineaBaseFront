@@ -9,8 +9,8 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="name">Nombre rol</label>
         <div class="col-md-7">
-          <input type="text" placeholder="Ingrese el nombre del rol" class="form-control is-valid"
-            formControlName='name' [ngClass]="{'is-invalid': isNameInvalid()}" (input)="onNameInputChange($event)" required>
+          <input type="text" placeholder="Ingrese el nombre del rol" class="form-control is-valid" id="uppercase"
+            formControlName='name' [ngClass]="{'is-invalid': isNameInvalid()}" required>
           <div *ngIf="isNameValid()" class="valid-feedback">
             Valor válido
           </div>

@@ -92,7 +92,7 @@ export class AddMedioPagoComponent implements OnInit {
   getMedioPago(): MedioPagoModel {
     return {
       id: this.medioPago?.id,
-      detalleMedioPago: this.getControl('detalleMedioPago').value,
+      detalleMedioPago: this.getControl('detalleMedioPago').value.toUpperCase(),
     }
   }
 

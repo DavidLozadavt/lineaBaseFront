@@ -8,7 +8,7 @@
         <label class="col-md-4 col-form-label" for="detalleTipoPago">Tipo de pago</label>
         <div class="col-md-7">
           <input type="text" placeholder="Ingrese el nombre del tipo de pago" class="form-control is-valid"
-            formControlName='detalleTipoPago' [ngClass]="{'is-invalid': isNameInvalid()}" (input)="onNameInputChange($event)"
+            formControlName='detalleTipoPago' [ngClass]="{'is-invalid': isNameInvalid()}" id="uppercase"
             required>
           <div *ngIf="isNameValid()" class="valid-feedback">
             Valor válido

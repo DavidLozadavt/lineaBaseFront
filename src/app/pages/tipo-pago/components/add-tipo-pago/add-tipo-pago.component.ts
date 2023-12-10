@@ -95,7 +95,7 @@ export class AddTipoPagoComponent implements OnInit {
   getTipoPago(): TipoPagoModel {
     return {
       id: this.tipoPago?.id,
-      detalleTipoPago: this.getControl('detalleTipoPago').value,
+      detalleTipoPago: this.getControl('detalleTipoPago').value.toUpperCase(),
     }
   }
 

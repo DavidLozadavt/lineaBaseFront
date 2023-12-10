@@ -178,13 +178,13 @@ export class AddUsuarioComponent implements OnInit {
   getUsuario() {
     return {
       id: this.usuarioNew?.id,
-      email: this.getControl('email').value,
+      email: this.getControl('email').value.trim(),
       contrasena: this.getControl('contrasena').value,
       identificacion: this.getControl('identificacion').value,
-      nombre1: this.getControl('nombre1').value,
-      nombre2: this.getControl('nombre2').value,
-      apellido1: this.getControl('apellido1').value,
-      apellido2: this.getControl('apellido2').value,
+      nombre1: this.getControl('nombre1').value.trim().toUpperCase(),
+      nombre2: this.getControl('nombre2').value.trim().toUpperCase(),
+      apellido1: this.getControl('apellido1').value.trim().toUpperCase(),
+      apellido2: this.getControl('apellido2').value.trim().toUpperCase(),
       fechaNac: this.getControl('fechaNac').value['formatted'],
       celular: this.getControl('celular').value,
       direccion: 'Sin registro',
@@ -225,7 +225,6 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onNombre1InputChange(event: any): void {
-    convertInputToUppercase('nombre1', this.formUsuario, event);
     this.isValidNombre1 = isControlValid(this.nombre1Field)
     this.isInvalidNombre1 = isControlInvalid(this.nombre1Field)
   }
@@ -235,7 +234,6 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onNombre2InputChange(event: any): void {
-    convertInputToUppercase('nombre2', this.formUsuario, event);
     this.isValidNombre2 = isControlValid(this.nombre2Field);
     this.isInvalidNombre2 = isControlInvalid(this.nombre2Field);
   }
@@ -245,7 +243,6 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onApellido1InputChange(event: any): void {
-    convertInputToUppercase('apellido1', this.formUsuario, event);
     this.isValidApellido1 = isControlValid(this.apellido1Field);
     this.isInvalidApellido1 = isControlInvalid(this.apellido1Field);
   }
@@ -255,7 +252,6 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onApellido2InputChange(event: any): void {
-    convertInputToUppercase('apellido2', this.formUsuario, event);
     this.isValidApellido2 = isControlValid(this.apellido2Field);
     this.isInvalidApellido2 = isControlInvalid(this.apellido2Field);
   }
@@ -294,7 +290,6 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   onEmailInputChange(event: any): void {
-    convertInputToUppercase('email', this.formUsuario, event);
     this.isValidEmail = isControlValid(this.emailField);
     this.isInvalidEmail = isControlInvalid(this.emailField);
   }

@@ -9,7 +9,7 @@
         <div class="col-md-7">
           <input type="text" placeholder="Ingrese el nombre del medio de pago" class="form-control is-valid"
             formControlName='detalleMedioPago' [ngClass]="{'is-invalid': isNameInvalid()}"
-            (input)="onNameInputChange($event)" required>
+            id="uppercase" required>
           <div *ngIf="isNameValid()" class="valid-feedback">
             Valor válido
           </div>

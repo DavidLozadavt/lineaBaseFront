@@ -55,12 +55,6 @@ export class RolesComponent implements OnInit {
     return numericRegex.test(value);
   }
 
-  onNameInputChange(event: any): void {
-    const inputElement = event.target;
-    const inputValue = inputElement.value.toUpperCase();
-    this.formRol.get('name').setValue(inputValue);
-  }
-
   setRol() {
     if (this.rol) {
       this.formRol.patchValue({
@@ -99,7 +93,7 @@ export class RolesComponent implements OnInit {
   getRol(): RolModel {
     return {
       id: this.rol?.id,
-      name: this.getControl('name').value
+      name: this.getControl('name').value.toUpperCase()
     }
   }
 

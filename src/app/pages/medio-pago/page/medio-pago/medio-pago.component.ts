@@ -56,12 +56,18 @@ export class MedioPagoComponent implements OnInit {
       this._medioPagoService.actualizarMedioPago(medioPago).subscribe(medioPago => {
         this.getMedioPago();
         this.reset();
+        this._uiNotificationService.success("Medio de pago actualizado exitosamente!!!", "Medio de pago");
+      }, (error) => {
+        this._uiNotificationService.error("Ha ocurrido un error inesperado!!!", "Error");
       });
     } else {
       this._medioPagoService.crearMedioPago(medioPago).subscribe(rol => {
         this.getMedioPago();
         this.reset();
-      })
+        this._uiNotificationService.success("Medio de pago creado exitosamente!!!", "Medio de pago");
+      }, (error) => {
+        this._uiNotificationService.error("Ha ocurrido un error inesperado!!!", "Error");
+      });
     }
   }
 
