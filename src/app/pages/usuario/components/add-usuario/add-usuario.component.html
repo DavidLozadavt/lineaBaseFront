@@ -3,7 +3,7 @@
     <strong>Registrar usuario</strong>
   </div>
   <div class="card-body">
-    <form class="usuarioFormulario" [formGroup]="formUsuario" class="was-validated" novalidate>
+    <form class="usuarioFormulario" [formGroup]="formUsuario" class="">
 
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="identificacion">Identificación *</label>
@@ -77,7 +77,7 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-md-4 col-form-label text-uppercase" for="fechaFinal">Fecha de nacimiento *</label>
+        <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento *</label>
         <div class="col-md-7">
           <my-date-picker class="is-valid" placeholder="FECHA DE NACIMIENTO *" [options]="fechaNac"
             formControlName="fechaNac">

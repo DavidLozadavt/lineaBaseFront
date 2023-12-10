@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivationCompanyUserModel } from '@models/activation-company-user.model';
+import { PersonaModel } from '@models/persona.model';
 import { RolModel } from '@models/rol.model';
 import { UsuarioModel } from '@models/usuario.model';
 import { RolesService } from '@services/roles.service';
@@ -21,6 +22,8 @@ export class UsuarioComponent implements OnInit {
   userRoles: any[] = [];
   roles: any[] = [];
   rolUser: RolModel[];
+
+  person: PersonaModel = null;
 
   constructor(
     private _uiNotificationService: UINotificationService,
@@ -88,26 +91,29 @@ export class UsuarioComponent implements OnInit {
     this.showModalUsuario = true;
   }
 
-  updateUser(user: ActivationCompanyUserModel) {
-    this.usuario = user;
+  updateUser(idPerson: number) {
+    console.log(idPerson)
+    // this.usuario = user;
     this.showModalUsuario = true;
   }
 
   guardarUsuarios(usuario: UsuarioModel) {
-    console.log('shit user model ', usuario)
     if (usuario.id) {
       this._usuarioService.actualizarUsuario(usuario).subscribe((usuario) => {
-        console.log('shit user ', usuario)
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
+      }, (user: any) => {
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario creado exitosamente', 'Usuario')
-      })
+      }, (user: any) => {
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+      });
     }
   }
 

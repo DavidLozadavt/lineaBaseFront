@@ -23,12 +23,16 @@ export class PersonaService {
     return this._coreService.get<PersonaModel[]>('personas', data)
   }
 
+  personById(id: number)
+  {
+    return this._coreService.get<PersonaModel>('users/person/' + id);
+  }
 
   crearPersona(persona: FormData) {
     return this._coreService.post<PersonaModel>('personas', persona);
   }
 
-  updateProfile(persona: PersonaModel, fotoAvatar: FileList) {
+  /*updateProfile(persona: PersonaModel, fotoAvatar: FileList) {
     let data = new FormData();
 
     if (persona.email) {
@@ -58,9 +62,31 @@ export class PersonaService {
       data.append('rutaFotoFile', fotoAvatar[0]);
     }
 
-    return this._coreService.put('profile/update', data);
-  }
+    return this._coreService.put('users/person', data);
+  }*/
 
+  updateProfile(persona: PersonaModel, fotoAvatar: FileList) {
+    const data = new FormData();
+  
+    // Agregar propiedades de persona a FormData
+    for (const prop of ['email', 'direccion', 'telefonoFijo', 'celular']) {
+      data.append(prop, persona[prop] || '');
+    }
+  
+    // Agregar propiedades de ciudad a FormData si existen
+    for (const prop of ['ciudadNac', 'ciudad', 'ciudadUbicacion']) {
+      if (persona[prop] && persona[prop].id) {
+        data.append(`id${prop}`, persona[prop].id + "");
+      }
+    }
+  
+    // Agregar foto de avatar a FormData si existe
+    if (fotoAvatar && fotoAvatar.length > 0) {
+      data.append('rutaFotoFile', fotoAvatar[0]);
+    }
+  
+    return this._coreService.put('users/person', data);
+  }  
 
   eliminarPersona(personaId: number) {
     return this._coreService.post(`personas/${personaId}`, personaId);
@@ -74,13 +100,7 @@ export class PersonaService {
   }
 
   actualizarPersona(persona: FormData) {
-
-
     return this._coreService.put('personas/' + persona.get('id'), persona);
   }
-
-
-
-
 
 }
