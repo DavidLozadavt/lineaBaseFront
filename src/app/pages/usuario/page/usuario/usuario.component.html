@@ -2,7 +2,9 @@
   [usuarios]="usuarios"
   (delete)="eliminarUsuarios($event)"
   (create)="createUsuarios()"
-  (asignation)="asignarRol($event)"></app-list-usuario>
+  (update)="updateUser($event)"
+  (asignation)="asignarRol($event)">
+</app-list-usuario>
 
 <app-custom-modal
   title="Gestión Usuario"

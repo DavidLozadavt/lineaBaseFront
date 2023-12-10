@@ -37,7 +37,7 @@
                     }}</label>
                 </div>
                 <ng-template #noRol>
-                  No hay roles asignados
+                  NO HAY ROLES ASIGNADOS
                 </ng-template>
               </td>
 
@@ -46,6 +46,10 @@
               </td>
 
               <td>
+
+                <!-- <span class="badge badge-primary" style="cursor: pointer;"
+                  (click)="actualizar(usuario.user.id)">Actualizar</span> -->
+
                 <span *ngIf="usuario.roles.length === 0; else noDelete" class="badge badge-danger"
                   style="cursor: pointer;" [swal]="{ 
                     title: '¿Deseas eliminar  el usuario ' + usuario.user.persona.nombre1 + ' ' + usuario.user.persona.apellido1 + '?',
@@ -57,12 +61,13 @@
                 <ng-template #noDelete>
                   <span class="badge badge-danger" style="cursor: pointer;" [swal]="{ 
                       title: 'Error',
-                      text: 'No puedes eliminar este usuario',
+                      text: 'No puedes eliminar este usuario, porque tiene asignado roles y/o otras funciones en el sistema.',
                       icon: 'error'
                       }">
                     Eliminar
                   </span>
                 </ng-template>
+
               </td>
               <td>
                 <i style="cursor: pointer;" class="c-icon c-icon-2xl mt-5 mb-2 ml-4 cil-pencil"

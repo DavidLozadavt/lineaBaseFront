@@ -19,6 +19,7 @@ export class UsuarioService {
   }
 
   public actualizarUsuario(usuario: UsuarioModel) {
+    usuario.email = usuario.email.toLowerCase();
     return this._coreService.put<UsuarioModel>('users/users' + usuario.id, usuario);
   }
 

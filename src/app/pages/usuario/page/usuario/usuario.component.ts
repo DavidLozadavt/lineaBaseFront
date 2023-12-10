@@ -88,9 +88,16 @@ export class UsuarioComponent implements OnInit {
     this.showModalUsuario = true;
   }
 
+  updateUser(user: ActivationCompanyUserModel) {
+    this.usuario = user;
+    this.showModalUsuario = true;
+  }
+
   guardarUsuarios(usuario: UsuarioModel) {
+    console.log('shit user model ', usuario)
     if (usuario.id) {
       this._usuarioService.actualizarUsuario(usuario).subscribe((usuario) => {
+        console.log('shit user ', usuario)
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')

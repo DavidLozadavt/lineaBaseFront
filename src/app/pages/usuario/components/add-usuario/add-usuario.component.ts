@@ -160,6 +160,7 @@ export class AddUsuarioComponent implements OnInit {
 
   guardarUsuario() {
     if (this.formUsuario.valid) {
+      console.log(this.getUsuario())
       this.store.emit(this.getUsuario());
     } else {
       this._uiNotificationService.error("Por favor, completa correctamente el formulario", "Error");
