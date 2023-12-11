@@ -113,7 +113,6 @@ export class UpdatePersonComponent {
   }
 
   guardarUsuario() {
-    console.log('shit')
     if (this.formUsuario.valid) {
       this.update.emit(this.getUsuario());
     } else {
@@ -130,7 +129,6 @@ export class UpdatePersonComponent {
   }
 
   getUsuario() {
-    console.log('shit 2')
     return {
       id: this.person?.id,
       email: this.getControl('email').value.trim(),
