@@ -74,7 +74,7 @@ export class RolComponent implements OnInit {
       }, (error) => {
         if (error.status === 422 && error.error.errors) {
           this._uiNotificationService.error("No puedes crear un nombre que tenga 3 caracteres o más de veinte con carecteres especiales", "Error");
-        } else this._uiNotificationService.error("Ha ocurrido un error inesperado, intentalo más tarde.", "Ups");
+        } else this._uiNotificationService.error("No puedes crear un rol existente.", "Ups");
 
       })
     }
