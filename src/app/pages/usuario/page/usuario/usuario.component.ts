@@ -115,11 +115,16 @@ export class UsuarioComponent implements OnInit {
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
+        console.log(usuario)
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario creado exitosamente', 'Usuario')
-      }, (user: any) => {
-        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+      }, (error) => {
+        if (error && error.error && error.error.message && error.error.message.includes('Integrity constraint violation')) {
+          this._uiNotificationService.error('Este correo ya existe.', 'Correo duplicado');
+        } else {
+          this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+        }
       });
     }
   }
