@@ -3,6 +3,7 @@ import { ActivationCompanyUserModel } from '@models/activation-company-user.mode
 import { PersonaModel } from '@models/persona.model';
 import { RolModel } from '@models/rol.model';
 import { UsuarioModel } from '@models/usuario.model';
+import { PersonaService } from '@services/persona.service';
 import { RolesService } from '@services/roles.service';
 import { UINotificationService } from '@services/uinotification.service';
 import { UsuarioService } from '@services/usuario.service';
@@ -16,6 +17,7 @@ export class UsuarioComponent implements OnInit {
 
   protected showModalUsuario = false;
   protected showModalAsignacion = false;
+  protected showModalUpdatePerson = false;
 
   usuario: ActivationCompanyUserModel = null;
   usuarios: ActivationCompanyUserModel[] = [];
@@ -28,7 +30,8 @@ export class UsuarioComponent implements OnInit {
   constructor(
     private _uiNotificationService: UINotificationService,
     private _usuarioService: UsuarioService,
-    private _rolService: RolesService
+    private _rolService: RolesService,
+    private _personService: PersonaService
   ) { }
 
   ngOnInit(): void {
@@ -91,10 +94,14 @@ export class UsuarioComponent implements OnInit {
     this.showModalUsuario = true;
   }
 
-  updateUser(idPerson: number) {
-    console.log(idPerson)
-    // this.usuario = user;
-    this.showModalUsuario = true;
+  getPersonById(idPerson: number) {
+    this._personService.personById(idPerson).subscribe(
+      (person) => {
+        this.person = person;
+        this.showModalUpdatePerson = true;
+      }, (error) => {
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+      })
   }
 
   guardarUsuarios(usuario: UsuarioModel) {
@@ -117,9 +124,25 @@ export class UsuarioComponent implements OnInit {
     }
   }
 
+  updatePerson(person: PersonaModel) {
+    console.log('shit')
+    if(person.id) {
+      console.log('on')
+      this._personService.updatePerson(person).subscribe(() => {
+        this.getUsuarios();
+        this.reset();
+        this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
+      }, (error) => {
+        console.log(error)
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+      });
+    }
+  }
+
   reset() {
     this.usuario = null;
     this.showModalUsuario = false;
+    this.showModalUpdatePerson = false;
   }
 
 }

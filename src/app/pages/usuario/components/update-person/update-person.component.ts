@@ -1,21 +1,24 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractControl, AbstractControlOptions, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
 import { IMyDpOptions } from 'mydatepicker';
 import { isControlValid, isControlInvalid, containsOnlyNumbers, convertInputToUppercase, isStrongPassword } from '@components/validations/inputs';
+import { PersonaModel } from '@models/persona.model';
 
 @Component({
-  selector: 'app-add-usuario',
-  templateUrl: './add-usuario.component.html',
-  styleUrls: ['./add-usuario.component.scss']
+  selector: 'app-update-person',
+  templateUrl: './update-person.component.html',
+  styleUrls: ['./update-person.component.scss']
 })
-export class AddUsuarioComponent implements OnInit {
+export class UpdatePersonComponent {
 
   @Input() usuarioNew: UsuarioModel;//actualizar
 
-  @Output() store: EventEmitter<UsuarioModel> = new EventEmitter();
+  @Input() person: PersonaModel;
+
+  @Output() update: EventEmitter<PersonaModel> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   formUsuario: UntypedFormGroup;
@@ -48,23 +51,15 @@ export class AddUsuarioComponent implements OnInit {
   isValidConfirmPassword: boolean = false;
   isInvalidConfirmPassword: boolean = false;
 
-  formOptions: AbstractControlOptions = { validators: this.passwordMatchValidator.bind(this) };
-
   constructor(
     private formBuilder: UntypedFormBuilder,
     private _uiNotificationService: UINotificationService
-  ) {
-    this.usuarioNew = {
-      id: null,
-      email: '',
-      contrasena: '',
-    };
-    this.buildForm();
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.setProceso()
-    this.setupPasswordValidators();
+    if (this.person) {
+      this.buildForm();
+    }
   }
 
   public fechaNac: IMyDpOptions = {
@@ -88,29 +83,18 @@ export class AddUsuarioComponent implements OnInit {
     }
   };
 
-  setProceso() {
-    if (this.usuarioNew) {
-      this.formUsuario.patchValue({
-        email: this.usuarioNew.email,
-        contrasena: this.usuarioNew.contrasena
-      })
-    }
-  }
-
   private buildForm() {
     this.formUsuario = this.formBuilder.group({
-      id:                  [0],
-      email:               ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(50), this.emailValidation]],
-      contrasena:          ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(20)]],
-      confirmarContrasena: ['', [Validators.required,     Validators.minLength(8),  Validators.maxLength(20)]],
-      identificacion:      ['', [Validators.required,     Validators.minLength(6),  Validators.maxLength(20)]],
-      nombre1:             ['', [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      nombre2:             ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      apellido1:           ['', [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      apellido2:           ['', [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      fechaNac:            ['', [Validators.required ]],
-      celular:             ['', [Validators.required,     Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
-    }, this.formOptions);
+      id: [this.person?.id],
+      email: [this.person?.email, [Validators.required, Validators.minLength(8), Validators.maxLength(50), this.emailValidation]],
+      identificacion: [this.person?.identificacion, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      nombre1: [this.person?.nombre1, [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      nombre2: [this.person?.nombre2, [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido1: [this.person?.apellido1, [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido2: [this.person?.apellido2, [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      fechaNac: [new Date(this.person.fechaNac), [Validators.required]],
+      celular: [this.person?.celular, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
+    });
 
     this.formUsuario.valueChanges
       .pipe(
@@ -128,40 +112,12 @@ export class AddUsuarioComponent implements OnInit {
     return null;
   }
 
-  private passwordMatchValidator(g: FormGroup) {
-    const contrasena = g.get('contrasena')?.value;
-    const confirmarContrasena = g.get('confirmarContrasena')?.value;
-  
-    return contrasena === confirmarContrasena ? null : { mismatch: true };
-  }
-  
-
-  private setupPasswordValidators(): void {
-    const contrasenaControl = this.formUsuario.get('contrasena');
-    const confirmarContrasenaControl = this.formUsuario.get('confirmarContrasena');
-  
-    contrasenaControl.setValidators([
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(20),
-    ]);
-  
-    confirmarContrasenaControl.setValidators([
-      Validators.required,
-      Validators.minLength(8),
-      Validators.maxLength(20),
-      this.passwordMatchValidator.bind(this.formUsuario), // Llama a la función con el contexto del formulario
-    ]);
-  
-    // Actualiza el estado de los controles
-    contrasenaControl.updateValueAndValidity();
-    confirmarContrasenaControl.updateValueAndValidity();
-  } 
-
   guardarUsuario() {
+    console.log('trying update')
     if (this.formUsuario.valid) {
-      console.log(this.getUsuario())
-      this.store.emit(this.getUsuario());
+      console.log('yeah')
+      this.update.emit(this.getUsuario());
+      console.log('yeah2')
     } else {
       this._uiNotificationService.error("Por favor, completa correctamente el formulario", "Error");
     }
@@ -176,15 +132,15 @@ export class AddUsuarioComponent implements OnInit {
   }
 
   getUsuario() {
+    console.log('adentro')
     return {
-      id: this.usuarioNew?.id,
+      id: this.person?.id,
       email: this.getControl('email').value.trim(),
-      contrasena: this.getControl('contrasena').value,
       identificacion: this.getControl('identificacion').value,
       nombre1: this.getControl('nombre1').value.trim().toUpperCase(),
       nombre2: this.getControl('nombre2').value !== ""
-      ? this.getControl('apellido2').value.trim().toUpperCase()
-      : "",
+        ? this.getControl('apellido2').value.trim().toUpperCase()
+        : "",
       apellido1: this.getControl('apellido1').value.trim().toUpperCase(),
       apellido2: this.getControl('apellido2').value !== ""
         ? this.getControl('apellido2').value.trim().toUpperCase()
@@ -211,10 +167,10 @@ export class AddUsuarioComponent implements OnInit {
   onIdentificacionInputChange(event: any): void {
     const inputElement = event.target;
     let inputValue = inputElement.value;
-  
+
     const sanitizedValue = inputValue.replace(/e/gi, '');
     this.identificacionField.setValue(sanitizedValue);
-  
+
     if ((sanitizedValue.length >= 6 && sanitizedValue.length <= 20) && /^\d+$/.test(sanitizedValue)) {
       this.isValidIdentificacion = containsOnlyNumbers(this.identificacionField);
       this.isInvalidIdentificacion = !this.isValidIdentificacion;
@@ -296,26 +252,6 @@ export class AddUsuarioComponent implements OnInit {
   onEmailInputChange(event: any): void {
     this.isValidEmail = isControlValid(this.emailField);
     this.isInvalidEmail = isControlInvalid(this.emailField);
-  }
-
-  get contrasenaField() {
-    return this.formUsuario.get('contrasena');
-  }
-
-  onPasswordInputChange(event: any): void {
-    const passwordValue = this.contrasenaField.value;
-    this.isValidPassword = isStrongPassword(passwordValue);
-    this.isInvalidPassword = !this.isValidPassword && (this.contrasenaField.dirty || this.contrasenaField.touched);
-  }
-
-  get contrasenaConfirmField() {
-    return this.formUsuario.get('confirmarContrasena');
-  }
-
-  onPasswordConfirmInputChange(event: any): void {
-    const passwordConfirmValue    = this.contrasenaConfirmField.value;
-    this.isValidConfirmPassword   = passwordConfirmValue === this.contrasenaField.value;
-    this.isInvalidConfirmPassword = !this.isValidConfirmPassword && (this.contrasenaConfirmField.dirty || this.contrasenaConfirmField.touched);
   }
 
 }

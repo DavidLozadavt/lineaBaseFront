@@ -65,7 +65,7 @@ export class PersonaService {
     return this._coreService.put('users/person', data);
   }*/
 
-  updateProfile(persona: PersonaModel, fotoAvatar: FileList) {
+  updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
     const data = new FormData();
   
     // Agregar propiedades de persona a FormData
@@ -85,7 +85,7 @@ export class PersonaService {
       data.append('rutaFotoFile', fotoAvatar[0]);
     }
   
-    return this._coreService.put('users/person', data);
+    return this._coreService.put('users/person/' + persona.id, data);
   }  
 
   eliminarPersona(personaId: number) {

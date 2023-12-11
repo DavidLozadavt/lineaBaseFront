@@ -10,13 +10,15 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { AddUsuarioComponent } from './components/add-usuario/add-usuario.component';
 import { MyDatePickerModule } from 'mydatepicker';
 import { AsignarRolComponent } from './components/asignar-rol/asignar-rol.component';
+import { UpdatePersonComponent } from './components/update-person/update-person.component';
 
 @NgModule({
   declarations: [
     UsuarioComponent,
     ListUsuarioComponent,
     AddUsuarioComponent,
-    AsignarRolComponent
+    AsignarRolComponent,
+    UpdatePersonComponent
   ],
   imports: [
     CommonModule,
