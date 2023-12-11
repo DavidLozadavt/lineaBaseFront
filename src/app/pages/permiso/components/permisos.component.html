@@ -1,27 +1,23 @@
 <div class="col-md-12 grid-margin">
   <div class="card">
-    <div class="card-header font-weight-bold h4">
-      <i class="fa fa-align-justify"></i>Asignación de permisos
-      <select #nreg class="form-control col-lg-2" (change)="enviarNumeroRegistros(nreg.value)">
+
+    <div class="card-header font-weight-bold h4 d-flex">
+      <i class="fa fa-align-justify"></i> Asignación de permisos
+      <select #nreg class="form-control col-lg-1 ml-auto" (change)="enviarNumeroRegistros(nreg.value)">
         <option>5</option>
         <option>10</option>
         <option>15</option>
         <option>20</option>
       </select>
     </div>
+
     <div class="card-body">
       <form [formGroup]="form" class="forms-sample" (ngSubmit)="guardarPermiso()">
         <div class="ng-autocomplete mb-3">
           <label for="rol" class="font-weight-bold">Roles</label>
-          <ng-autocomplete #auto 
-            [data]="objRol" 
-            [searchKeyword]="keyword" 
-            placeholder="Seleccione un rol"
-            (selected)='menusByrol($event?.id)' 
-            (inputChanged)='onChangeSearch($event)'
-            (inputFocused)='onFocused($event)' 
-            [itemTemplate]="itemTemplate" 
-            [notFoundTemplate]="notFoundTemplate"
+          <ng-autocomplete #auto [data]="objRol" [searchKeyword]="keyword" placeholder="Seleccione un rol"
+            (selected)='menusByrol($event?.id)' (inputChanged)='onChangeSearch($event)'
+            (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
             [initialValue]="''">
           </ng-autocomplete>
           <div *ngIf="rol.invalid" class="mt-2">
@@ -56,7 +52,7 @@
             <ul>
               <span>
                 <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior"
-                nextLabel="Siguiente"></pagination-controls>
+                  nextLabel="Siguiente"></pagination-controls>
               </span>
             </ul>
           </div>
