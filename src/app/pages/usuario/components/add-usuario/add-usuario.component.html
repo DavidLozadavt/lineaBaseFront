@@ -108,7 +108,7 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="email">Correo electronico *</label>
         <div class="col-md-7">
-          <input type="email" placeholder="Correo electronico *" class="form-control is-valid text-uppercase" formControlName='email'
+          <input type="email" placeholder="Correo electronico *" class="form-control is-valid" formControlName='email'
             [ngClass]="{'is-invalid': isInvalidEmail}" (input)="onEmailInputChange($event)" required>
           <div *ngIf="isValidEmail" class="valid-feedback">
             Valor válido

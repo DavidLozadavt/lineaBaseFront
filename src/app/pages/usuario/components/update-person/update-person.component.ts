@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractControl, AbstractControlOptions, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UsuarioModel } from '@models/usuario.model';
 import { UINotificationService } from '@services/uinotification.service';
 import { debounceTime } from 'rxjs/operators';
@@ -129,9 +129,7 @@ export class UpdatePersonComponent {
   }
 
   getUsuario() {
-    console.log('adentro')
     return {
-      id: this.person?.id,
       email: this.getControl('email').value.trim(),
       identificacion: this.getControl('identificacion').value,
       nombre1: this.getControl('nombre1').value.trim().toUpperCase(),
