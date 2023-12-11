@@ -32,40 +32,37 @@ export class PersonaService {
     return this._coreService.post<PersonaModel>('personas', persona);
   }
 
-  /*updateProfile(persona: PersonaModel, fotoAvatar: FileList) {
-    let data = new FormData();
-
-    if (persona.email) {
-      data.append('email', persona.email);
-    }
-    if (persona.direccion) {
-      data.append('direccion', persona.direccion);
-    }
-    if (persona.celular) {
-      data.append('telefonoFijo', persona.telefonoFijo);
-    }
-    if (persona.celular) {
-      data.append('celular', persona.celular);
-    }
-
-    if (persona.ciudadNac && persona.ciudadNac.id) {
-      data.append('idciudadNac', persona.ciudadNac.id + "");
-    }
-    if (persona.ciudad && persona.ciudad.id) {
-      data.append('idciudad', persona.ciudad.id + "");
-    }
-    if (persona.ciudadUbicacion && persona.ciudadUbicacion.id) {
-      data.append('idciudadUbicacion', persona.ciudadUbicacion.id + "");
-    }
-
-    if (fotoAvatar) {
+  updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
+    const data = new FormData();
+  
+    // Asegurar que las fechas tengan el formato correcto (puedes necesitar ajustar esto según tus necesidades)
+    // if (persona.fechaNac) {
+    //   const fechaNac = new Date(persona.fechaNac);
+    //   data.append('fechaNac', fechaNac.toISOString());
+    // }
+  
+    const propiedades = ['identificacion', 'email', 'nombre1', 'nombre2', 'apellido1', 'apellido2', 'direccion', 'telefonoFijo', 'celular'];
+    propiedades.forEach(propiedad => {
+      if (persona[propiedad]) {
+        data.append(propiedad, persona[propiedad]);
+      }
+    });
+  
+    if (fotoAvatar && fotoAvatar[0] instanceof File) {
       data.append('rutaFotoFile', fotoAvatar[0]);
     }
+  
+    ['ciudadNac', 'ciudad', 'ciudadUbicacion'].forEach(ciudadPropiedad => {
+      const ciudad = persona[ciudadPropiedad];
+      if (ciudad && ciudad.id) {
+        data.append(`id${ciudadPropiedad}`, ciudad.id + "");
+      }
+    });
+  
+    return this._coreService.put('users/person/' + persona.id, data);
+  }  
 
-    return this._coreService.put('users/person', data);
-  }*/
-
-  updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
+  /*updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
     const data = new FormData();
   
     // Agregar propiedades de persona a FormData
@@ -86,7 +83,7 @@ export class PersonaService {
     }
   
     return this._coreService.put('users/person/' + persona.id, data);
-  }  
+  }*/ 
 
   eliminarPersona(personaId: number) {
     return this._coreService.post(`personas/${personaId}`, personaId);
@@ -95,6 +92,7 @@ export class PersonaService {
   public personaByIdentificacion(identificacion: number) {
     return this._coreService.get<PersonaModel>('personas?identificacion=' + identificacion + '&pagination=1');
   }
+  
   public getAcudiente(idPersona: number) {
     return this._coreService.get('colegio/acudientes?identificacion_estudiante=' + idPersona + '&paginate=1');
   }

@@ -113,11 +113,8 @@ export class UpdatePersonComponent {
   }
 
   guardarUsuario() {
-    console.log('trying update')
     if (this.formUsuario.valid) {
-      console.log('yeah')
       this.update.emit(this.getUsuario());
-      console.log('yeah2')
     } else {
       this._uiNotificationService.error("Por favor, completa correctamente el formulario", "Error");
     }
@@ -138,12 +135,12 @@ export class UpdatePersonComponent {
       email: this.getControl('email').value.trim(),
       identificacion: this.getControl('identificacion').value,
       nombre1: this.getControl('nombre1').value.trim().toUpperCase(),
-      nombre2: this.getControl('nombre2').value !== ""
-        ? this.getControl('apellido2').value.trim().toUpperCase()
+      nombre2: this.getControl('nombre2').value != ""
+        ? this.getControl('nombre2').value.toUpperCase()
         : "",
       apellido1: this.getControl('apellido1').value.trim().toUpperCase(),
-      apellido2: this.getControl('apellido2').value !== ""
-        ? this.getControl('apellido2').value.trim().toUpperCase()
+      apellido2: this.getControl('apellido2').value != ""
+        ? this.getControl('apellido2').value.toUpperCase()
         : "",
       fechaNac: this.getControl('fechaNac').value['formatted'],
       celular: this.getControl('celular').value,

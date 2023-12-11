@@ -182,12 +182,12 @@ export class AddUsuarioComponent implements OnInit {
       contrasena: this.getControl('contrasena').value,
       identificacion: this.getControl('identificacion').value,
       nombre1: this.getControl('nombre1').value.trim().toUpperCase(),
-      nombre2: this.getControl('nombre2').value !== ""
-      ? this.getControl('apellido2').value.trim().toUpperCase()
+      nombre2: this.getControl('nombre2').value != ""
+      ? this.getControl('nombre2').value.toUpperCase()
       : "",
       apellido1: this.getControl('apellido1').value.trim().toUpperCase(),
-      apellido2: this.getControl('apellido2').value !== ""
-        ? this.getControl('apellido2').value.trim().toUpperCase()
+      apellido2: this.getControl('apellido2').value != ""
+        ? this.getControl('apellido2').value.toUpperCase()
         : "",
       fechaNac: this.getControl('fechaNac').value['formatted'],
       celular: this.getControl('celular').value,
