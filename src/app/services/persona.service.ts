@@ -54,6 +54,7 @@ export class PersonaService {
     });
 
     if (persona.fechaNac) {
+      console.log('shittt', persona.fechaNac)
       const fechaNac = new Date(persona.fechaNac);
       data.append('fechaNac', fechaNac.toISOString());
     }
