@@ -75,29 +75,11 @@
             </div>
           </div>
         </div>
-  
-        <div class="form-group row">
-          <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento *</label>
-          <div class="col-md-7">
-            <my-date-picker class="is-valid" placeholder="FECHA DE NACIMIENTO *" [options]="fechaNac"
-              formControlName="fechaNac">
-            </my-date-picker>
-            <div class="valid-feedback" *ngIf="!fechaNacField.hasError('required');else formato ">
-              Valor valido
-            </div>
-            <ng-template #formato>
-              <p class="text-success">Formato de fecha: (aaaa/mm/dd) </p>
-            </ng-template>
-          </div>
-        </div>
 
         <div class="form-group row">
           <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento *</label>
           <div class="col-md-7">
-            <!-- Cambia de my-date-picker a un campo de fecha -->
             <input type="date" class="form-control is-valid" placeholder="FECHA DE NACIMIENTO *" formControlName="fechaNac" />
-            
-            <!-- Agrega la validación en lugar de my-date-picker -->
             <div class="valid-feedback" *ngIf="!fechaNacField.hasError('required');else formato ">
               Valor válido
             </div>
