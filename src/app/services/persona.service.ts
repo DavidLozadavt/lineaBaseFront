@@ -35,12 +35,6 @@ export class PersonaService {
   updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
     const data = new FormData();
   
-    // Asegurar que las fechas tengan el formato correcto (puedes necesitar ajustar esto según tus necesidades)
-    // if (persona.fechaNac) {
-    //   const fechaNac = new Date(persona.fechaNac);
-    //   data.append('fechaNac', fechaNac.toISOString());
-    // }
-  
     const propiedades = ['identificacion', 'email', 'nombre1', 'nombre2', 'apellido1', 'apellido2', 'direccion', 'telefonoFijo', 'celular'];
     propiedades.forEach(propiedad => {
       if (persona[propiedad]) {
@@ -51,16 +45,21 @@ export class PersonaService {
     if (fotoAvatar && fotoAvatar[0] instanceof File) {
       data.append('rutaFotoFile', fotoAvatar[0]);
     }
-  
+
     ['ciudadNac', 'ciudad', 'ciudadUbicacion'].forEach(ciudadPropiedad => {
       const ciudad = persona[ciudadPropiedad];
       if (ciudad && ciudad.id) {
         data.append(`id${ciudadPropiedad}`, ciudad.id + "");
       }
     });
+
+    if (persona.fechaNac) {
+      const fechaNac = new Date(persona.fechaNac);
+      data.append('fechaNac', fechaNac.toISOString());
+    }
   
     return this._coreService.put('users/person/' + persona.id, data);
-  }  
+  }
 
   /*updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
     const data = new FormData();
@@ -92,7 +91,7 @@ export class PersonaService {
   public personaByIdentificacion(identificacion: number) {
     return this._coreService.get<PersonaModel>('personas?identificacion=' + identificacion + '&pagination=1');
   }
-  
+
   public getAcudiente(idPersona: number) {
     return this._coreService.get('colegio/acudientes?identificacion_estudiante=' + idPersona + '&paginate=1');
   }

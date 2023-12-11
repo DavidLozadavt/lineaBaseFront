@@ -125,10 +125,8 @@ export class UsuarioComponent implements OnInit {
   }
 
   updatePerson(person: PersonaModel) {
-    console.log('person id', person.id)
     if (person.id) {
       this._personService.updatePerson(person).subscribe(() => {
-        console.log(person)
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
