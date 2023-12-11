@@ -23,8 +23,7 @@ export class PersonaService {
     return this._coreService.get<PersonaModel[]>('personas', data)
   }
 
-  personById(id: number)
-  {
+  personById(id: number) {
     return this._coreService.get<PersonaModel>('users/person/' + id);
   }
 
@@ -34,14 +33,20 @@ export class PersonaService {
 
   updatePerson(persona: PersonaModel, fotoAvatar?: FileList) {
     const data = new FormData();
-  
+
     const propiedades = ['identificacion', 'email', 'nombre1', 'nombre2', 'apellido1', 'apellido2', 'direccion', 'telefonoFijo', 'celular'];
+
     propiedades.forEach(propiedad => {
-      if (persona[propiedad]) {
-        data.append(propiedad, persona[propiedad]);
+      const valor = persona[propiedad];
+      if (valor !== undefined && valor !== null) {
+        if (propiedad === 'email') {
+          data.append(propiedad, valor.toLowerCase());
+        } else {
+          data.append(propiedad, valor === "" ? valor : valor.toUpperCase());
+        }
       }
     });
-  
+
     if (fotoAvatar && fotoAvatar[0] instanceof File) {
       data.append('rutaFotoFile', fotoAvatar[0]);
     }
@@ -54,11 +59,10 @@ export class PersonaService {
     });
 
     if (persona.fechaNac) {
-      console.log('shittt', persona.fechaNac)
       const fechaNac = new Date(persona.fechaNac);
       data.append('fechaNac', fechaNac.toISOString());
     }
-  
+
     return this._coreService.put('users/person/' + persona.id, data);
   }
 
@@ -83,7 +87,7 @@ export class PersonaService {
     }
   
     return this._coreService.put('users/person/' + persona.id, data);
-  }*/ 
+  }*/
 
   eliminarPersona(personaId: number) {
     return this._coreService.post(`personas/${personaId}`, personaId);

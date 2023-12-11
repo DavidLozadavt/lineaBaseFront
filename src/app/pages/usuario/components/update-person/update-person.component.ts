@@ -85,15 +85,15 @@ export class UpdatePersonComponent {
 
   private buildForm() {
     this.formUsuario = this.formBuilder.group({
-      id:             [this.person?.id],
-      email:          [this.person?.email,          [Validators.required,     Validators.minLength(8),  Validators.maxLength(50), this.emailValidation]],
-      identificacion: [this.person?.identificacion, [Validators.required,     Validators.minLength(6),  Validators.maxLength(20)]],
-      nombre1:        [this.person?.nombre1,        [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      nombre2:        [this.person?.nombre2,        [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      apellido1:      [this.person?.apellido1,      [Validators.required,     Validators.minLength(2),  Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      apellido2:      [this.person?.apellido2,      [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      fechaNac:       [this.person.fechaNac,        [Validators.required]],
-      celular:        [this.person?.celular,        [Validators.required,     Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
+      id: [this.person?.id],
+      email: [this.person?.email, [Validators.required, Validators.minLength(8), Validators.maxLength(50), this.emailValidation]],
+      identificacion: [this.person?.identificacion, [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
+      nombre1: [this.person?.nombre1, [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      nombre2: [this.person?.nombre2, [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido1: [this.person?.apellido1, [Validators.required, Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      apellido2: [this.person?.apellido2, [Validators.minLength(2), Validators.maxLength(10), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      fechaNac: [this.person.fechaNac, [Validators.required]],
+      celular: [this.person?.celular, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^\d{10}$/)]],
     });
 
     this.formUsuario.valueChanges
@@ -129,18 +129,16 @@ export class UpdatePersonComponent {
   }
 
   getUsuario() {
+    const nombre2Value = this.getControl('nombre2').value;
+    const apellido2Value = this.getControl('apellido2').value;
     return {
       id: this.person?.id,
       email: this.getControl('email').value.trim(),
       identificacion: this.getControl('identificacion').value,
       nombre1: this.getControl('nombre1').value.trim().toUpperCase(),
-      nombre2: this.getControl('nombre2').value != ""
-        ? this.getControl('nombre2').value.toUpperCase()
-        : "",
+      nombre2: nombre2Value && nombre2Value !== "" ? nombre2Value.toUpperCase() : "",
       apellido1: this.getControl('apellido1').value.trim().toUpperCase(),
-      apellido2: this.getControl('apellido2').value != ""
-        ? this.getControl('apellido2').value.toUpperCase()
-        : "",
+      apellido2: apellido2Value && apellido2Value !== "" ? apellido2Value.toUpperCase() : "",
       fechaNac: this.getControl('fechaNac').value,
       celular: this.getControl('celular').value,
       direccion: 'Sin registro',
