@@ -18,6 +18,8 @@ export class AddTipoTransaccionComponent implements OnInit {
 
   formTipoT: UntypedFormGroup;
 
+  formTitle: string;
+
   constructor(
     private formBuilder: UntypedFormBuilder
   ) {
@@ -26,11 +28,15 @@ export class AddTipoTransaccionComponent implements OnInit {
       detalle: '',
       descripcion: '',
     };
+    this.formTitle = "";
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.setTipoT()
+    this.setTipoT();
+    this.formTitle = !this.tipoT || !this.tipoT.id
+    ? 'Agregar tipo transacción'
+    : 'Actualizar tipo transacción';
   }
 
   get detalleField() {

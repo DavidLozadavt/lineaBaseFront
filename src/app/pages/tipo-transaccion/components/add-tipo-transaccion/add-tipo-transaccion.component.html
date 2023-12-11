@@ -6,7 +6,7 @@
 
     <form class="tipoTFormulario" [formGroup]="formTipoT" class="was-validated" novalidate>
 
-      <div class="form-group row">
+      <!-- <div class="form-group row">
         <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
         <div class="col-md-7">
           <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control is-valid"
@@ -19,7 +19,24 @@
             Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
           </div>
         </div>
+      </div> -->
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="name">Nombre tipo transacción</label>
+        <div class="col-md-7">
+          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control text-uppercase" 
+          [ngClass]="{
+              'is-valid': detalleField.valid && (detalleField.dirty || detalleField.touched),
+              'is-invalid': detalleField.invalid && (detalleField.dirty || detalleField.touched)
+            }" formControlName="detalle" required>
+          <div *ngIf="detalleField.invalid && (detalleField.dirty || detalleField.touched)"
+            class="invalid-feedback">
+            <div>Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).</div>
+          </div>
+        </div>
       </div>
+
+
 
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
