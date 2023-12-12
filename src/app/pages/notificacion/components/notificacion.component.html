@@ -3,13 +3,13 @@
     <div class="card-body">
       <div class="col-lg-8">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header font-weight-bold h4 d-flex">
             <i class="fa fa-align-justify"></i> Notificaciones
-            <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros($event.target.value) ">
+            <select #nreg class="form-control col-lg-1 ml-auto" (change)="enviarNumeroRegistros(nreg.value)">
+              <option>5</option>
               <option>10</option>
               <option>15</option>
               <option>20</option>
-              <option>25</option>
             </select>
           </div>
           <div class="card-body">
@@ -30,36 +30,30 @@
                     [ngClass]="{estadoNoLeido: not.estado.estado === 'ACTIVO'}" *ngFor="let not of notificacion">
                     <td>{{ not.personaRemitente.nombre1 }} {{ not.personaRemitente.apellido1 }}</td>
                     <td>{{ not.asunto }}</td>
-                    <td>{{ not.fecha|date }}/{{ not.hora}}</td>
+                    <td>{{ not.fecha | date }}/{{ not.hora }}</td>
                     <td>{{ not.empresa.razonSocial }}</td>
-                    <td *ngIf="not.estado.estado === 'ACTIVO'; else estado">No leido</td>
+                    <td *ngIf="not.estado.estado === 'ACTIVO'; else estado">No leído</td>
                     <ng-template #estado>
-                      <td>Leido</td>
+                      <td>Leído</td>
                     </ng-template>
-
                   </tr>
                 </tbody>
               </table>
-
               <div>
-
-
                 <div>
                 </div>
               </div>
             </div>
           </div>
-
-
-
         </div>
       </div>
     </div>
-    <app-custom-modal title="Detalle de la notificación" [(show)]="showModalNotificacion">
-      <div class="modal-body ">
-        <div class="mensaje-modal ml-5">
-
-          {{ mensaje?.mensaje }}
-        </div>
-      </div>
-    </app-custom-modal>
+  </div>
+</div>
+<app-custom-modal title="Detalle de la notificación" [(show)]="showModalNotificacion">
+  <div class="modal-body ">
+    <div class="mensaje-modal ml-5">
+      {{ mensaje?.mensaje }}
+    </div>
+  </div>
+</app-custom-modal>
