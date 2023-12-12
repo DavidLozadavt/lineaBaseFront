@@ -137,7 +137,7 @@ export class UsuarioComponent implements OnInit {
         this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
       }, (error) => {
         console.log(error)
-        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+        this._uiNotificationService.error('Este correo ya existe.', 'Correo duplicado');
       });
     }
   }
