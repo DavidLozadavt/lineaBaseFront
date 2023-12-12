@@ -35,8 +35,8 @@ export class AddTipoTransaccionComponent implements OnInit {
   ngOnInit(): void {
     this.setTipoT();
     this.formTitle = !this.tipoT || !this.tipoT.id
-    ? 'Agregar tipo transacción'
-    : 'Actualizar tipo transacción';
+      ? 'Agregar tipo transacción'
+      : 'Actualizar tipo transacción';
   }
 
   get detalleField() {
@@ -97,15 +97,13 @@ export class AddTipoTransaccionComponent implements OnInit {
     this.formTipoT = this.formBuilder.group({
       id: [0],
       detalle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      descripcion: ['', [Validators.minLength(10), Validators.maxLength(255), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      descripcion: ['', [Validators.maxLength(255), Validators.pattern(/^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜñÑ.,;:¡!¿?"'()[\]-]*$/)]],
     });
 
     this.formTipoT.valueChanges
-      .pipe(
-        debounceTime(350),
-      )
       .subscribe(data => {
-      });
+    });
+
   }
 
   guardarTipoTransaccion() {
