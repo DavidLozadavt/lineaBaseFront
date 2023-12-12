@@ -51,7 +51,7 @@
               <td>
 
                 <span class="badge badge-primary" style="cursor: pointer;"
-                  (click)="updateUser(usuario.idUser)">Actualizar</span>
+                  (click)="updateUser(usuario.user.persona.id)">Actualizar</span>
 
                 <span *ngIf="usuario.roles.length === 0; else noDelete" class="badge badge-danger"
                   style="cursor: pointer;" [swal]="{ 
