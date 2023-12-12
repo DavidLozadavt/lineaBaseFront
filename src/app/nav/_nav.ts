@@ -36,7 +36,7 @@ export const navItems: NavegacionModel[] = [
   {
     name: "Medios de Pago",
     url: 'add_medio_pago',
-    icon: 'icon-drop',
+    icon: 'icon-credit-card',
     permiso: GESTION_MEDIO_PAGO
   },
   {
@@ -54,7 +54,7 @@ export const navItems: NavegacionModel[] = [
   {
     name: "Usuarios",
     url: 'add_usuarios',
-    icon: 'icon-drop',
+    icon: 'icon-user',
     permiso: GESTION_TIPO_TRANSACCION
   },
   {
