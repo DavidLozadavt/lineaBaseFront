@@ -97,7 +97,7 @@ export class AddTipoTransaccionComponent implements OnInit {
     this.formTipoT = this.formBuilder.group({
       id: [0],
       detalle: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(255), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      descripcion: ['', [Validators.minLength(10), Validators.maxLength(255), Validators.pattern(/^[A-Za-z\s]+$/)]],
     });
 
     this.formTipoT.valueChanges

@@ -1,53 +1,35 @@
 <div class="modal-body">
   <div class="card-header">
-    <strong>Registrar tipo transacción</strong>
+    <strong>{{formTitle}}</strong>
   </div>
   <div class="card-body">
 
-    <form class="tipoTFormulario" [formGroup]="formTipoT" class="was-validated" novalidate>
-
-      <!-- <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
-        <div class="col-md-7">
-          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control is-valid"
-            formControlName='detalle' [ngClass]="{'is-invalid': isDetalleInvalid()}"
-            id="uppercase" required>
-          <div *ngIf="isDetalleValid()" class="valid-feedback">
-            Valor válido
-          </div>
-          <div *ngIf="isDetalleInvalid()" class="invalid-feedback">
-            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
-          </div>
-        </div>
-      </div> -->
+    <form class="tipoTFormulario" [formGroup]="formTipoT">
 
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="name">Nombre tipo transacción</label>
+        <label class="col-md-4 col-form-label" for="detalle">Nombre tipo transacción</label>
         <div class="col-md-7">
-          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control text-uppercase" 
-          [ngClass]="{
-              'is-valid': detalleField.valid && (detalleField.dirty || detalleField.touched),
-              'is-invalid': detalleField.invalid && (detalleField.dirty || detalleField.touched)
-            }" formControlName="detalle" required>
-          <div *ngIf="detalleField.invalid && (detalleField.dirty || detalleField.touched)"
-            class="invalid-feedback">
-            <div>Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).</div>
+          <input type="text" placeholder="Ingrese el nombre de tipo transacción" class="form-control text-uppercase"
+            [ngClass]="{
+                    'is-valid': detalleField.valid && (detalleField.dirty || detalleField.touched),
+                    'is-invalid': detalleField.invalid && (detalleField.dirty || detalleField.touched)
+                  }" formControlName="detalle" required>
+          <div *ngIf="detalleField.invalid && (detalleField.dirty || detalleField.touched)" class="invalid-feedback">
+            <div>Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+            </div>
           </div>
         </div>
       </div>
 
-
-
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
         <div class="col-md-7">
-          <textarea rows="9" placeholder="Ingrese la descripción" class="form-control is-valid"
-            formControlName='descripcion' [ngClass]="{'is-invalid': isDescriptionInvalid()}"
-            id="uppercase" required></textarea>
-          <div *ngIf="isDescriptionValid()" class="valid-feedback">
-            Valor válido
-          </div>
-          <div *ngIf="isDescriptionInvalid()" class="invalid-feedback">
+          <textarea rows="9" placeholder="Ingrese la descripción" class="form-control text-uppercase" [ngClass]="{
+                      'is-valid': descripcionField.valid && (descripcionField.dirty || descripcionField.touched),
+                      'is-invalid': descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)
+                    }" formControlName="descripcion"></textarea>
+          <div *ngIf="descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)"
+            class="invalid-feedback">
             Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 10 y 255 caracteres).
           </div>
         </div>
