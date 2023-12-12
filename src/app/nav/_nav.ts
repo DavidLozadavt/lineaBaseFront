@@ -11,7 +11,8 @@ import {
   GESTION_PAGO_NOMINA,
   GESTION_SEDE,
   GESTION_AREA,
-  GESTION_INFRAESTRUCTURA
+  GESTION_INFRAESTRUCTURA,
+  GESTION_USUARIO
 } from './permissions';
 import { AsignacionProcesoTipoDocumentoModule } from '../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module';
 
@@ -56,7 +57,7 @@ export const navItems: NavegacionModel[] = [
     name: "Usuarios",
     url: 'add_usuarios',
     icon: 'fa-solid fa-user',
-    permiso: GESTION_TIPO_TRANSACCION
+    permiso: GESTION_USUARIO
   },
   {
     name: "Pagos Nomina Supervisor",
