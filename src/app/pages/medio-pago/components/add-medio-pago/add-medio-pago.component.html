@@ -1,23 +1,26 @@
 <div class="modal-body">
   <div class="card-header">
-    <strong>Registrar medio de pago</strong>
+    <strong>{{formTitle}}</strong>
   </div>
   <div class="card-body">
-    <form class="medioPagoFormulario" [formGroup]="formMedioPago" class="was-validated" novalidate>
+    <form class="medioPagoFormulario" [formGroup]="formMedioPago">
+
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="detalleMedioPago">Medio de pago</label>
         <div class="col-md-7">
-          <input type="text" placeholder="Ingrese el nombre del medio de pago" class="form-control is-valid"
-            formControlName='detalleMedioPago' [ngClass]="{'is-invalid': isNameInvalid()}"
-            id="uppercase" required>
-          <div *ngIf="isNameValid()" class="valid-feedback">
-            Valor válido
-          </div>
-          <div *ngIf="isNameInvalid()" class="invalid-feedback">
-            Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+          <input type="text" placeholder="Ingrese el nombre del medio de pago" class="form-control text-uppercase"
+            [ngClass]="{
+                    'is-valid': detalleMedioPagoField.valid && (detalleMedioPagoField.dirty || detalleMedioPagoField.touched),
+                    'is-invalid': detalleMedioPagoField.invalid && (detalleMedioPagoField.dirty || detalleMedioPagoField.touched)
+                  }" formControlName="detalleMedioPago" required>
+          <div *ngIf="detalleMedioPagoField.invalid && (detalleMedioPagoField.dirty || detalleMedioPagoField.touched)"
+            class="invalid-feedback">
+            <div>Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 4 y 20 caracteres).
+            </div>
           </div>
         </div>
       </div>
+
     </form>
     <div class="card-footer">
       <button type="submit" class="btn btn-sm btn-primary" (click)="guardarMedioPago()"
