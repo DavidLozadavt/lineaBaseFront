@@ -84,4 +84,9 @@ export class DefaultLayoutComponent implements OnInit {
   get avatar() {
     return this.persona ? this.persona.rutaFotoUrl : ''
   }
+
+  mostrarAlerta() {
+    alert('Tus notificaciones');
+  }
+
 }
