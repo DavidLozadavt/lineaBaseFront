@@ -24,10 +24,11 @@
       <div class="form-group row">
         <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
         <div class="col-md-7">
-          <textarea rows="9" placeholder="Ingrese la descripción" class="form-control text-uppercase" [ngClass]="{
-                      'is-valid': descripcionField.valid && (descripcionField.dirty || descripcionField.touched),
-                      'is-invalid': descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)
-                    }" formControlName="descripcion"></textarea>
+          <textarea rows="9" placeholder="Ingrese la descripción" class="form-control text-uppercase" 
+          [ngClass]="{
+            'is-valid': descripcionField.valid && (descripcionField.dirty || descripcionField.touched),
+            'is-invalid': descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)
+          }" formControlName="descripcion"></textarea>
           <div *ngIf="descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)"
             class="invalid-feedback">
             Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 10 y 255 caracteres).
