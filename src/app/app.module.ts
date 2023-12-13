@@ -27,6 +27,7 @@ import { P500Component } from './pages/error/500.component';
 import { DefaultLayoutComponent } from './templates';
 import { RouterModule } from '@angular/router';
 import { TokenService } from '@services/TokenService';
+import { JornadaComponent } from './pages/jornada/page/jornada/jornada.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -61,7 +62,8 @@ const APP_CONTAINERS = [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
-    P500Component
+    P500Component,
+    JornadaComponent
   ],
   providers: [
     TokenService,

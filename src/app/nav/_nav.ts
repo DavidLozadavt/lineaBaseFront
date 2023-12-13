@@ -12,9 +12,11 @@ import {
   GESTION_SEDE,
   GESTION_AREA,
   GESTION_INFRAESTRUCTURA,
-  GESTION_USUARIO
+  GESTION_USUARIO,
+  GESTION_JORNADA
 } from './permissions';
 import { AsignacionProcesoTipoDocumentoModule } from '../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module';
+import { JornadaModule } from '../pages/jornada/jornada.module';
 
 export const navItems: NavegacionModel[] = [
   {
@@ -83,6 +85,12 @@ export const navItems: NavegacionModel[] = [
     icon: 'icon-home',
     permiso: GESTION_INFRAESTRUCTURA,
   },
+  {
+    name: "Jornada",
+    url: 'gestion_jornada',
+    icon: 'fas fa-clock',
+    permiso: GESTION_JORNADA
+  }
 
 ];
 
@@ -151,6 +159,9 @@ export const routesNav: Routes = [
   {
     path: 'asignacion_proceso_tipo_documento',
     loadChildren: () => import('../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module').then(m => AsignacionProcesoTipoDocumentoModule)
+  },
+  {
+    path: 'gestion_jornada',
+    loadChildren: () => import('../pages/jornada/jornada.module').then(m => JornadaModule)
   }
-
 ];
