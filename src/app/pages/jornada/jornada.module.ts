@@ -9,10 +9,15 @@ import { ComunModule } from '@components/comun.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyDatePickerModule } from 'mydatepicker';
+import { JornadaComponent } from './page/jornada/jornada.component';
 
 
 @NgModule({
+  exports:[
+    AddJornadaComponent
+  ],
   declarations: [
+    JornadaComponent,
     AddJornadaComponent,
     ListJornadaComponent
   ],

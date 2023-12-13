@@ -1,19 +1,7 @@
-<p class="h1">JORNADAS</p>
-
-<!-- <app-list-jornada
-  [usuarios]="usuarios"
-  (delete)="eliminarUsuarios($event)"
-  (create)="createUsuarios()"
-  (update)="getPersonById($event)"
-  (asignation)="asignarRol($event)">
-</app-list-jornada> -->
-
-<!-- <app-custom-modal
-  title="Gestión jornada"
-  [(show)]="showModalUsuario">
-  <app-add-usuario
-    *ngIf="showModalUsuario"
-    (store)="guardarUsuarios($event)"
-    (cancel)="reset()">
-  </app-add-usuario>
-</app-custom-modal> -->
+<app-list-jornada
+  [jornadas]="jornadas"
+  (delete)="deleteJornada($event)"
+  (update)="updateJornada($event)"
+  (create)="createJornada()"
+>
+</app-list-jornada>

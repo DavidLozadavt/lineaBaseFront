@@ -1,4 +1,5 @@
 import { CompanyModel } from "@models/company.model";
+import { AsignacionDiaJornada } from "@models/asignacion-dia-jornada.model";
 
 export interface JornadaModel {
 
@@ -16,5 +17,7 @@ export interface JornadaModel {
 
   idCompany?: number;
   company?: CompanyModel;
+
+  dias?: AsignacionDiaJornada[];
 
 }
