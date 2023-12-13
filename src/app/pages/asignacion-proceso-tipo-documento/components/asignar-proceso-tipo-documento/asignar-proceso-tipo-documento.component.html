@@ -18,6 +18,7 @@
                     <th>Tipo de Documento</th>
                     <th>Descripción</th>
                     <th>Acciones</th>
+                    <th>Asignar</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,17 +35,19 @@
                             No hay descripción
                         </ng-template>
                     </td>
+                    <td>
+                        <span class="w-100  badge badge-primary" style="cursor: pointer;"
+                            (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
+                        <span class="w-100 badge badge-danger" style="cursor: pointer;"
+                            [swal]="{ title: '¿Desea eliminar el tipo de documento\n'+tipoDoc.tituloDocumento+' ?', icon: 'question', showCancelButton: true, cancelButtonText: 'Cancelar' }"
+                            (confirm)="eliminarTipoDoc(tipoDoc.id)">
+                            Eliminar
+                        </span>
+                    </td>
                     <td class="d-flex flex-column p-2 gap-2">
                         <app-custom-switch class="w-75" [(checked)]="tipoDocsAsigned[index]"
                             (checkedChange)="selectTipoDocumento(index)" [size]="8">
                         </app-custom-switch>
-                        <span class="w-100  badge badge-primary" style="cursor: pointer;"
-                            (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
-                            <span class="w-100 badge badge-danger" style="cursor: pointer;"
-                            [swal]="{ title: '¿Desea eliminar el tipo de documento\n'+tipoDoc.tituloDocumento+' ?', icon: 'question', showCancelButton: true, cancelButtonText: 'Cancelar' }"
-                            (confirm)="eliminarTipoDoc(tipoDoc.id)">
-                            Eliminar
-                          </span>
                     </td>
                 </tr>
             </tbody>
@@ -84,6 +87,6 @@
 </app-custom-modal>
 
 <app-custom-modal [title]="tipoDoc.tituloDocumento??''" [(show)]="showModalInfo">
-    <app-description *ngIf="showModalInfo" (close)="reset()" [body]="tipoDoc.descripcion">
+    <app-description *ngIf="showModalInfo" (close)="reset()" [body]="tipoDoc.descripcion.toUpperCase()">
     </app-description>
 </app-custom-modal>

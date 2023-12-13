@@ -62,6 +62,6 @@
 </app-custom-modal>
 
 <app-custom-modal [title]="tipoDocumento.tipoDocumento ? tipoDocumento.tipoDocumento.tituloDocumento : ''" [(show)]="showModalInfo">
-    <app-description *ngIf="showModalInfo" (close)="reset()" [body]="tipoDocumento.tipoDocumento.descripcion">
+    <app-description *ngIf="showModalInfo" (close)="reset()" [body]="tipoDocumento.tipoDocumento.descripcion.toUpperCase()">
     </app-description>
 </app-custom-modal>

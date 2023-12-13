@@ -27,12 +27,12 @@
       </div>
 
       <div class="form-group row">
-        <label class="col-md-4 col-form-label" for="descripcion">Descripción</label>
+        <label class="col-md-4 col-form-label " for="descripcion">Descripción</label>
         <div class="col-md-7">
           <textarea type="text" rows="9" [ngClass]="{
             'is-valid': descripcionField.valid && (descripcionField.dirty || descripcionField.touched),
             'is-invalid': descripcionField.invalid && (descripcionField.dirty || descripcionField.touched)
-          }" placeholder="Descripcion..." class="form-control" formControlName='descripcion'></textarea>
+          }" placeholder="Descripcion..." class="form-control text-uppercase" formControlName='descripcion'></textarea>
           <div class="valid-feedback" *ngIf="descripcionField.valid && (descripcionField.dirty || descripcionField.touched)">
             Valor válido
           </div>

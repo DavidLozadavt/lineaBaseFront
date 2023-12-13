@@ -99,7 +99,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
         this.reset();
       },
       (error)=>{
-        this._uiNotificationService.error(error.error.code,'Error al actualizar');
+        this._uiNotificationService.error(error.error.message,'Error al actualizar');
       });
     } else {
       this._tipoDocumentos.crearTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
@@ -110,7 +110,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
         this.reset();
       },
       (error)=>{
-        this._uiNotificationService.error(error.error.code,'Error al agregar');
+        this._uiNotificationService.error(error.error.message,'Error al agregar');
       });
     }
   }

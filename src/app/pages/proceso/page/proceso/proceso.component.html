@@ -8,6 +8,6 @@
 </app-custom-modal>
 
 <app-custom-modal [title]="proceso?proceso.nombreProceso:''" [(show)]="showModalInfo">
-  <app-description *ngIf="showModalInfo" (close)="reset()" [body]="proceso.descripcion">
+  <app-description *ngIf="showModalInfo" (close)="reset()" [body]="proceso.descripcion.toUpperCase()">
   </app-description>
 </app-custom-modal>
