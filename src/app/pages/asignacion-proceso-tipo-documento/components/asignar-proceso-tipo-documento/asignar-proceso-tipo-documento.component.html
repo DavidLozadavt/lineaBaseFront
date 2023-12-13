@@ -7,13 +7,13 @@
             <option>15</option>
             <option>20</option>
             <option>25</option>
-          </select>
+        </select>
     </div>
     <div class="card-body">
 
-        <table class="table" *ngIf="tipoDocs.length;else emptyTipoDocs">
+        <table class="table table-striped table-hover table-responsive" *ngIf="tipoDocs.length;else emptyTipoDocs">
             <thead>
-                <tr>
+                <tr class="table-info">
                     <th>ID</th>
                     <th>Tipo de Documento</th>
                     <th>Descripción</th>
@@ -25,18 +25,26 @@
                     *ngFor="let tipoDoc of tipoDocs | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }; let index = index">
                     <td>{{tipoDoc.id}}</td>
                     <td>{{tipoDoc.tituloDocumento}}</td>
-                    <td>{{tipoDoc.descripcion ?? 'No hay descripción disponible'}}</td>
-                    <td>
-                        <app-custom-switch [(checked)] = "tipoDocsAsigned[index]"
+                    <td class="description">
+                        <span *ngIf="tipoDoc.descripcion;else descTipoDoc" class="badge badge-primary"
+                            style="cursor: pointer;" (click)="getInfo(tipoDoc)">
+                            Ver descripción
+                        </span>
+                        <ng-template #descTipoDoc>
+                            No hay descripción
+                        </ng-template>
+                    </td>
+                    <td class="d-flex flex-column p-2 gap-2">
+                        <app-custom-switch class="w-75" [(checked)]="tipoDocsAsigned[index]"
                             (checkedChange)="selectTipoDocumento(index)" [size]="8">
-                    </app-custom-switch>
-                        <span class="badge badge-primary" style="cursor: pointer;"
+                        </app-custom-switch>
+                        <span class="w-100  badge badge-primary" style="cursor: pointer;"
                             (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
-                        <span class="badge badge-danger" style="cursor: pointer;"
-                            [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                            <span class="w-100 badge badge-danger" style="cursor: pointer;"
+                            [swal]="{ title: '¿Desea eliminar el tipo de documento\n'+tipoDoc.tituloDocumento+' ?', icon: 'question', showCancelButton: true, cancelButtonText: 'Cancelar' }"
                             (confirm)="eliminarTipoDoc(tipoDoc.id)">
                             Eliminar
-                        </span>
+                          </span>
                     </td>
                 </tr>
             </tbody>
@@ -44,7 +52,8 @@
         <div *ngIf="tipoDocs.length">
             <ul>
                 <span>
-                    <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+                    <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior"
+                        nextLabel="Siguiente"></pagination-controls>
                 </span>
             </ul>
         </div>
@@ -68,13 +77,13 @@
     </div>
 </div>
 
-<app-custom-modal
-  title="Gestión Tipo Documento"
-  [(show)]="showModalTipoDoc">
-  <app-add-tipo-documento
-    *ngIf="showModalTipoDoc"
-    [tipoDocumento]="tipoDoc"
-    (store)="guardarTipoDoc($event)"
-    (cancel)="reset()">
-  </app-add-tipo-documento>
+<app-custom-modal title="Gestión Tipo Documento" [(show)]="showModalTipoDoc">
+    <app-add-tipo-documento *ngIf="showModalTipoDoc" [tipoDocumento]="tipoDoc" (store)="guardarTipoDoc($event)"
+        (cancel)="reset()">
+    </app-add-tipo-documento>
+</app-custom-modal>
+
+<app-custom-modal [title]="tipoDoc.tituloDocumento??''" [(show)]="showModalInfo">
+    <app-description *ngIf="showModalInfo" (close)="reset()" [body]="tipoDoc.descripcion">
+    </app-description>
 </app-custom-modal>

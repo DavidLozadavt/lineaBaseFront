@@ -13,6 +13,7 @@ import { CustomPaginationComponent } from './custom-table-serve/custom-paginatio
 import { CustomTableServeComponent } from './custom-table-serve/custom-table-serve.component';
 import { CustomTableComponent } from './custom-table/custom-table.component';
 import { FormCustomMessagesComponent } from './form-custom-messages/form-custom-messages.component';
+import { DescriptionComponent } from './description/description.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { FormCustomMessagesComponent } from './form-custom-messages/form-custom-
     FormCustomMessagesComponent,
     CustomTableServeComponent,
     CustomSwitchComponent,
-    CustomTableComponent
+    CustomTableComponent,
+    DescriptionComponent
   ],
   declarations: [
     CustomSearchComponent,
@@ -43,7 +45,8 @@ import { FormCustomMessagesComponent } from './form-custom-messages/form-custom-
     CustomTableServeComponent,
     CustomPaginationComponent,
     CustomSwitchComponent,
-    CustomTableComponent
+    CustomTableComponent,
+    DescriptionComponent
   ]
 })
 export class ComunModule { }

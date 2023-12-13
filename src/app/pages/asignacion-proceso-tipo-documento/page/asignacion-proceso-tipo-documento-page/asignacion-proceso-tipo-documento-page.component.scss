@@ -1,3 +1,12 @@
 .back-button{
-    max-width: 50px;
+    width: 30px;
+    height: 30px;
+    
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+td{
+    max-width: 250px;
+    text-wrap: break-word;
 }

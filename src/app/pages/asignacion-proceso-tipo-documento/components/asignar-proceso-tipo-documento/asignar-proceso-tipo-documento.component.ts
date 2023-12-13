@@ -14,6 +14,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
 
   @Input() tipoDocsId: number[];
   showModalTipoDoc = false;
+  showModalInfo = false;
   tipoDocsAsigned: boolean[];
 
   @Output() store: EventEmitter<AsignacionProcesoTipoDocumentoModel[]> = new EventEmitter();
@@ -33,6 +34,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   ) {
     this.idProceso = 1;
     this.tipoDocs = [];
+    this.tipoDoc = {} as TipoDocumentoModel;
     this.tipoDoc_selected = [];
     this.tipoDocsAsigned = [];
     this.tipoDocsId = [];
@@ -41,8 +43,6 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   ngOnInit(): void {
     this.idProceso = parseInt(localStorage.getItem('idProceso') ?? '1');
     this.getTipoDocumentos();
-    
-    
   }
 
 
@@ -115,6 +115,10 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     }
   }
 
+  getInfo(tipoDoc:TipoDocumentoModel){
+    this.tipoDoc = tipoDoc;
+    this.showModalInfo = true;
+  }
 
   actualizarTipoDoc(tipoDoc: TipoDocumentoModel) {
     this.tipoDoc = tipoDoc;
@@ -129,6 +133,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   reset() {
     this.tipoDoc = {} as TipoDocumentoModel;
     this.showModalTipoDoc = false;
+    this.showModalInfo = false;
   }
 
   eliminarTipoDoc(tipoDocId: number) {

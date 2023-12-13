@@ -1,18 +1,13 @@
-<app-list-proceso
-  [procesos]="procesos"
-  (delete)="eliminarProceso($event)"
-  (update)="actualizarProceso($event)"
-  (documentos)="vistaDocumentos($event)"
-  (create)="createProceso()">
+<app-list-proceso [procesos]="procesos" (delete)="eliminarProceso($event)" (update)="actualizarProceso($event)"
+  (documentos)="vistaDocumentos($event)" (create)="createProceso()" (info)="getInfo($event)">
 </app-list-proceso>
 
-<app-custom-modal
-  title="Gestión proceso"
-  [(show)]="showModalProceso">
-  <app-add-proceso
-    *ngIf="showModalProceso"
-    [proceso]="proceso"
-    (store)="guardarProceso($event)"
-    (cancel)="reset()">
+<app-custom-modal title="Gestión proceso" [(show)]="showModalProceso">
+  <app-add-proceso *ngIf="showModalProceso" [proceso]="proceso" (store)="guardarProceso($event)" (cancel)="reset()">
   </app-add-proceso>
+</app-custom-modal>
+
+<app-custom-modal [title]="proceso?proceso.nombreProceso:''" [(show)]="showModalInfo">
+  <app-description *ngIf="showModalInfo" (close)="reset()" [body]="proceso.descripcion">
+  </app-description>
 </app-custom-modal>

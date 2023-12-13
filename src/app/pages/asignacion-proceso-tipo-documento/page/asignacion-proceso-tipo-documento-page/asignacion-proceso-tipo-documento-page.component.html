@@ -19,7 +19,7 @@
     <div class="card-body table-container">
         <table class="table table-striped table-hover table-responsive">
             <thead>
-                <tr>
+                <tr class="table-info">
                     <th>ID</th>
                     <th>Documento</th>
                     <th>Descripción</th>
@@ -30,26 +30,38 @@
                     *ngFor="let tipoDocumento of tipoDocumentos | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
                     <td>{{tipoDocumento.id}}</td>
                     <td>{{tipoDocumento.tipoDocumento.tituloDocumento}}</td>
-                    <td class="text-capitalize ">{{tipoDocumento.tipoDocumento.descripcion ?? 'No hay descripción disponible'}}</td>
+                    <td class="text-capitalize ">
+                        <span *ngIf="tipoDocumento.tipoDocumento.descripcion;else descTipoDoc" class="badge badge-primary"
+                            style="cursor: pointer;" (click)="getInfo(tipoDocumento)">
+                            Ver descripción
+                        </span>
+                        <ng-template #descTipoDoc>
+                            No hay descripción
+                        </ng-template>
+                    </td>
                 </tr>
             </tbody>
+            <button class="btn btn-success" (click)="asignarTipoDocumento()">
+                Asignar
+            </button>
         </table>
         <div>
             <ul>
                 <span>
-                    <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+                    <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior"
+                        nextLabel="Siguiente"></pagination-controls>
                 </span>
             </ul>
         </div>
-    </div>
-    <div class="card-footer">
-        <button class="btn btn-success" (click)="asignarTipoDocumento()">
-            Asignar
-        </button>
     </div>
 </div>
 
 <app-custom-modal title="Asignar tipos de documentos" [(show)]="showModalTipoDocumento">
     <app-asignar-proceso-tipo-documento [tipoDocsId]="tipoDocsId" *ngIf="showModalTipoDocumento"
         (store)="guardarAsignacion($event)" (cancel)="reset()"></app-asignar-proceso-tipo-documento>
+</app-custom-modal>
+
+<app-custom-modal [title]="tipoDocumento.tipoDocumento ? tipoDocumento.tipoDocumento.tituloDocumento : ''" [(show)]="showModalInfo">
+    <app-description *ngIf="showModalInfo" (close)="reset()" [body]="tipoDocumento.tipoDocumento.descripcion">
+    </app-description>
 </app-custom-modal>

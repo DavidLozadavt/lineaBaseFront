@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ProcesoComponent implements OnInit {
 
   protected showModalProceso = false;
+  protected showModalInfo = false;
 
   proceso: ProcesoModel = null;
   procesos: ProcesoModel[] = [];
@@ -83,7 +84,13 @@ export class ProcesoComponent implements OnInit {
     }
   }
 
+  getInfo(index:number){
+    this.showModalInfo =true;
+    this.proceso = this.procesos[index];
+  }
+
   reset() {
+    this.showModalInfo =false;
     this.proceso = null;
     this.showModalProceso = false;
   }

@@ -19,6 +19,7 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   tipoDocumento: AsignacionProcesoTipoDocumentoModel;
 
   showModalTipoDocumento: boolean = false;
+  showModalInfo = false;
 
   numReg = 5;
   pageActual = 0;
@@ -59,6 +60,11 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
     this.router.navigate(['/add_proceso']);
   }
 
+  getInfo(tipoDoc:AsignacionProcesoTipoDocumentoModel){
+    this.tipoDocumento = tipoDoc;
+    this.showModalInfo = true;
+  }
+
   asignarTipoDocumento() {
     this.tipoDocsId = this.tipoDocumentos.map((tipoDoc) => tipoDoc.idTipoDocumento);   
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
@@ -78,8 +84,9 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
 
   }
 
-  reset() {
-    this.tipoDocumento = null;
+  reset() {    
+    this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
     this.showModalTipoDocumento = false;
+    this.showModalInfo = false;
   }
 }
