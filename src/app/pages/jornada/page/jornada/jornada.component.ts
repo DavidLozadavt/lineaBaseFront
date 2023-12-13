@@ -27,7 +27,7 @@ export class JornadaComponent implements OnInit {
   }
 
 
-  actualizarJornada(jornada: JornadaModel) {
+  updateJornada(jornada: JornadaModel) {
     this.jornada = jornada;
     this.showModalJornada = true;
   }
