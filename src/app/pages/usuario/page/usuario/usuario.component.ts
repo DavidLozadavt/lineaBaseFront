@@ -115,7 +115,6 @@ export class UsuarioComponent implements OnInit {
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
-        console.log(usuario)
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario creado exitosamente', 'Usuario')

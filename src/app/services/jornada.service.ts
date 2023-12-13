@@ -20,15 +20,15 @@ export class JornadaService {
     return this._coreService.get<JornadaModel>('jornadas/jornadas/' + id);
   }
 
-  crearMedioPago(jornada: JornadaModel) {
+  createJornada(jornada: JornadaModel) {
     return this._coreService.post<JornadaModel>('jornadas/jornadas', jornada);
   }
 
-  actualizarMedioPago(jornada: JornadaModel) {
+  updateJornada(jornada: JornadaModel) {
     return this._coreService.put('jornadas/jornadas/' + jornada.id, jornada);
   }
 
-  eliminarMedioPago(idJornada: number) {
+  deleteJornada(idJornada: number) {
     return this._coreService.delete('jornadas/jornadas/' + idJornada);
   }
 
