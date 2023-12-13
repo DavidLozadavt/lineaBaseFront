@@ -225,18 +225,20 @@ export class AddJornadaComponent {
   
     this._jornadaService.getJornadas().subscribe(
       (savedData: any) => {
-        console.log(savedData)
+        console.log('before ', savedData)
         if (savedData && savedData.length > 0) {
           this.diasChecked = savedData;
           this.diasSeman = this.diasSeman.map((diaSe) => {
-            // Verifica si diaSe es undefined o null antes de intentar acceder a sus propiedades
             if (diaSe && diaSe.id) {
+              console.log('dentro')
               diaSe.checked = this.diasChecked.some(
                 (p) => p.dias && p.dias.some((d) => d.id === diaSe.id)
               );
             } else {
+              console.log('fuera')
               diaSe.checked = false;
             }
+            console.log('fucking ', diaSe.checked)
             return diaSe;
           });
         } else {
