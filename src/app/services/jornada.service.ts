@@ -13,7 +13,7 @@ export class JornadaService {
   ) { }
 
   public getJornadas() {
-    return this._coreService.get<JornadaModel[]>('jornadas/jornadas');
+    return this._coreService.get<JornadaModel[]>('jornadas/jornadas?data={"relations":["dias"]}');
   }
 
   public getJornadaById(id) {
