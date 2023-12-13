@@ -99,6 +99,7 @@ export class AddJornadaComponent {
   }
 
   guardarJornada() {
+    console.log(this.getJornada())
     this.store.emit(this.getJornada());
   }
 
@@ -155,17 +156,15 @@ export class AddJornadaComponent {
   }
 
   getJornada(): JornadaModel {
-    let description = '';
+    let description = "";
     const diaJornadas: AsignacionDiaJornada[] = this.diasSeman
       .filter((d) => d['checked'])
       .map((d) => {
-        description += d.dia + ' | | ';
+        description += d.dia + " | ";
         return {
           idDia: d.id,
         };
       });
-
-    console.log(diaJornadas);
 
     return {
       id: this.jorna?.id,
@@ -173,7 +172,7 @@ export class AddJornadaComponent {
       descripcion: description,
       horaInicial: this.getControl('horaInicial').value,
       horaFinal: this.getControl('horaFinal').value,
-      numeroHoras: this.getControl('numeroHoras').value,
+      numeroHoras: parseInt(this.getControl('numeroHoras').value),
       dias: diaJornadas,
     };
   }
@@ -226,10 +225,18 @@ export class AddJornadaComponent {
   
     this._jornadaService.getJornadas().subscribe(
       (savedData: any) => {
+        console.log(savedData)
         if (savedData && savedData.length > 0) {
           this.diasChecked = savedData;
           this.diasSeman = this.diasSeman.map((diaSe) => {
-            diaSe.checked = this.diasChecked.some((p) => p.dias.some((d) => d.id === diaSe.id));
+            // Verifica si diaSe es undefined o null antes de intentar acceder a sus propiedades
+            if (diaSe && diaSe.id) {
+              diaSe.checked = this.diasChecked.some(
+                (p) => p.dias && p.dias.some((d) => d.id === diaSe.id)
+              );
+            } else {
+              diaSe.checked = false;
+            }
             return diaSe;
           });
         } else {
@@ -243,6 +250,7 @@ export class AddJornadaComponent {
       }
     );
   }
+  
   
 
 

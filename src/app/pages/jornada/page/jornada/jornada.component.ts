@@ -40,6 +40,7 @@ export class JornadaComponent implements OnInit {
   getJornadas() {
     this._jornadaService.getJornadas().subscribe(
       (jornadas) => {
+        console.log(jornadas)
         this.jornadas = jornadas;
       }, (error: any) => {
         this._uiNotificationService.error("Error de conexión");
@@ -53,6 +54,7 @@ export class JornadaComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success('Jornada actualizada exitosamente', 'Jornada')
       }, (jornada: any) => {
+        console.log(jornada)
         this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       });
     } else {
@@ -61,6 +63,7 @@ export class JornadaComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success('Jornada creada exitosamente', 'Jornada')
       }, (jornada: any) => {
+        console.log(jornada)
         this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       })
     }
