@@ -13,7 +13,7 @@ export interface JornadaModel {
 
   horaFinal: string;
 
-  numeroHoras: number;
+  numeroHoras: string;
 
   idCompany?: number;
   company?: CompanyModel;

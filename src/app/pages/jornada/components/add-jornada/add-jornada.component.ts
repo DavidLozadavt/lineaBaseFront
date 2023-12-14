@@ -180,7 +180,7 @@ export class AddJornadaComponent {
       descripcion: description ? description : 'NO HAY DIAS ASIGNADOS',
       horaInicial: this.getControl('horaInicial').value,
       horaFinal: this.getControl('horaFinal').value,
-      numeroHoras: parseFloat(this.getControl('numeroHoras').value.replace(':', '.')),
+      numeroHoras: this.getControl('numeroHoras').value,//parseFloat(this.getControl('numeroHoras').value.replace(':', '.')),
       dias: diaJornadas,
     };
   }
