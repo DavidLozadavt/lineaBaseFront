@@ -26,7 +26,7 @@ export class AddJornadaComponent {
   jornada: JornadaModel;
   public diasChecked: any[];
   showModalJornadaFrm = false;
-  todosLosDias = false;
+  allDays: boolean;
 
   formTitle: string;
 
@@ -51,7 +51,7 @@ export class AddJornadaComponent {
   ngOnInit(): void {
     this.setJornada();
     this.cargarDias();
-    this.checkedDias();
+    this.checkedDays();
     this.formTitle = !this.jorna || !this.jorna.id
       ? 'Agregar jornada'
       : 'Actualizar jornada';
@@ -178,21 +178,21 @@ export class AddJornadaComponent {
     };
   }
 
-  changeTodosLosDias(allDays: boolean) {
-    this.todosLosDias = allDays;
+  changeAllDays(allDays: boolean) {
+    this.allDays = allDays;
     this.diasSeman.forEach((dia) => (dia.checked = allDays));
   }
 
   changeDia(checked: boolean, index: number) {
     this.diasSeman[index].checked = checked;
-    this.todosLosDias = this.totalDiasSeleccionados === 7;
+    this.allDays = this.totalDiasSeleccionados === 7;
   }
 
-  isTodosSeleccionados(): boolean {
+  isAllSelected(): boolean {
     return this.diasSeman.every((dia) => dia.checked);
   }
 
-  checkedDias() {
+  checkedDays() {
     this.diasChecked = [];
     if (!this.jorna || !this.jorna.id) {
       return;
@@ -220,6 +220,5 @@ export class AddJornadaComponent {
       }
     );
   }
-
 
 }

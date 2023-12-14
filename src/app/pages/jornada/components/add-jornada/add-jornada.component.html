@@ -73,9 +73,9 @@
           <div class="row row-cols-3">
             <div class="col">
               <label class="pointer">
-                <app-custom-switch [size]="7" [checked]="isTodosSeleccionados()" (checkedChange)="changeTodosLosDias($event)">
+                <app-custom-switch [size]="7" [checked]="isAllSelected()" (checkedChange)="changeAllDays($event)">
                 </app-custom-switch>
-                Todos
+                TODOS
               </label>
             </div>
             <div class="col-md-3" *ngFor="let dia of diasSeman; let i = index;">
