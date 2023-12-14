@@ -32,7 +32,7 @@
               <td>{{ jornada.descripcion }}</td>
               <td>{{ jornada.horaInicial }}</td>
               <td>{{ jornada.horaFinal }}</td>
-              <td>{{ jornada.numeroHoras }}</td>
+              <td>{{ jornada.numeroHoras | durationFormat }}</td>
               <td>
                 <span class="badge badge-primary" style="cursor: pointer"
                   (click)="actualizar(jornada)">Actualizar</span>

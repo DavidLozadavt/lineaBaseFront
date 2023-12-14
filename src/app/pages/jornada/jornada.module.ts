@@ -10,7 +10,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MyDatePickerModule } from 'mydatepicker';
 import { JornadaComponent } from './page/jornada/jornada.component';
-
+import { DurationFormatPipe } from '@components/validations/duration-format.pipe';
 
 @NgModule({
   exports:[
@@ -19,7 +19,8 @@ import { JornadaComponent } from './page/jornada/jornada.component';
   declarations: [
     JornadaComponent,
     AddJornadaComponent,
-    ListJornadaComponent
+    ListJornadaComponent,
+    DurationFormatPipe
   ],
   imports: [
     CommonModule,
@@ -28,7 +29,7 @@ import { JornadaComponent } from './page/jornada/jornada.component';
     ReactiveFormsModule,
     NgxPaginationModule,
     ComunModule,
-    SweetAlert2Module.forChild()
+    SweetAlert2Module.forChild(),
   ]
 })
 export class JornadaModule { }

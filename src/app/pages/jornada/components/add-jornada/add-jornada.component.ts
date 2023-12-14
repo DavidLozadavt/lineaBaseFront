@@ -128,8 +128,15 @@ export class AddJornadaComponent {
       if (diff < 0) {
         diff += 24 * 60 * 60 * 1000;
       }
+
       const diffHoras = diff / (60 * 60 * 1000);
-      this.formJornada.get('numeroHoras').setValue(diffHoras.toFixed(2));
+
+      const horas = Math.floor(diffHoras);
+      const minutos = Math.round((diffHoras - horas) * 60);
+
+      const resultado = `${horas}:${minutos < 10 ? '0' : ''}${minutos}`;
+
+      this.formJornada.get('numeroHoras').setValue(resultado);
     } else {
       this.formJornada.get('numeroHoras').setValue(null);
     }
@@ -173,7 +180,7 @@ export class AddJornadaComponent {
       descripcion: description ? description : 'NO HAY DIAS ASIGNADOS',
       horaInicial: this.getControl('horaInicial').value,
       horaFinal: this.getControl('horaFinal').value,
-      numeroHoras: parseInt(this.getControl('numeroHoras').value),
+      numeroHoras: parseFloat(this.getControl('numeroHoras').value.replace(':', '.')),
       dias: diaJornadas,
     };
   }
