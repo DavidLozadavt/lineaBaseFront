@@ -16,7 +16,7 @@ export class ListJornadaComponent implements OnInit{
   @Output() delete: EventEmitter<number> = new EventEmitter();
   @Output() create: EventEmitter<void> = new EventEmitter();
 
-  numReg = 10;
+  numReg = 5;
   pageActual = 0;
 
   jorn: JornadaModel = null;
