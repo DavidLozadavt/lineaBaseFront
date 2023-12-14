@@ -17,7 +17,7 @@ export class JornadaService {
   }
 
   public getJornadaById(id) {
-    return this._coreService.get<JornadaModel>('jornadas/jornadas/' + id);
+    return this._coreService.get<JornadaModel>('jornadas/jornadas/' + id + '?data={"relations":["dias"]}');
   }
 
   createJornada(jornada: JornadaModel) {

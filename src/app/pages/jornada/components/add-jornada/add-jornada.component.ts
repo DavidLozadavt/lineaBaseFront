@@ -15,7 +15,6 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AddJornadaComponent {
 
-
   @Input() jorandas: JornadaModel[] = [];
   @Input() jorna: JornadaModel;
 
@@ -33,7 +32,6 @@ export class AddJornadaComponent {
 
   constructor(
     private _jornadaService: JornadaService,
-    // private _diajornadaService: DiaJornadaService,
     private _diaService: DiaService,
     private _formBuilder: UntypedFormBuilder,
     private _uiNotificationService: UINotificationService
@@ -169,7 +167,7 @@ export class AddJornadaComponent {
     return {
       id: this.jorna?.id,
       nombreJornada: this.getControl('nombreJornada').value,
-      descripcion: description,
+      descripcion: description ? description : 'NO HAY DIAS ASIGNADOS',
       horaInicial: this.getControl('horaInicial').value,
       horaFinal: this.getControl('horaFinal').value,
       numeroHoras: parseInt(this.getControl('numeroHoras').value),
@@ -197,48 +195,18 @@ export class AddJornadaComponent {
     this.todosLosDias = this.totalDiasSeleccionados === 7;
   }
 
-  /*checkedDias() {
-    this.diasChecked = [];
-    this._diajornadaService.getDiaJornadaByJornada(this.jorna.id).subscribe(
-      (savedData: any) => {
-        if (savedData && savedData.length > 0) {
-          this.diasChecked = savedData;
-          this.diasSeman = this.diasSeman.map((diaSe) => {
-            diaSe.checked =
-              this.diasChecked.findIndex((p) => p.idDia === diaSe.id) !== -1;
-            return diaSe;
-          });
-        } else {
-          this.diasSeman.forEach((diaSe) => {
-            diaSe.checked = false;
-          });
-        }
-      },
-      (error) => {
-        console.log('There was an error while retrieving data !!!', error);
-      }
-    );
-  }*/
-
   checkedDias() {
     this.diasChecked = [];
-  
-    this._jornadaService.getJornadas().subscribe(
+    this._jornadaService.getJornadaById(this.jorna.id).subscribe(
       (savedData: any) => {
-        console.log('before ', savedData)
-        if (savedData && savedData.length > 0) {
-          this.diasChecked = savedData;
+        if (savedData && savedData.dias && savedData.dias.length > 0) {
+          this.diasChecked = savedData.dias;
           this.diasSeman = this.diasSeman.map((diaSe) => {
             if (diaSe && diaSe.id) {
-              console.log('dentro')
-              diaSe.checked = this.diasChecked.some(
-                (p) => p.dias && p.dias.some((d) => d.id === diaSe.id)
-              );
+              diaSe.checked = this.diasChecked.some((d) => d.id === diaSe.id);
             } else {
-              console.log('fuera')
               diaSe.checked = false;
             }
-            console.log('fucking ', diaSe.checked)
             return diaSe;
           });
         } else {
@@ -253,7 +221,5 @@ export class AddJornadaComponent {
     );
   }
   
-  
-
 
 }
