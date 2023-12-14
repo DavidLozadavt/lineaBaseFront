@@ -73,7 +73,6 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
 
   guardarAsignacion(tipoDocumentos: AsignacionProcesoTipoDocumentoModel[]) {
     this._asignacionProcesoTDocumento.asignarProcesoTipoDocumento({ asignaciones: tipoDocumentos, relations: ['tipoDocumento'] }).subscribe(tipoDocs => {
-      this.getTipoDocumentos();
       this._uiNotificationService.success('Editada correctamente','Configuración');
 
       this.reset();
@@ -85,6 +84,7 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   }
 
   reset() {    
+    this.getTipoDocumentos();
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
     this.showModalTipoDocumento = false;
     this.showModalInfo = false;
