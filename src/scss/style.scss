@@ -20,3 +20,11 @@ app-header .d-lg-none:nth-child(6)
 {
   display: none !important ;
 }
+.table-responsive
+{
+  display: inline-table;
+
+}
+tbody+.btn{
+  margin-top: 10px;
+}
