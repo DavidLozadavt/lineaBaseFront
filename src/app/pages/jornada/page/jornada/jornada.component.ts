@@ -43,7 +43,6 @@ export class JornadaComponent implements OnInit {
       if(jornada){
         this.jornadas = jornada;
       }
-      console.log('getJornadas', this.jornadas);
     } catch (error) {
       this._uiNotificationService.error("Error de conexión");
     }

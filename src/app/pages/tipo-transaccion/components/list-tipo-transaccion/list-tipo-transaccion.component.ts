@@ -22,9 +22,7 @@ export class ListTipoTransaccionComponent {
   constructor() {
   }
 
-  ngOnInit(): void {
-    console.log('Transaccions ', this.tipoTs)
-  }
+  ngOnInit(): void { }
   
   enviarNumeroRegistros(valor: string | number): void {
     this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;
