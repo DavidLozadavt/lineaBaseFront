@@ -10,7 +10,6 @@ import { JornadaModel } from '@models/jornada.model';
 export class ListJornadaComponent implements OnInit{
 
   @Input() jornadas: JornadaModel[] = [];
-  @Input() jornada: JornadaModel;
 
   @Output() update: EventEmitter<JornadaModel> = new EventEmitter();
   @Output() delete: EventEmitter<number> = new EventEmitter();
@@ -19,20 +18,15 @@ export class ListJornadaComponent implements OnInit{
   numReg = 5;
   pageActual = 0;
 
-  jorn: JornadaModel = null;
-  jorna: JornadaModel[] = [];
-  formJornada: UntypedFormGroup;
-
-
   constructor() {
-    this.jornada = {
+    this.jornadas = [{
       id: null,
       horaFinal: '',
       horaInicial: null,
       descripcion: null,
       nombreJornada: '',
       numeroHoras: null,
-    };
+    }];
   }
 
   ngOnInit(): void {}

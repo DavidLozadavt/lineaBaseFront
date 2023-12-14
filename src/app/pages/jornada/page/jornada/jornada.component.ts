@@ -15,6 +15,7 @@ export class JornadaComponent implements OnInit {
 
   jornada: JornadaModel = null;
   jornadas: JornadaModel[] = [];
+
   dias: AsignacionDiaJornada[] = [];
 
   constructor(
@@ -26,7 +27,6 @@ export class JornadaComponent implements OnInit {
     this.getJornadas();
   }
 
-
   updateJornada(jornada: JornadaModel) {
     this.jornada = jornada;
     this.showModalJornada = true;
@@ -37,13 +37,16 @@ export class JornadaComponent implements OnInit {
     this.showModalJornada = true;
   }
 
-  getJornadas() {
-    this._jornadaService.getJornadas().subscribe(
-      (jornadas) => {
-        this.jornadas = jornadas;
-      }, (error: any) => {
-        this._uiNotificationService.error("Error de conexión");
-      });
+  async getJornadas() {
+    try {
+      const jornada = await this._jornadaService.getJornadas().toPromise();
+      if(jornada){
+        this.jornadas = jornada;
+      }
+      console.log('getJornadas', this.jornadas);
+    } catch (error) {
+      this._uiNotificationService.error("Error de conexión");
+    }
   }
 
   createJornada(jornada: JornadaModel) {

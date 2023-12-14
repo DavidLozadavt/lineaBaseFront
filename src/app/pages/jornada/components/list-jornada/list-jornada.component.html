@@ -25,7 +25,6 @@
               <th>Acciones</th>
             </tr>
           </thead>
-
           <tbody>
             <tr *ngFor="let jornada of jornadas | paginate : { itemsPerPage: this.numReg, currentPage: pageActual }">
               <td>{{ jornada.id }}</td>
