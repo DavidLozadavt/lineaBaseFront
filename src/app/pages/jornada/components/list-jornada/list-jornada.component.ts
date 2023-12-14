@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { JornadaModel } from '@models/jornada.model';
 
@@ -8,7 +8,7 @@ import { JornadaModel } from '@models/jornada.model';
   styleUrls: ['./list-jornada.component.scss']
 })
 export class ListJornadaComponent implements OnInit{
-
+  jornada:JornadaModel[]=[]
   @Input() jornadas: JornadaModel[] = [];
 
   @Output() update: EventEmitter<JornadaModel> = new EventEmitter();
@@ -30,6 +30,16 @@ export class ListJornadaComponent implements OnInit{
   }
 
   ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['jornadas']) {
+      if (Array.isArray(this.jornadas) && this.jornadas.length !== 0) {
+        this.jornada = Object.values(this.jornadas);
+      } else if (typeof this.jornadas === 'object' && Object.keys(this.jornadas).length !== 0) {
+        this.jornada = Object.values(this.jornadas);
+      }
+    }
+  }
 
   enviarNumeroRegistros(valor: string | number): void {
     this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;
