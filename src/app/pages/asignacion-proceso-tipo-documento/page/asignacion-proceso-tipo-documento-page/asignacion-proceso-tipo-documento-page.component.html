@@ -58,7 +58,7 @@
 
 <app-custom-modal title="Asignar tipos de documentos" [(show)]="showModalTipoDocumento">
     <app-asignar-proceso-tipo-documento [tipoDocsId]="tipoDocsId" *ngIf="showModalTipoDocumento"
-        (store)="guardarAsignacion($event)" (cancel)="reset()"></app-asignar-proceso-tipo-documento>
+        (store)="guardarAsignacion($event)" (updateTipoDoc)="getTipoDocumentos()" (cancel)="reset()"></app-asignar-proceso-tipo-documento>
 </app-custom-modal>
 
 <app-custom-modal [title]="tipoDocumento.tipoDocumento ? tipoDocumento.tipoDocumento.tituloDocumento : ''" [(show)]="showModalInfo">

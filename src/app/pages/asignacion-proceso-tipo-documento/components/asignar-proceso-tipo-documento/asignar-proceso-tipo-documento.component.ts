@@ -18,6 +18,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   tipoDocsAsigned: boolean[];
 
   @Output() store: EventEmitter<AsignacionProcesoTipoDocumentoModel[]> = new EventEmitter();
+  @Output() updateTipoDoc: EventEmitter<void> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
 
   idProceso: number;
@@ -96,6 +97,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
         let tipoDocIndex: number = this.tipoDocs.findIndex(tDoc => tDoc.id == tipoDoc.id);
         this.tipoDocs[tipoDocIndex] = tipoDoc;
         this._uiNotificationService.success('Actualizado correctamente',tipoDoc.tituloDocumento);
+        this.updateTipoDoc.emit();
         this.reset();
       },
       (error)=>{
@@ -104,7 +106,9 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
     } else {
       this._tipoDocumentos.crearTipoDocumento({ tipoDocumento: tipoDoc }).subscribe(tipoDoc => {
         this.tipoDocs.push(tipoDoc);
-        this.tipoDocsAsigned.push(false);
+        this.tipoDocsAsigned.push(true);
+        this.tipoDoc_selected.push({idTipoDocumento:tipoDoc.id,idProceso:this.idProceso});
+        
         this.tipoDoc_selected.push(null);
         this._uiNotificationService.success('Agregado correctamente',tipoDoc.tituloDocumento);
         this.reset();
