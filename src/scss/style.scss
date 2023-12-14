@@ -11,7 +11,12 @@
 .logo--company.navbar-brand-full{
   height: 97%;
 }
-app-header .navbar-toggler
+
+app-header .navbar-toggler:nth-child(5)
+{
+  display: none !important ;
+}
+app-header .d-lg-none:nth-child(6)
 {
   display: none !important ;
 }
