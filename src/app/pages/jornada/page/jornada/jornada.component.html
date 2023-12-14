@@ -1,0 +1,17 @@
+<app-list-jornada
+  [jornadas]="jornadas"
+  (delete)="deleteJornada($event)"
+  (update)="updateJornada($event)"
+  (create)="createJornadaInput()"
+>
+</app-list-jornada>
+
+<app-custom-modal title="Gestión jornada" [(show)]="showModalJornada">
+  <app-add-jornada
+    *ngIf="showModalJornada"
+    [jorna]="jornada"
+    (store)="createJornada($event)"
+    (cancelar)="reset()"
+  >
+  </app-add-jornada>
+</app-custom-modal>

@@ -61,7 +61,7 @@ const APP_CONTAINERS = [
     AppComponent,
     ...APP_CONTAINERS,
     P404Component,
-    P500Component
+    P500Component,
   ],
   providers: [
     TokenService,

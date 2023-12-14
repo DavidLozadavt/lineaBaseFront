@@ -2,7 +2,6 @@ import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { TipoTransaccionModel } from '@models/tipo-transaccion.model';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-tipo-transaccion',

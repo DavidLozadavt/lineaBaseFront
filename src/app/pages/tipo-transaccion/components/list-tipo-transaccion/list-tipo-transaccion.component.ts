@@ -21,6 +21,8 @@ export class ListTipoTransaccionComponent {
 
   constructor() {
   }
+
+  ngOnInit(): void { }
   
   enviarNumeroRegistros(valor: string | number): void {
     this.numReg = typeof valor === 'string' ? parseInt(valor, 10) : valor;

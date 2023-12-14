@@ -84,7 +84,6 @@ export class UsuarioComponent implements OnInit {
       this.showModalAsignacion = false;
       this._uiNotificationService.success('Asignación de roles exitosamente', 'Rol');
     }, (error) => {
-      console.log(error)
       this._uiNotificationService.error('Error al guardar');
     });
   }
@@ -115,7 +114,6 @@ export class UsuarioComponent implements OnInit {
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
-        console.log(usuario)
         this.getUsuarios();
         this.reset();
         this._uiNotificationService.success('Usuario creado exitosamente', 'Usuario')
@@ -136,7 +134,6 @@ export class UsuarioComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
       }, (error) => {
-        console.log(error)
         this._uiNotificationService.error('Este correo ya existe.', 'Correo duplicado');
       });
     }
