@@ -40,7 +40,7 @@ export class RolComponent implements OnInit {
       this.getRoles();
       this._uiNotificationService.success("Rol eliminado exitosamente", "Rol");
     }, (error) => {
-      this._uiNotificationService.success("Ha ocurrido un error, intentalo más tarde.", "Ups");
+      this._uiNotificationService.error("Ha ocurrido un error, intentalo más tarde.", "Ups");
     })
   }
 
@@ -74,8 +74,7 @@ export class RolComponent implements OnInit {
       }, (error) => {
         if (error.status === 422 && error.error.errors) {
           this._uiNotificationService.error("No puedes crear un nombre que tenga 3 caracteres o más de veinte con carecteres especiales", "Error");
-        } else this._uiNotificationService.error("Ha ocurrido un error inesperado, intentalo más tarde.", "Ups");
-
+        } else this._uiNotificationService.error("No puede crear un rol que ya está en uso, por favor intenta con uno diferente.", "Error");
       })
     }
   }

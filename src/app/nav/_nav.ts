@@ -1,16 +1,18 @@
 import { Routes } from '@angular/router';
 import { NavegacionModel } from '../models/navegacion.model';
-import { GESTION_MEDIO_PAGO,
-          GESTION_PROCESOS,
-          GESTION_ROLES,
-          GESTION_ROL_PERMISOS,
-          GESTION_TIPO_DOCUMENTOS,
-          GESTION_TIPO_PAGO,
-          GESTION_TIPO_TRANSACCION,
-          GESTION_PAGO_NOMINA,
-          GESTION_SEDE,
-          GESTION_AREA,
-          GESTION_INFRAESTRUCTURA
+import {
+  GESTION_MEDIO_PAGO,
+  GESTION_PROCESOS,
+  GESTION_ROLES,
+  GESTION_ROL_PERMISOS,
+  GESTION_TIPO_DOCUMENTOS,
+  GESTION_TIPO_PAGO,
+  GESTION_TIPO_TRANSACCION,
+  GESTION_PAGO_NOMINA,
+  GESTION_SEDE,
+  GESTION_AREA,
+  GESTION_INFRAESTRUCTURA,
+  GESTION_USUARIO
 } from './permissions';
 import { AsignacionProcesoTipoDocumentoModule } from '../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module';
 
@@ -18,44 +20,44 @@ export const navItems: NavegacionModel[] = [
   {
     name: 'Roles',
     url: 'add_roles',
-    icon: 'icon-drop',
+    icon: 'fas fa-user-shield',
     permiso: GESTION_ROLES
   },
   {
     name: "Permisos",
     url: 'add_permission',
-    icon: 'icon-drop',
+    icon: 'fas fa-lock',
     permiso: GESTION_ROL_PERMISOS
   },
   {
     name: "Procesos",
     url: 'add_proceso',
-    icon: 'icon-drop',
+    icon: 'fas fa-cogs',
     permiso: GESTION_PROCESOS
   },
   {
     name: "Medios de Pago",
     url: 'add_medio_pago',
-    icon: 'icon-drop',
+    icon: 'fas fa-credit-card',
     permiso: GESTION_MEDIO_PAGO
   },
   {
     name: "Tipos de Pago",
     url: 'add_tipo_pago',
-    icon: 'icon-drop',
+    icon: 'fas fa-money-bill',
     permiso: GESTION_TIPO_PAGO
   },
   {
     name: "Tipos de Transacción",
     url: 'add_tipo_transaccion',
-    icon: 'icon-drop',
+    icon: 'fas fa-exchange-alt',
     permiso: GESTION_TIPO_TRANSACCION
   },
   {
     name: "Usuarios",
     url: 'add_usuarios',
-    icon: 'icon-drop',
-    permiso: GESTION_TIPO_TRANSACCION
+    icon: 'fa-solid fa-user',
+    permiso: GESTION_USUARIO
   },
   {
     name: "Pagos Nomina Supervisor",
@@ -148,7 +150,7 @@ export const routesNav: Routes = [
   },
   {
     path: 'asignacion_proceso_tipo_documento',
-    loadChildren: () => import('../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module').then(m=>AsignacionProcesoTipoDocumentoModule)
+    loadChildren: () => import('../pages/asignacion-proceso-tipo-documento/asignacion-proceso-tipo-documento.module').then(m => AsignacionProcesoTipoDocumentoModule)
   }
 
 ];

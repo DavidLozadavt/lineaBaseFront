@@ -1,0 +1,134 @@
+<div class="modal-body">
+    <div class="card-header">
+      <strong>Actualizar usuario</strong>
+    </div>
+    <div class="card-body">
+      <form class="usuarioFormulario" [formGroup]="formUsuario" class="">
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="identificacion">Identificación *</label>
+          <div class="col-md-7">
+            <input type="number" placeholder="Número de identificación *" class="form-control is-valid text-uppercase"
+              formControlName='identificacion' [ngClass]="{'is-invalid': isInvalidIdentificacion}"
+              (input)="onIdentificacionInputChange($event)" id="uppercase" required>
+            <div *ngIf="isValidIdentificacion" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidIdentificacion" class="invalid-feedback">
+              Por favor ingrese un valor válido (sin caracteres especiales ni letras) y entre 6 a 20 dígitos.
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="nombre1">Primer nombre *</label>
+          <div class="col-md-7">
+            <input type="text" placeholder="Primer nombre *" class="form-control is-valid text-uppercase" formControlName='nombre1'
+              [ngClass]="{'is-invalid': isInvalidNombre1}" (input)="onNombre1InputChange($event)" required>
+            <div *ngIf="isValidNombre1" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidNombre1" class="invalid-feedback">
+              Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="nombre2">Segundo nombre</label>
+          <div class="col-md-7">
+            <input type="text" placeholder="Segundo nombre" class="form-control is-valid text-uppercase" formControlName='nombre2'
+              [ngClass]="{'is-invalid': isInvalidNombre2}" (input)="onNombre2InputChange($event)">
+            <div *ngIf="isValidNombre1" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidNombre2" class="invalid-feedback">
+              Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="apellido1">Primer apellido *</label>
+          <div class="col-md-7">
+            <input type="text" placeholder="Primer apellido *" class="form-control is-valid text-uppercase" formControlName='apellido1'
+              [ngClass]="{'is-invalid': isInvalidApellido1}" (input)="onApellido1InputChange($event)" required>
+            <div *ngIf="isValidApellido1" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidApellido1" class="invalid-feedback">
+              Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="apellido2">Segundo apellido</label>
+          <div class="col-md-7">
+            <input type="text" placeholder="Segundo apellido" class="form-control is-valid text-uppercase" formControlName='apellido2'
+              [ngClass]="{'is-invalid': isInvalidApellido2}" (input)="onApellido2InputChange($event)">
+            <div *ngIf="isValidApellido2" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidApellido2" class="invalid-feedback">
+              Por favor ingrese un valor válido (sin caracteres especiales ni números y entre 2 y 10 caracteres).
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="fechaFinal">Fecha de nacimiento *</label>
+          <div class="col-md-7">
+            <input type="date" class="form-control is-valid" placeholder="FECHA DE NACIMIENTO *" formControlName="fechaNac" />
+            <div class="valid-feedback" *ngIf="!fechaNacField.hasError('required');else formato ">
+              Valor válido
+            </div>
+            <ng-template #formato>
+              <p class="text-success">Formato de fecha: (aaaa/mm/dd) </p>
+            </ng-template>
+          </div>
+        </div>        
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="celular">Celular *</label>
+          <div class="col-md-7">
+            <input type="number" placeholder="Número de celular *" class="form-control is-valid text-uppercase" formControlName='celular'
+              [ngClass]="{'is-invalid': isInvalidCelular}" (input)="onCelularInputChange($event)" required>
+            <div *ngIf="isValidCelular" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidCelular" class="invalid-feedback">
+              Por favor ingrese un valor válido (sin caracteres especiales ni letras) y con 10 dígitos.
+            </div>
+          </div>
+        </div>      
+  
+        <div class="form-group row">
+          <label class="col-md-4 col-form-label" for="email">Correo electronico *</label>
+          <div class="col-md-7">
+            <input type="email" placeholder="Correo electronico *" class="form-control is-valid" formControlName='email'
+              [ngClass]="{'is-invalid': isInvalidEmail}" (input)="onEmailInputChange($event)" required>
+            <div *ngIf="isValidEmail" class="valid-feedback">
+              Valor válido
+            </div>
+            <div *ngIf="isInvalidEmail" class="invalid-feedback">
+              El correo electrónico debe ser válido.
+            </div>
+          </div>
+        </div>
+  
+      </form>
+  
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary" (click)="guardarUsuario()" [disabled]="formUsuario.invalid">
+          <i class="fa fa-dot-circle-o"></i> Aceptar
+        </button>
+        <button type="reset" class="btn btn-danger" (click)="closeModal()">
+          <i class="fa fa-ban"></i>
+          Cancelar
+        </button>
+      </div>
+  
+    </div>
+  
+  </div>

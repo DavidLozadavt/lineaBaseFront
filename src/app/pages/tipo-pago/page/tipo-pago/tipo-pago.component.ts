@@ -10,7 +10,7 @@ import { UINotificationService } from '@services/uinotification.service';
 })
 export class TipoPagoComponent implements OnInit {
 
-  private showModalTipoPago = false;
+  protected showModalTipoPago = false;
 
   tipoPago: TipoPagoModel = null;
   tipoPagos: TipoPagoModel[] = [];
@@ -36,7 +36,10 @@ export class TipoPagoComponent implements OnInit {
   eliminarTipoPago(tipoPagoId: number) {
     this._tipoPagoService.eliminarTipoPago(tipoPagoId).subscribe(() => {
       this.getTipoPago();
-    })
+      this._uiNotificationService.success('Tipo de pago eliminado exitosamente!!!', 'Tipo de pago');
+    }, (error: any) => {
+      this._uiNotificationService.error('No puedes eliminar este tipo de pago', 'Tipo de pago');
+    });
   }
 
   actualizarTipoPago(tipoPago: TipoPagoModel) {
@@ -54,11 +57,13 @@ export class TipoPagoComponent implements OnInit {
       this._tipoPagoService.actualizarTipoPago(tipoPago).subscribe(tipoPago => {
         this.getTipoPago();
         this.reset();
+        this._uiNotificationService.success('Tipo de pago actualizado exitosamente!!!', 'Tipo de pago');
       });
     } else {
       this._tipoPagoService.crearTipoPago(tipoPago).subscribe(rol => {
         this.getTipoPago();
         this.reset();
+        this._uiNotificationService.success('Tipo de pago creado exitosamente!!!', 'Tipo de pago');
       })
     }
   }

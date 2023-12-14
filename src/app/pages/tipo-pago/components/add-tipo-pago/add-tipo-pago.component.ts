@@ -17,6 +17,8 @@ export class AddTipoPagoComponent implements OnInit {
 
   formTipoPago: UntypedFormGroup;
 
+  formTitle: string;
+
   constructor(
     private formBuilder: UntypedFormBuilder
   ) {
@@ -25,11 +27,15 @@ export class AddTipoPagoComponent implements OnInit {
       detalleTipoPago: '',
 
     };
+    this.formTitle = '';
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.setTipoPago()
+    this.setTipoPago();
+    this.formTitle = !this.tipoPago || !this.tipoPago.id
+    ? 'Agregar tipo pago'
+    : 'Actualizar tipo pago';
   }
 
   get detalleTipoPagoField() {
@@ -95,7 +101,7 @@ export class AddTipoPagoComponent implements OnInit {
   getTipoPago(): TipoPagoModel {
     return {
       id: this.tipoPago?.id,
-      detalleTipoPago: this.getControl('detalleTipoPago').value,
+      detalleTipoPago: this.getControl('detalleTipoPago').value.toUpperCase(),
     }
   }
 

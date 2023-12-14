@@ -17,6 +17,8 @@ export class AddMedioPagoComponent implements OnInit {
 
   formMedioPago: UntypedFormGroup;
 
+  formTitle: string;
+
   constructor(
     private formBuilder: UntypedFormBuilder
   ) {
@@ -24,11 +26,15 @@ export class AddMedioPagoComponent implements OnInit {
       id: null,
       detalleMedioPago: '',
     };
+    this.formTitle = '';
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.setMedioPago()
+    this.setMedioPago();
+    this.formTitle = !this.medioPago || !this.medioPago.id ? 
+    'Agregar medio de pago' :
+    'Actualizar medio de pago';
   }
 
   get detalleMedioPagoField() {
@@ -92,7 +98,7 @@ export class AddMedioPagoComponent implements OnInit {
   getMedioPago(): MedioPagoModel {
     return {
       id: this.medioPago?.id,
-      detalleMedioPago: this.getControl('detalleMedioPago').value,
+      detalleMedioPago: this.getControl('detalleMedioPago').value.toUpperCase(),
     }
   }
 

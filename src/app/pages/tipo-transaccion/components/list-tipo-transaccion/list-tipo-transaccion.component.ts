@@ -10,6 +10,8 @@ export class ListTipoTransaccionComponent {
 
   @Input() tipoTs: TipoTransaccionModel[] = [];
 
+  @Output() info = new EventEmitter<TipoTransaccionModel>();
+
   @Output() update: EventEmitter<TipoTransaccionModel> = new EventEmitter();
   @Output() delete: EventEmitter<number> = new EventEmitter();
   @Output() create: EventEmitter<void> = new EventEmitter();
@@ -34,6 +36,10 @@ export class ListTipoTransaccionComponent {
 
   agregar() {
     this.create.emit();
+  }
+
+  verInfo(infr:TipoTransaccionModel){
+    this.info.emit(infr);
   }
 
 }

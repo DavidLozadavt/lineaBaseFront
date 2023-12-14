@@ -1,3 +1,6 @@
 td{
     overflow-wrap: break-word;
 }
+#uppercase{
+    text-transform: uppercase;
+}

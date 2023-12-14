@@ -2,7 +2,20 @@
   [usuarios]="usuarios"
   (delete)="eliminarUsuarios($event)"
   (create)="createUsuarios()"
-  (asignation)="asignarRol($event)"></app-list-usuario>
+  (update)="getPersonById($event)"
+  (asignation)="asignarRol($event)">
+</app-list-usuario>
+
+<app-custom-modal
+  title="Actualizar usuario"
+  [(show)]="showModalUpdatePerson">
+  <app-update-person
+    *ngIf="showModalUpdatePerson"
+    [person]="person"
+    (update)="updatePerson($event)"
+    (cancel)="reset()">
+  </app-update-person>
+</app-custom-modal>
 
 <app-custom-modal
   title="Gestión Usuario"

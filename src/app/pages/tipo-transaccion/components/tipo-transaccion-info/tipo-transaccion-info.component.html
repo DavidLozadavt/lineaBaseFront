@@ -1,0 +1,21 @@
+<div class="modal-body">
+    <div class="card-header">
+      <strong>Descripción</strong>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <p>{{tipoTransaccion.descripcion ? tipoTransaccion.descripcion : 'Descripción no disponible'}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row justify-content-center">
+        <button
+          class="btn btn-primary"
+          (click)="cerrarInfo()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>

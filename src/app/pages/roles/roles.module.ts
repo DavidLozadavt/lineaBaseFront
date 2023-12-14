@@ -10,7 +10,6 @@ import { RolComponent } from './page/rol/rol.component';
 import { RolesRoutingModule } from './roles-routing.module';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
-
 @NgModule({
   exports: [
     RolesComponent
@@ -28,7 +27,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     ComunModule,
     SweetAlert2Module.forChild(),
     Ng2SearchPipeModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class RolesModule { }

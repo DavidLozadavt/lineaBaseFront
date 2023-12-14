@@ -1,7 +1,4 @@
 <div class="modal-body">
-  <div class="card-header">
-    <strong>Registrar usuario</strong>
-  </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-striped">
@@ -21,11 +18,12 @@
       </table>
       <ul>
         <span>
-          <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+          <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior"
+          nextLabel="Siguiente"></pagination-controls>
         </span>
       </ul>
     </div>
     <button class="mr-2"
-      class="btn btn-success mr-10 btn-md" (click)="asignarRol()">Asignar roles</button>
+      class="btn btn-success" (click)="asignarRol()">Asignar roles</button>
   </div>
 </div>

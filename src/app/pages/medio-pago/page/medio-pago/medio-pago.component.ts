@@ -9,7 +9,7 @@ import { UINotificationService } from '@services/uinotification.service';
   styleUrls: ['./medio-pago.component.scss']
 })
 export class MedioPagoComponent implements OnInit {
-  private showModalMedioPago = false;
+  protected showModalMedioPago = false;
 
   medioPago: MedioPagoModel = null;
   medioPagos: MedioPagoModel[] = [];
@@ -35,7 +35,10 @@ export class MedioPagoComponent implements OnInit {
   eliminarMedioPago(medioPagoId: number) {
     this._medioPagoService.eliminarMedioPago(medioPagoId).subscribe(() => {
       this.getMedioPago();
-    })
+      this._uiNotificationService.success('Medio de pago eliminado exitosamente!!!', 'Medio de pago');
+    }, (error: any) => {
+      this._uiNotificationService.error('No puedes eliminar este medio de pago', 'Medio de pago');
+    });
   }
 
   actualizarMedioPago(medioPago: MedioPagoModel) {
@@ -53,12 +56,18 @@ export class MedioPagoComponent implements OnInit {
       this._medioPagoService.actualizarMedioPago(medioPago).subscribe(medioPago => {
         this.getMedioPago();
         this.reset();
+        this._uiNotificationService.success("Medio de pago actualizado exitosamente!!!", "Medio de pago");
+      }, (error) => {
+        this._uiNotificationService.error("Ha ocurrido un error inesperado!!!", "Error");
       });
     } else {
       this._medioPagoService.crearMedioPago(medioPago).subscribe(rol => {
         this.getMedioPago();
         this.reset();
-      })
+        this._uiNotificationService.success("Medio de pago creado exitosamente!!!", "Medio de pago");
+      }, (error) => {
+        this._uiNotificationService.error("Ha ocurrido un error inesperado!!!", "Error");
+      });
     }
   }
 

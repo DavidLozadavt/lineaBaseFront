@@ -128,7 +128,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this._personaService.updateProfile(this.persona, this.avatar).subscribe(persona => {
+    this._personaService.updatePerson(this.persona, this.avatar).subscribe(persona => {
       this._coreService.getUserAuthenticated();
       this._router.navigate(['/perfil']);
     });

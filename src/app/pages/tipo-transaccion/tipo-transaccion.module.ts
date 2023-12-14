@@ -9,13 +9,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ComunModule } from '@components/comun.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { TipoTransaccionInfoComponent } from './components/tipo-transaccion-info/tipo-transaccion-info.component';
 
 
 @NgModule({
   declarations: [
     AddTipoTransaccionComponent,
     ListTipoTransaccionComponent,
-    TipoTransaccionComponent
+    TipoTransaccionComponent,
+    TipoTransaccionInfoComponent
   ],
   imports: [
     CommonModule,

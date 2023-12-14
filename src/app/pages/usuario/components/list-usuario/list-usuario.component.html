@@ -1,14 +1,17 @@
 <div class="div-principal col-lg-12 grid-margin stretch-card">
   <div class="card">
-    <div class="card-header">
+
+    <div class="card-header font-weight-bold h4 d-flex">
       <i class="fa fa-align-justify"></i> Usuarios registrados
-      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros(nreg.value)">
+      <select #nreg class="form-control col-lg-1 ml-auto" (change)="enviarNumeroRegistros(nreg.value)">
         <option>5</option>
         <option>10</option>
         <option>15</option>
         <option>20</option>
       </select>
     </div>
+    
+
     <div class="card-body">
       <div class="div table-container ">
         <table class="table table-striped table-hover table-responsive">
@@ -20,37 +23,54 @@
               <th>Rol</th>
               <th>Estado</th>
               <th>Acciones</th>
-              <th>Asignar Rol</th>
+              <th>Asignar rol</th>
           </thead>
           <tbody>
             <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
+
               <td>{{usuario.id}}</td>
+
               <td>{{usuario.user.persona.nombre1}}</td>
+
               <td>{{usuario.user.persona.apellido1}}</td>
+
               <td>
                 <div *ngIf="usuario.roles.length > 0; else noRol">
-                  <label *ngFor="let rol of usuario.roles">{{rol.name}} {{ usuario.roles.length > 1?',':' ' }}</label>
+                  <label *ngFor="let rol of usuario.roles">{{rol.name}}{{ usuario.roles.length > 1 ? ' - ' : ''
+                    }}</label>
                 </div>
                 <ng-template #noRol>
-                  No hay roles asignados
+                  NO HAY ROLES ASIGNADOS
                 </ng-template>
-
               </td>
+
               <td>
                 {{ usuario.estado.estado }}
               </td>
+
               <td>
+
+                <span class="badge badge-primary" style="cursor: pointer;"
+                  (click)="updateUser(usuario.user.persona.id)">Actualizar</span>
+
                 <span *ngIf="usuario.roles.length === 0; else noDelete" class="badge badge-danger"
-                  style="cursor: pointer;" [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
-                  (confirm)="eliminar(usuario.id)">
+                  style="cursor: pointer;" [swal]="{ 
+                    title: '¿Deseas eliminar  el usuario ' + usuario.user.persona.nombre1 + ' ' + usuario.user.persona.apellido1 + '?',
+                    icon: 'question',
+                    showCancelButton: true
+                  }" (confirm)="eliminar(usuario.id)">
                   Eliminar
                 </span>
                 <ng-template #noDelete>
-                  <span class="badge badge-danger" style="cursor: pointer;"
-                    [swal]="{ title: 'No puede eliminar este usuario'}">
+                  <span class="badge badge-danger" style="cursor: pointer;" [swal]="{ 
+                      title: 'Error',
+                      text: 'No puedes eliminar este usuario, porque tiene asignado roles y/o otras funciones en el sistema.',
+                      icon: 'error'
+                      }">
                     Eliminar
                   </span>
                 </ng-template>
+
               </td>
               <td>
                 <i style="cursor: pointer;" class="c-icon c-icon-2xl mt-5 mb-2 ml-4 cil-pencil"
@@ -63,7 +83,8 @@
         <div>
           <ul>
             <span>
-              <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+              <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior"
+              nextLabel="Siguiente"></pagination-controls>
             </span>
           </ul>
         </div>

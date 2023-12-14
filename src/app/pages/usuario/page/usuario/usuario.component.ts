@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivationCompanyUserModel } from '@models/activation-company-user.model';
+import { PersonaModel } from '@models/persona.model';
 import { RolModel } from '@models/rol.model';
 import { UsuarioModel } from '@models/usuario.model';
+import { PersonaService } from '@services/persona.service';
 import { RolesService } from '@services/roles.service';
 import { UINotificationService } from '@services/uinotification.service';
 import { UsuarioService } from '@services/usuario.service';
@@ -15,6 +17,7 @@ export class UsuarioComponent implements OnInit {
 
   protected showModalUsuario = false;
   protected showModalAsignacion = false;
+  protected showModalUpdatePerson = false;
 
   usuario: ActivationCompanyUserModel = null;
   usuarios: ActivationCompanyUserModel[] = [];
@@ -22,10 +25,13 @@ export class UsuarioComponent implements OnInit {
   roles: any[] = [];
   rolUser: RolModel[];
 
+  person: PersonaModel = null;
+
   constructor(
     private _uiNotificationService: UINotificationService,
     private _usuarioService: UsuarioService,
-    private _rolService: RolesService
+    private _rolService: RolesService,
+    private _personService: PersonaService
   ) { }
 
   ngOnInit(): void {
@@ -35,10 +41,9 @@ export class UsuarioComponent implements OnInit {
   getUsuarios() {
     this._usuarioService.traerUsuarios()
       .subscribe(usuarios => {
-        console.log(usuarios)
         this.usuarios = usuarios;
         this.rolesByCompany();
-      }, error => {
+      }, (error: any) => {
         this._uiNotificationService.error("Error de conexión");
       });
   }
@@ -47,13 +52,16 @@ export class UsuarioComponent implements OnInit {
     this._rolService.rolesByCompany().subscribe((data: any) => {
       this.roles = data;
     }, (error) => {
-      console.log('There was an error while retrieving data !!!', error);
+      this._uiNotificationService.error('Ha ocurrido un error al obtener los roles', 'Error roles')
     });
   }
 
   eliminarUsuarios(userId: number) {
     this._usuarioService.eliminarUsuario(userId).subscribe(() => {
       this.getUsuarios();
+      this._uiNotificationService.success('Usuario eliminado correctamente', 'Usuario');
+    }, (error) => {
+      this._uiNotificationService.error('No puedes eliminar este usuario sin haber desasignado sus roles', 'Error al eliminar usuario')
     })
   }
 
@@ -74,7 +82,7 @@ export class UsuarioComponent implements OnInit {
     this._usuarioService.asignarRoles(roles).subscribe((data: any) => {
       this.getUsuarios();
       this.showModalAsignacion = false;
-      this._uiNotificationService.success('Se guardo la configuración exitosamente ');
+      this._uiNotificationService.success('Asignación de roles exitosamente', 'Rol');
     }, (error) => {
       console.log(error)
       this._uiNotificationService.error('Error al guardar');
@@ -86,23 +94,58 @@ export class UsuarioComponent implements OnInit {
     this.showModalUsuario = true;
   }
 
+  getPersonById(idPerson: number) {
+    this._personService.personById(idPerson).subscribe(
+      (person) => {
+        this.person = person;
+        this.showModalUpdatePerson = true;
+      }, (error) => {
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+      })
+  }
+
   guardarUsuarios(usuario: UsuarioModel) {
     if (usuario.id) {
-      this._usuarioService.actualizarUsuario(usuario).subscribe(usuario => {
+      this._usuarioService.actualizarUsuario(usuario).subscribe((usuario) => {
         this.getUsuarios();
         this.reset();
+        this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
+      }, (user: any) => {
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       });
     } else {
       this._usuarioService.crearUsuario(usuario).subscribe((usuario) => {
+        console.log(usuario)
         this.getUsuarios();
         this.reset();
-      })
+        this._uiNotificationService.success('Usuario creado exitosamente', 'Usuario')
+      }, (error) => {
+        if (error && error.error && error.error.message && error.error.message.includes('Integrity constraint violation')) {
+          this._uiNotificationService.error('Este correo ya existe.', 'Correo duplicado');
+        } else {
+          this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
+        }
+      });
+    }
+  }
+
+  updatePerson(person: PersonaModel) {
+    if (person.id) {
+      this._personService.updatePerson(person).subscribe(() => {
+        this.getUsuarios();
+        this.reset();
+        this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
+      }, (error) => {
+        console.log(error)
+        this._uiNotificationService.error('Este correo ya existe.', 'Correo duplicado');
+      });
     }
   }
 
   reset() {
     this.usuario = null;
     this.showModalUsuario = false;
+    this.showModalUpdatePerson = false;
   }
 
 }

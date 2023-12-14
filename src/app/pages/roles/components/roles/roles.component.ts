@@ -20,6 +20,8 @@ export class RolesComponent implements OnInit {
   selectedCompanyId: number;
   empresaFilter: string = '';
 
+  formTitle: string;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
   ) {
@@ -29,11 +31,15 @@ export class RolesComponent implements OnInit {
       guard_name: '',
       idCompany: null
     };
+    this.formTitle = "";
     this.buildForm();
   }
 
   ngOnInit(): void {
-    this.setRol()
+    this.setRol();
+    this.formTitle = !this.rol || !this.rol.id
+    ? 'Agregar rol'
+    : 'Actualizar rol';
   }
 
   get nombreRolField() {
@@ -53,12 +59,6 @@ export class RolesComponent implements OnInit {
   hasNumericValue(value: string): boolean {
     const numericRegex = /\d/;
     return numericRegex.test(value);
-  }
-
-  onNameInputChange(event: any): void {
-    const inputElement = event.target;
-    const inputValue = inputElement.value.toUpperCase();
-    this.formRol.get('name').setValue(inputValue);
   }
 
   setRol() {
@@ -99,7 +99,7 @@ export class RolesComponent implements OnInit {
   getRol(): RolModel {
     return {
       id: this.rol?.id,
-      name: this.getControl('name').value
+      name: this.getControl('name').value.toUpperCase()
     }
   }
 

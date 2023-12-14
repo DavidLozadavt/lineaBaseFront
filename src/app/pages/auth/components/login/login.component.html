@@ -11,7 +11,7 @@
                   <p class="text-muted">Ingrese su cuenta</p>
                   <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="icon-user"></i></span>
+                      <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
                     </div>
                     <input type="text" class="form-control" placeholder="ejemplo@gmail.com" autocomplete="usuario"
                       formControlName="usuario">
@@ -20,11 +20,11 @@
                     <strong>Error!</strong> El correo electrónico debe ser válido.
                   </alert>
                   <alert *ngIf="usuarioField.hasError('required') && usuarioField.dirty" type="danger">
-                    <strong>Error!</strong> Este campo es obligatorio, ingrese su usuario
+                    <strong>Error!</strong> Este campo es obligatorio, ingrese su correo electronico
                   </alert>
                   <div class="input-group mb-4">
                     <div class="input-group-prepend">
-                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                      <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
                     </div>
                     <input type="password" class="form-control" placeholder="Contraseña" autocomplete="current-password"
                       formControlName="password">

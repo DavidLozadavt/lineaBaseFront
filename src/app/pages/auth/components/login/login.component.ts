@@ -72,7 +72,7 @@ export class LoginComponent implements OnInit {
     if (this.formLogin.valid) {
       this.doLogin();
     } else {
-      this._uiNotificationService.error("Por favor, completa el formulario correctamente", "Error");
+      this._uiNotificationService.error("Por favor, Ingresa tus credenciales", "Error");
     }
   }
 
@@ -82,12 +82,12 @@ export class LoginComponent implements OnInit {
       this.passwordField.value,
       (response: ActivationCompanyUserModel[]) => {
         this.selectCompany();
-        this._uiNotificationService.success("Inicio de sesión correcto", "Inicio de sesión");
+        this._uiNotificationService.success("Inicio de sesión exitosamente", "Inicio de sesión");
       },
       (error) => {
         if (error.status == 401 || error.status == 400) {
           this._uiNotificationService.clearAll();
-          this._uiNotificationService.error("Usuario o contraseña inválida", "Datos erroneos");
+          this._uiNotificationService.error("Usuario y/o contraseña inválida o usuario inactivo", "Datos erroneos");
         } else {
           this._uiNotificationService.clearAll();
           this._uiNotificationService.error("Error al iniciar sesión. Por favor, intenta nuevamente.", "Error");

@@ -2,7 +2,9 @@
   [tipoTs]="tipoTs"
   (delete)="eliminarTipoT($event)"
   (update)="actualizarTipoT($event)"
-  (create)="createTipoT()"></app-list-tipo-transaccion>
+  (create)="createTipoT()"
+  (info)="verInfoTipoTransaccion($event)">
+</app-list-tipo-transaccion>
 
 <app-custom-modal
   title="Gestión Tipo Transacción"
@@ -13,4 +15,14 @@
     (store)="guardarTipoT($event)"
     (cancel)="reset()">
   </app-add-tipo-transaccion>
+</app-custom-modal>
+
+<app-custom-modal
+  title="Descripción tipo de transacción"
+  [(show)]="showInfoTipoT">
+  <app-tipo-transaccion-info
+    *ngIf="showInfoTipoT"
+    [tipoTransaccion]="tipoT"
+    (cerrar)="reset()">
+  </app-tipo-transaccion-info>
 </app-custom-modal>

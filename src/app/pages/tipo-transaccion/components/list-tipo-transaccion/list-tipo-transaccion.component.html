@@ -1,14 +1,16 @@
 <div class="div-principal col-lg-12 grid-margin stretch-card">
   <div class="card">
-    <div class="card-header">
+
+    <div class="card-header font-weight-bold h4 d-flex">
       <i class="fa fa-align-justify"></i> Tipos de transacción registrados
-      <select #nreg class="form-control col-lg-1" (change)="enviarNumeroRegistros(nreg.value)">
+      <select #nreg class="form-control col-lg-1 ml-auto" (change)="enviarNumeroRegistros(nreg.value)">
         <option>5</option>
         <option>10</option>
         <option>15</option>
         <option>20</option>
       </select>
     </div>
+
     <div class="card-body">
       <div class="div table-container ">
         <table class="table table-striped table-hover table-responsive">
@@ -23,14 +25,25 @@
             <tr *ngFor="let tipoT of tipoTs | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
               <td>{{tipoT.id}}</td>
               <td>{{tipoT.detalle}}</td>
-              <td>{{tipoT.descripcion}}</td>
+              <td>
+                <span
+                    class="badge badge-primary"
+                    style="cursor:pointer"
+                    (click)="verInfo(tipoT)">
+                    Ver descripción
+                </span>
+              </td>
               <td>
                 <span class="badge badge-primary" style="cursor: pointer;"
                   (click)="actualizar(tipoT)">Actualizar</span>
                 <span
                   class="badge badge-danger"
                   style="cursor: pointer;"
-                  [swal]="{ title: 'Desea eliminar',  showCancelButton: true }"
+                  [swal]="{ 
+                    title: '¿Deseas eliminar el tipo de transacción ' + tipoT.detalle + '?',
+                    icon: 'question',
+                    showCancelButton: true
+                    }"
                   (confirm)="eliminar(tipoT.id)">
                   Eliminar
                 </span>
@@ -42,7 +55,8 @@
         <div>
           <ul>
             <span>
-              <pagination-controls (pageChange)="pageActual = $event"></pagination-controls>
+              <pagination-controls (pageChange)="pageActual = $event" previousLabel="Anterior"
+              nextLabel="Siguiente"></pagination-controls>
             </span>
           </ul>
         </div>
