@@ -53,7 +53,6 @@ export class JornadaComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success('Jornada actualizada exitosamente', 'Jornada')
       }, (jornada: any) => {
-        console.log(jornada)
         this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       });
     } else {
@@ -62,7 +61,6 @@ export class JornadaComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success('Jornada creada exitosamente', 'Jornada')
       }, (jornada: any) => {
-        console.log(jornada)
         this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       })
     }

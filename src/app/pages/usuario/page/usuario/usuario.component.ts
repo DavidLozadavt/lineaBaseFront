@@ -84,7 +84,6 @@ export class UsuarioComponent implements OnInit {
       this.showModalAsignacion = false;
       this._uiNotificationService.success('Asignación de roles exitosamente', 'Rol');
     }, (error) => {
-      console.log(error)
       this._uiNotificationService.error('Error al guardar');
     });
   }
@@ -135,7 +134,6 @@ export class UsuarioComponent implements OnInit {
         this.reset();
         this._uiNotificationService.success('Usuario actualizado exitosamente', 'Usuario')
       }, (error) => {
-        console.log(error)
         this._uiNotificationService.error('Este correo ya existe.', 'Correo duplicado');
       });
     }

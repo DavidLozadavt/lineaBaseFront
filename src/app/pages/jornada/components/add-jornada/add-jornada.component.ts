@@ -97,7 +97,6 @@ export class AddJornadaComponent {
   }
 
   guardarJornada() {
-    console.log(this.getJornada())
     this.store.emit(this.getJornada());
   }
 
@@ -197,6 +196,9 @@ export class AddJornadaComponent {
 
   checkedDias() {
     this.diasChecked = [];
+    if (!this.jorna || !this.jorna.id) {
+      return;
+    }
     this._jornadaService.getJornadaById(this.jorna.id).subscribe(
       (savedData: any) => {
         if (savedData && savedData.dias && savedData.dias.length > 0) {
@@ -216,7 +218,7 @@ export class AddJornadaComponent {
         }
       },
       (error) => {
-        console.log('Hubo un error al recuperar los datos !!!', error);
+        this._uiNotificationService.error('Ha ocurrido un error inesperado', 'Error');
       }
     );
   }
