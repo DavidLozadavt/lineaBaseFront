@@ -73,7 +73,7 @@
           <div class="row row-cols-3">
             <div class="col">
               <label class="pointer">
-                <app-custom-switch [size]="7" [checked]="todosLosDias" (checkedChange)="changeTodosLosDias($event)">
+                <app-custom-switch [size]="7" [checked]="isTodosSeleccionados()" (checkedChange)="changeTodosLosDias($event)">
                 </app-custom-switch>
                 Todos
               </label>

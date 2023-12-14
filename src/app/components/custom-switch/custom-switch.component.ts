@@ -27,7 +27,7 @@ export class CustomSwitchComponent {
 
   get customTitle() {
     if (this.msg_true || this.msg_false) {
-      return this.checked?this.msg_true:this.msg_false
+      return this.checked ? this.msg_true : this.msg_false
     }
     return '';
   }

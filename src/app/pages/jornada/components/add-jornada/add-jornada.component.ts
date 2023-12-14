@@ -82,9 +82,9 @@ export class AddJornadaComponent {
     this.formJornada = this._formBuilder.group({
       id: [0],
       nombreJornada: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[A-Za-z\s]+$/)]],
-      horaInicial:   ['', [Validators.required]],
-      horaFinal:     ['', [Validators.required]],
-      numeroHoras:   [{ value: '', disabled: true }, [Validators.required]],
+      horaInicial: ['', [Validators.required]],
+      horaFinal: ['', [Validators.required]],
+      numeroHoras: [{ value: '', disabled: true }, [Validators.required]],
       dataDia: this._formBuilder.array([]),
     });
     this.formJornada.valueChanges.pipe(debounceTime(350)).subscribe((data) => {
@@ -180,22 +180,16 @@ export class AddJornadaComponent {
 
   changeTodosLosDias(allDays: boolean) {
     this.todosLosDias = allDays;
-    if (allDays) {
-      this.diasSeman.map((dia) => {
-        dia['checked'] = true;
-        return dia;
-      });
-    } else {
-      this.diasSeman.map((dia) => {
-        dia['checked'] = false;
-        return dia;
-      });
-    }
+    this.diasSeman.forEach((dia) => (dia.checked = allDays));
   }
 
   changeDia(checked: boolean, index: number) {
-    this.diasSeman[index]['checked'] = checked;
+    this.diasSeman[index].checked = checked;
     this.todosLosDias = this.totalDiasSeleccionados === 7;
+  }
+
+  isTodosSeleccionados(): boolean {
+    return this.diasSeman.every((dia) => dia.checked);
   }
 
   checkedDias() {
@@ -226,6 +220,6 @@ export class AddJornadaComponent {
       }
     );
   }
-  
+
 
 }
