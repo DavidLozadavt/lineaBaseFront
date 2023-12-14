@@ -13,15 +13,9 @@
       <form [formGroup]="form" class="forms-sample" (ngSubmit)="guardarPermiso()">
         <div class="ng-autocomplete mb-3">
           <label for="rol" style="font-weight: bold;">Roles</label>
-          <ng-autocomplete #auto 
-            [data]="objRol" 
-            [searchKeyword]="keyword" 
-            placeholder="Seleccione un rol"
-            (selected)='menusByrol($event?.id)' 
-            (inputChanged)='onChangeSearch($event)'
-            (inputFocused)='onFocused($event)' 
-            [itemTemplate]="itemTemplate" 
-            [notFoundTemplate]="notFoundTemplate"
+          <ng-autocomplete #auto [data]="objRol" [searchKeyword]="keyword" placeholder="Seleccione un rol"
+            (selected)='menusByrol($event?.id)' (inputChanged)='onChangeSearch($event)'
+            (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
             [initialValue]="''">
           </ng-autocomplete>
           <div *ngIf="rol.invalid" class="mt-2">
@@ -48,8 +42,10 @@
                 <tr *ngFor="let m of menus | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }">
                   <td>{{ m.name }}</td>
                   <td>{{ m.description }}</td>
-                  <app-custom-switch [(checked)]="m.checked" [size]="8">
-                  </app-custom-switch>
+                  <td>
+                    <app-custom-switch [(checked)]="m.checked" [size]="8">
+                    </app-custom-switch>
+                  </td>
                 </tr>
               </tbody>
             </table>
