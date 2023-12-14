@@ -15,7 +15,6 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AddJornadaComponent {
 
-  @Input() jorandas: JornadaModel[] = [];
   @Input() jorna: JornadaModel;
 
   @Output() store: EventEmitter<JornadaModel> = new EventEmitter();
@@ -25,10 +24,11 @@ export class AddJornadaComponent {
   diasInput: DiaModel[] = [];
   formJornada: UntypedFormGroup;
   jornada: JornadaModel;
-  jornadaIdUpdate: number;
   public diasChecked: any[];
   showModalJornadaFrm = false;
   todosLosDias = false;
+
+  formTitle: string;
 
   constructor(
     private _jornadaService: JornadaService,
@@ -44,6 +44,7 @@ export class AddJornadaComponent {
       nombreJornada: '',
       numeroHoras: null,
     };
+    this.formTitle = "";
     this.buildForm();
   }
 
@@ -51,6 +52,9 @@ export class AddJornadaComponent {
     this.setJornada();
     this.cargarDias();
     this.checkedDias();
+    this.formTitle = !this.jorna || !this.jorna.id
+      ? 'Agregar jornada'
+      : 'Actualizar jornada';
   }
 
   get nombreJornadaField() {
@@ -77,10 +81,10 @@ export class AddJornadaComponent {
   private buildForm() {
     this.formJornada = this._formBuilder.group({
       id: [0],
-      nombreJornada: ['', [Validators.nullValidator]],
-      horaInicial: ['', [Validators.required]],
-      horaFinal: ['', [Validators.required]],
-      numeroHoras: ['', [Validators.required]],
+      nombreJornada: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[A-Za-z\s]+$/)]],
+      horaInicial:   ['', [Validators.required]],
+      horaFinal:     ['', [Validators.required]],
+      numeroHoras:   [{ value: '', disabled: true }, [Validators.required]],
       dataDia: this._formBuilder.array([]),
     });
     this.formJornada.valueChanges.pipe(debounceTime(350)).subscribe((data) => {
@@ -165,7 +169,7 @@ export class AddJornadaComponent {
 
     return {
       id: this.jorna?.id,
-      nombreJornada: this.getControl('nombreJornada').value,
+      nombreJornada: this.getControl('nombreJornada').value.trim().toUpperCase(),
       descripcion: description ? description : 'NO HAY DIAS ASIGNADOS',
       horaInicial: this.getControl('horaInicial').value,
       horaFinal: this.getControl('horaFinal').value,

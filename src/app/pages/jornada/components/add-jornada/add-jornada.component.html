@@ -1,169 +1,106 @@
 <div class="modal-body">
-    <div class="card-header">
-      <strong>Registrar Jornada</strong>
-    </div>
-    <div class="card-body">
-      <form
-        class="JornadaFormulario"
-        [formGroup]="formJornada"
-        class="was-validated"
-        novalidate
-      >
-        <div class="form-group row">
-          <label class="col-md-4 col-form-label" for="nombreJornada"
-            >Jornada</label
-          >
-          <div class="col-md-7">
-            <input
-              type="number"
-  
-              formControlName="id"
-              hidden
-            />
-            <input
-              type="text"
-              onkeyup="javascript:this.value=this.value.toUpperCase();"
-              placeholder="Ingrese el nombre de la Jornada"
-              class="form-control is-valid"
-  
-              formControlName="nombreJornada"
-              required
-            />
-            <div
-              class="valid-feedback"
-              *ngIf="!nombreJornadaField.hasError('required')"
-            >
-              Valor valido
-            </div>
-          </div>
-          <div class="invalid-feedback">
-            por favor ingrese un valor valido para el nombre de la Jornada
-          </div>
-        </div>
-  
-        <div class="form-group row">
-          <label class="col-md-4 col-form-label" for="horaInicial"
-            >Hora Inicial</label
-          >
-          <div class="col-md-7">
-            <input
-              type="time"
-              placeholder="Ingrese hora inicial jornada"
-              class="form-control is-valid"
-  
-              formControlName="horaInicial"
-              required
-            />
-            <div
-              class="valid-feedback"
-              *ngIf="!horaInicialField.hasError('required')"
-            >
-              Valor valido
-            </div>
-          </div>
-          <div class="invalid-feedback">
-            por favor ingrese un valor valido para hora inicial
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-4 col-form-label" for="horaFinal"
-            >Hora Final</label
-          >
-          <div class="col-md-7">
-            <input
-              type="time"
-              placeholder="Ingrese hora final jornada"
-              class="form-control is-valid"
-  
-              formControlName="horaFinal"
-              required
-            />
-            <div
-              class="valid-feedback"
-              *ngIf="!horaFinalField.hasError('required')"
-            >
-              Valor valido
-            </div>
-          </div>
-          <div class="invalid-feedback">
-            por favor ingrese un valor valido para hora final
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-4 col-form-label" for="codigoJornada"
-            >Número de Horas</label
-          >
-          <div class="col-md-7">
-            <input
-              type="text"
-              placeholder="Ingrese el número de horas"
-              class="form-control is-valid"
-  
-              formControlName="numeroHoras"
-              required
-            />
-            <div
-              class="valid-feedback"
-              *ngIf="!numHorasField.hasError('required')"
-            >
-              Valor valido
-            </div>
-          </div>
-          <div class="invalid-feedback">
-            por favor ingrese un valor valido para el numero de horas de la
-            Jornada
-          </div>
-        </div>
-  
-        <div class="card">
-          <div class="card-header">
-            <strong> Seleccione los dias de la jornada </strong>
-          </div>
-          <div class="card-body">
-            <div class="row row-cols-3">
-              <div class="col">
-                <label class="pointer">
-                  <app-custom-switch
-                    [size]="7"
-                    [checked]="todosLosDias"
-                    (checkedChange)="changeTodosLosDias($event)"
-                  >
-                  </app-custom-switch>
-                  Todos
-                </label>
-              </div>
-              <div class="col-md-3" *ngFor="let dia of diasSeman; let i = index;">
-                <label class="pointer"
-                >
-                  <app-custom-switch
-                    [size]="7"
-                    [checked]="dia.checked"
-                    (checkedChange)="changeDia($event, i)"
-                    id="check{{ dia.id }}"
-                  >
-                  </app-custom-switch>
-                  {{ dia.dia }}
-                </label>
-              </div>
+  <div class="card-header">
+    <strong>{{ formTitle }}</strong>
+  </div>
+  <div class="card-body">
+    <form class="JornadaFormulario" [formGroup]="formJornada">
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="nombreJornada">Jornada</label>
+        <div class="col-md-7">
+          <input type="text" placeholder="Ingrese el nombre de la Jornada" class="form-control text-uppercase"
+            [ngClass]="{
+              'is-valid': nombreJornadaField.valid && (nombreJornadaField.dirty || nombreJornadaField.touched),
+              'is-invalid': nombreJornadaField.invalid && (nombreJornadaField.dirty || nombreJornadaField.touched)
+            }" formControlName="nombreJornada" required>
+          <div *ngIf="nombreJornadaField.invalid && (nombreJornadaField.dirty || nombreJornadaField.touched)"
+            class="invalid-feedback">
+            <div>Por favor ingrese un valor válido. (sin caracteres especiales ni números y entre 2 a 15 caracteres).
             </div>
           </div>
         </div>
-      </form>
-  
-      <div class="card-footer">
-        <button
-          type="submit"
-          class="btn btn-sm btn-primary"
-          (click)="guardarJornada()"
-          [disabled]="formJornada.invalid"
-        >
-          <i class="fa fa-dot-circle-o"></i>
-          Aceptar
-        </button>
-        <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
-          <i class="fa fa-ban"></i>
-          Cancelar
-        </button>
       </div>
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="horaInicial">Hora Inicial</label>
+        <div class="col-md-7">
+          <input type="time" placeholder="Ingrese hora inicial jornada" class="form-control" [ngClass]="{
+              'is-valid': horaInicialField.valid && (horaInicialField.dirty || horaInicialField.touched),
+              'is-invalid': horaInicialField.invalid && (horaInicialField.dirty || horaInicialField.touched)
+            }" formControlName="horaInicial" required>
+          <div *ngIf="horaInicialField.invalid && (horaInicialField.dirty || horaInicialField.touched)"
+            class="invalid-feedback">
+            Por favor ingrese una hora válida.
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="horaFinal">Hora Final</label>
+        <div class="col-md-7">
+          <input type="time" placeholder="Ingrese hora final jornada" class="form-control" [ngClass]="{
+              'is-valid': horaFinalField.valid && (horaFinalField.dirty || horaFinalField.touched),
+              'is-invalid': horaFinalField.invalid && (horaFinalField.dirty || horaFinalField.touched)
+            }" formControlName="horaFinal" required>
+          <div *ngIf="horaFinalField.invalid && (horaFinalField.dirty || horaFinalField.touched)"
+            class="invalid-feedback">
+            Por favor ingrese una hora válida.
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label class="col-md-4 col-form-label" for="codigoJornada">Número de Horas</label>
+        <div class="col-md-7">
+          <input type="text" placeholder="Cantidad de horas" class="form-control text-uppercase" [ngClass]="{
+              'is-valid': numHorasField.valid && (numHorasField.dirty),
+              'is-invalid': numHorasField.invalid && (numHorasField.dirty)
+            }" formControlName="numeroHoras" required>
+          <div *ngIf="numHorasField.invalid && (numHorasField.dirty)" class="invalid-feedback">
+            Por favor ingrese un valor válido.
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card">
+        <div class="card-header">
+          <strong> Seleccione los dias de la jornada </strong>
+        </div>
+        <div class="card-body">
+          <div class="row row-cols-3">
+            <div class="col">
+              <label class="pointer">
+                <app-custom-switch [size]="7" [checked]="todosLosDias" (checkedChange)="changeTodosLosDias($event)">
+                </app-custom-switch>
+                Todos
+              </label>
+            </div>
+            <div class="col-md-3" *ngFor="let dia of diasSeman; let i = index;">
+              <label class="pointer">
+                <app-custom-switch [size]="7" [checked]="dia.checked" (checkedChange)="changeDia($event, i)"
+                  id="check{{ dia.id }}">
+                </app-custom-switch>
+                {{ dia.dia }}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="card-footer">
+      <button type="submit" class="btn btn-sm btn-primary" (click)="guardarJornada()" [disabled]="formJornada.invalid">
+        <i class="fa fa-dot-circle-o"></i>
+        Aceptar
+      </button>
+      <button type="reset" class="btn btn-sm btn-danger" (click)="closeModal()">
+        <i class="fa fa-ban"></i>
+        Cancelar
+      </button>
     </div>
   </div>
+</div>
