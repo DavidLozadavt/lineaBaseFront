@@ -7,9 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProcesoService {
-  proceso: ProcesoModel;
-  permisos: number;
-  url:string;
+  private url:string;
 
   constructor(
     private _coreService: CoreService
@@ -25,33 +23,6 @@ export class ProcesoService {
     return this._coreService.get<ProcesoModel[] | any[]>(url);
   }
   
-  public slider() {
-    return this._coreService.get('slider');
-  }
-
-  public procesosByRolUsuario(idRol: number) {
-    const idrol = idRol;
-    this.permisos = idRol;
-    return this._coreService.post('traerprocesossusuario', idrol);
-  }
-
-  public procesosByNombre(nombre: string) {
-    const name = nombre.toUpperCase();
-    return this._coreService.get('procesos?nombreProceso=' + name);
-  }
-
-  public procesosByRol(idRol: number) {
-    const idrol = idRol;
-    this.permisos = idRol;
-    return this._coreService.post('traerprocesos', idrol);
-  }
-
-  public info(idRol: number) {
-    const idrol = idRol;
-    this.permisos = idRol;
-    return this._coreService.post('permisos', idrol);
-  }
-
   crearProceso(data:{proceso: ProcesoModel,relations?:string[],columns?:[]}) {
     data.proceso.nombreProceso = data.proceso.nombreProceso.toUpperCase();
     data.proceso.descripcion = data.proceso.descripcion.toLowerCase();

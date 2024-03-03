@@ -83,7 +83,7 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   }
 
   backToProcesos() {
-    this.router.navigate(['/gestion_proceso']);
+    this.router.navigate(['/add_proceso']);
   }
 
   getInfo(tipoDoc: AsignacionProcesoTipoDocumentoModel) {
