@@ -22,34 +22,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr
-                    *ngFor="let tipoDoc of tipoDocs | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }; let index = index">
-                    <td>{{tipoDoc.id}}</td>
-                    <td>{{tipoDoc.tituloDocumento}}</td>
-                    <td class="description">
-                        <span *ngIf="tipoDoc.descripcion;else descTipoDoc" class="badge badge-primary"
-                            style="cursor: pointer;" (click)="getInfo(tipoDoc)">
-                            Ver descripción
-                        </span>
-                        <ng-template #descTipoDoc>
-                            No hay descripción
-                        </ng-template>
-                    </td>
-                    <td>
-                        <span class="w-100  badge badge-primary" style="cursor: pointer;"
-                            (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
-                        <span class="w-100 badge badge-danger" style="cursor: pointer;"
-                            [swal]="{ title: '¿Desea eliminar el tipo de documento\n'+tipoDoc.tituloDocumento+' ?', icon: 'question', showCancelButton: true, cancelButtonText: 'Cancelar' }"
-                            (confirm)="eliminarTipoDoc(tipoDoc.id)">
-                            Eliminar
-                        </span>
-                    </td>
-                    <td>
-                        <app-custom-switch class="w-75" [(checked)]="tipoDocsAsigned[index]"
-                            (checkedChange)="selectTipoDocumento(index)" [size]="8">
-                        </app-custom-switch>
-                    </td>
-                </tr>
+            <tr *ngFor="let tipoDoc of tipoDocs | paginate: { itemsPerPage: this.numReg, currentPage: pageActual }; let i = index">
+                <td>{{tipoDoc.id}}</td>
+                <td>{{tipoDoc.tituloDocumento}}</td>
+                <td class="description">
+                    <span *ngIf="tipoDoc.descripcion;else descTipoDoc" class="badge badge-primary" style="cursor: pointer;"
+                        (click)="getInfo(tipoDoc)">
+                        Ver descripción
+                    </span>
+                    <ng-template #descTipoDoc>
+                        No hay descripción
+                    </ng-template>
+                </td>
+                <td>
+                    <span class="w-100  badge badge-primary" style="cursor: pointer;"
+                        (click)="actualizarTipoDoc(tipoDoc)">Actualizar</span>
+                    <span class="w-100 badge badge-danger" style="cursor: pointer;"
+                        [swal]="{ title: '¿Desea eliminar el tipo de documento\n'+tipoDoc.tituloDocumento+' ?', icon: 'question', showCancelButton: true, cancelButtonText: 'Cancelar' }"
+                        (confirm)="eliminarTipoDoc(tipoDoc.id)">
+                        Eliminar
+                    </span>
+                </td>
+                <td>
+                    <!-- Calcula un índice único para cada elemento en todas las páginas -->
+                    <app-custom-switch class="w-75" [(checked)]="tipoDocsAsigned[i + (pageActual - 1) * this.numReg]"
+                        (checkedChange)="selectTipoDocumento(i + (pageActual - 1) * this.numReg)" [size]="8">
+                    </app-custom-switch>
+                </td>
+            </tr>
+
             </tbody>
         </table>
         <div *ngIf="tipoDocs.length">

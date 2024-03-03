@@ -27,7 +27,7 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
   tipoDoc_selected: (AsignacionProcesoTipoDocumentoModel|null)[];
 
   numReg = 5;
-  pageActual = 0;
+  pageActual = 1;
 
   constructor(
     private _uiNotificationService: UINotificationService,
@@ -60,11 +60,8 @@ export class AsignarProcesoTipoDocumentoComponent implements OnInit {
             }
             this.tipoDocsAsigned.push(false);
             this.tipoDoc_selected.push(null);
-            console.log(this.tipoDoc_selected);
             return 0;
           });
-          console.log(this.tipoDocsId);
-          
           this.tipoDocs.forEach((tipoDoc) => {
             this.tipoDocsAsigned.push(this.checkedTipoDoc(tipoDoc.id));
           });          

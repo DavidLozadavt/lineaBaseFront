@@ -24,6 +24,9 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
   numReg = 5;
   pageActual = 0;
 
+  totalElementos: number; // Mantén un seguimiento del total de elementos
+  numPaginas: number; // Mantén un seguimiento del número total de páginas
+
   constructor(
     private _uiNotificationService: UINotificationService,
     private _asignacionProcesoTDocumento: AsignacionProcesoTipoDocumentoService,
@@ -35,6 +38,7 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
     this.tipoDocsId = [];
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
   }
+
   ngOnInit(): void {
     this.tituloProceso = localStorage.getItem('nombreProceso') ?? 'Proceso';
     this.idProceso = localStorage.getItem('idProceso') ? parseInt(localStorage.getItem('idProceso')) : 1;
@@ -49,41 +53,67 @@ export class AsignacionProcesoTipoDocumentoPageComponent implements OnInit {
     this._asignacionProcesoTDocumento.traerTipoDocumentos({ relations: ['tipoDocumento'], idProceso: this.idProceso }).subscribe(
       (tipoDocumentos: AsignacionProcesoTipoDocumentoModel[]) => {
         this.tipoDocumentos = tipoDocumentos;
+        this.calcularTotalElementos(); // Calcular el total de elementos después de recibir los datos
+        this.calcularNumPaginas(); // Calcular el número total de páginas
+        this.validarPaginaActual(); // Validar la página actual
       },
       (error: HttpErrorResponse) => {
         this._uiNotificationService.error(error.error.message);
+      });
+  }
 
-      })
+  calcularTotalElementos() {
+    // Calcular el total de elementos
+    this.totalElementos = this.tipoDocumentos.length;
+  }
+
+  calcularNumPaginas() {
+    // Calcular el número total de páginas
+    this.numPaginas = Math.ceil(this.totalElementos / this.numReg);
+  }
+
+
+  
+  validarPaginaActual() {
+    // Verificar si la página actual está más allá del número total de páginas
+    if (this.pageActual > this.numPaginas) {
+      // Si la página actual está más allá del número total de páginas, establecerla en la última página válida
+      this.pageActual = this.numPaginas;
+    }
   }
 
   backToProcesos() {
-    this.router.navigate(['/add_proceso']);
+    this.router.navigate(['/gestion_proceso']);
   }
 
-  getInfo(tipoDoc:AsignacionProcesoTipoDocumentoModel){
+  getInfo(tipoDoc: AsignacionProcesoTipoDocumentoModel) {
     this.tipoDocumento = tipoDoc;
     this.showModalInfo = true;
   }
 
   asignarTipoDocumento() {
-    this.tipoDocsId = this.tipoDocumentos.map((tipoDoc) => tipoDoc.idTipoDocumento);   
+    this.tipoDocsId = this.tipoDocumentos.map((tipoDoc) => tipoDoc.idTipoDocumento);
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
     this.showModalTipoDocumento = true;
   }
 
   guardarAsignacion(tipoDocumentos: AsignacionProcesoTipoDocumentoModel[]) {
-    this._asignacionProcesoTDocumento.asignarProcesoTipoDocumento({ asignaciones: tipoDocumentos, relations: ['tipoDocumento'] }).subscribe(tipoDocs => {
-      this._uiNotificationService.success('Editada correctamente','Configuración');
-
-      this.reset();
-    },
-      (error) => {
-        this._uiNotificationService.error(error.error.message,'Ocurrio un error');
-      })
-
+    this._asignacionProcesoTDocumento
+      .asignarProcesoTipoDocumento(
+        {
+          asignaciones: tipoDocumentos,
+          idProceso: this.idProceso,
+          relations: ['tipoDocumento']
+        }).subscribe(tipoDocs => {
+          this._uiNotificationService.success('Editada correctamente', 'Configuración');
+          this.reset();
+        },
+          (error) => {
+            this._uiNotificationService.error(error.error.message, 'Ocurrio un error');
+          })
   }
 
-  reset() {    
+  reset() {
     this.getTipoDocumentos();
     this.tipoDocumento = {} as AsignacionProcesoTipoDocumentoModel;
     this.showModalTipoDocumento = false;

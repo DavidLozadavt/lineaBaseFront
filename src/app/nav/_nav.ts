@@ -67,12 +67,14 @@ export const navItems: NavegacionModel[] = [
     icon: 'icon_drop',
     permiso: GESTION_PAGO_NOMINA,
   },
-  {
-    name: "Sedes",
-    url: 'gestionar_sede', //URL que mostrará la vista
-    icon: 'icon-home',
-    permiso: GESTION_SEDE,
-  },
+
+  // {
+  //   name: "Sedes",
+  //   url: 'gestionar_sede', //URL que mostrará la vista
+  //   icon: 'icon-home',
+  //   permiso: GESTION_SEDE,
+  // },
+  
   {
     name: "Area",
     url: 'gestionar_area', //URL que mostrará la vista

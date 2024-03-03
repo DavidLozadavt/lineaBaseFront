@@ -1,15 +1,21 @@
 h3{
     margin-bottom: 0;
 }
+
+td{
+    max-width: 250px;
+    text-wrap: break-word;
+}
+.badge{
+    min-width: 75px;
+}
+
 .back-button{
+    min-width: 30px !important;
     width: 30px;
     height: 30px;
     
     display: flex;
     justify-content: center;
     align-content: center;
-}
-td{
-    max-width: 250px;
-    text-wrap: break-word;
 }
